@@ -42,7 +42,7 @@ class Description extends StatelessWidget {
     return Scaffold(
       floatingActionButton: IconButton(
         hoverColor: Colors.white,
-        style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
+        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
         onPressed: () {
           Navigator.pop(context);
         },

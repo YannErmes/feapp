@@ -26,29 +26,18 @@ class _ListCardState extends State<ListCard> {
   double _currentPage = 0;
   List<Map<String, dynamic>> cards = [];
 
-  bool activeform = false ;
 
   @override
   void initState() {
     super.initState();
-   
-   active();
+    pageController = PageController(initialPage: 0);
+    pageController.addListener(() {
+      setState(() {
+        _currentPage = pageController.page!;
+      });
+    });
     _fetchcards();
 
-  }
-
-  
-  Future<void> active ()async{
-    await   Future.delayed(Duration(seconds: 1),(){
-      setState(() {
-        activeform = true ;
-      });
-    },);
-  }
-
-  nombrecard()
-  {
-    return cards.length;
   }
 
   Future<void> _fetchcards() async {
@@ -69,7 +58,7 @@ class _ListCardState extends State<ListCard> {
       } else {
         Get.defaultDialog(
             title:
-            'Oups! chargement de votre panier depuis le local sécurisé veillez patienter 1 minute 🛒☺ ',
+            'Oups! chargement de votre panier depuis le local sécurisé essayez de redémmaré l\'application dans 50 seconde 😉',
             titleStyle: const TextStyle(fontSize: 15),
             content: SizedBox(
                 height: 30,
@@ -81,7 +70,7 @@ class _ListCardState extends State<ListCard> {
       print(e.toString());
 
       Get.defaultDialog(
-          title: 'Oups! la connection à réseau a été interrompue veillez juste réessayé aprés 1 minute !',
+          title: 'Oups! la connection à internet a été interrompue 😥 !',
           titleStyle: const TextStyle(fontSize: 15),
           content: const SizedBox(height: 30, child: Icon(Icons.wifi_off)));
     }
@@ -119,7 +108,6 @@ class _ListCardState extends State<ListCard> {
 
           ),),
           Container(
-            
            height: 450,
             child: ListView.builder(
               itemCount: cards.length,
@@ -127,18 +115,18 @@ class _ListCardState extends State<ListCard> {
                 final card = cards[index];
                 bool deleteMode = card['deleteMode'] ?? false;
 
-                return  Column(
+                return Column(
                   children: [
-                    AnimatedContainer(
-                      height: activeform ? 100 : 70,
-                      duration: Duration(seconds: 4),
+                    Container(
+                      height: 100,
+
                       margin: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: activeform ? Colors.black38 : Colors.white.withOpacity(0.4) ,
+                        color: Colors.white.withOpacity(0.7),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: Colors.white),
                       ),
-                      child:  ListTile(
+                      child: ListTile(
                         hoverColor: Colors.black38,
                         mouseCursor: MouseCursor.uncontrolled,
                         leading:CircleAvatar(
@@ -189,7 +177,7 @@ class _ListCardState extends State<ListCard> {
                         color: Colors.green,
                       ),
                       label: const Text('Commander'),
-                    )
+                    ),
 
                   ],
                 );

@@ -30,7 +30,7 @@ bool send = false ;
       Scaffold(
         backgroundColor: const Color(0xFFB0ADB0),
         floatingActionButton: IconButton(
-          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
+          style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
           onPressed: (){
             Navigator.of(context).pop();
           },

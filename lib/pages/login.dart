@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: IconButton(
-        style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
+        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
         hoverColor: Colors.white,
         onPressed: () {
 

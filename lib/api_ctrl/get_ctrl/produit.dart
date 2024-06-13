@@ -56,9 +56,9 @@ class Produits extends StatelessWidget {
             Expanded(
 
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     color: Colors.black12,
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15),
+                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
                         bottomRight: Radius.circular(15))
                 ),
               

@@ -15,8 +15,6 @@ class cardpage extends StatefulWidget {
 }
 
 class _cardpageState extends State<cardpage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +48,14 @@ class _cardpageState extends State<cardpage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-               AnimatedContainer(
-                  duration: Duration(seconds: 2),
+                Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: Colors.white30,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.white)),
                     height: 510,
-                    width:400,
+                    width: 400,
                     child:ListCard(userpass: widget.useremail)
                 ),
                 const SizedBox(

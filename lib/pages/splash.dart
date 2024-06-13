@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -12,25 +13,30 @@ class Splashscreen extends StatefulWidget {
 }
 
 class _SplashscreenState extends State<Splashscreen> {
-  bool start = false;
-
+  bool start = false ;
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    yann();
+    setState(() {
+      yann();
+    });
+
   }
 
   Future<void> yann() async {
     await Future.delayed(
-      const Duration(seconds: 2),
-          () {
-        print('ok');
-        setState(() {
-          start = !start;
-        });
-        Future.delayed(Duration(seconds: 5),() => Navigator.push(context, MaterialPageRoute(builder: (context) => homepage(t: 1 , usernom: '',)
-          )));
-      },
+        const Duration(seconds: 4),
+      () {
+          print ('ok');
+          setState(() {
+            start = !start;
+          });
+
+
+      }
+
+
     );
   }
 
@@ -39,10 +45,9 @@ class _SplashscreenState extends State<Splashscreen> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Stack(
-            alignment: AlignmentDirectional.topEnd,
-            children: [
-              Padding(
+          child: Stack(alignment: AlignmentDirectional.topEnd, children: [
+            Container(
+              child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SizedBox(
                   height: 300,
@@ -50,6 +55,7 @@ class _SplashscreenState extends State<Splashscreen> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
+
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           OblicImage(
@@ -62,76 +68,81 @@ class _SplashscreenState extends State<Splashscreen> {
                               'https://i.pinimg.com/564x/47/06/dd/4706dd9f077b207aca6942d54171463b.jpg'),
                           OblicImage(
                               'https://i.postimg.cc/R0CwHGkq/pexels-photo-2048547.jpg'),
+
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
+            ),
+
+
+            // container 2 de la stack
+            Container(
+              decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black,
-                      Colors.black,
-
-                      Colors.black54,
-                      Colors.black38,
-
-                    ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                    Colors.black,
+                    Colors.black54,
+                    Colors.black38,
+                  ])),
+              alignment: AlignmentDirectional.bottomEnd,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(
+                    height: 50,
                   ),
-                ),
-                alignment: AlignmentDirectional.bottomEnd,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: Text(''))
-,                    SizedBox(
-                      height: 300,
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Image.network(
-                                  "https://i.postimg.cc/jdcRqPPx/fe2.png"))
-                        ],
-                      ),
-                    ),
-                    AnimatedContainer(
-                      duration: const Duration(seconds: 4),
-                      height: start ? 370 : 100,
-                      child:
-                      CachedNetworkImage(
-                        imageUrl:'https://i.postimg.cc/8kndD53j/Untitled-image-19.png',
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
 
-                      )
-
-
-                    ),
-                    SizedBox(
-                      height: 100,
+                  SizedBox(
+                      height: 200,
                       width: 100,
-                      child: LottieBuilder.network(
-                        'https://lottie.host/ce695df7-40a6-4052-a545-a4b23b53dc7e/2W9Gg9cENN.json',
-                        fit: BoxFit.cover,
+                      child: LottieBuilder.network('https://lottie.host/ce695df7-40a6-4052-a545-a4b23b53dc7e/2W9Gg9cENN.json',fit: BoxFit.cover,)),
+
+
+                  ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.black87)
                       ),
-                    ),
-                  ],
-                ),
+                      onPressed: (){
+                    setState(() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const homepage(usernom: '', t: 1,)
+
+                          ));
+                    });
+
+                  }, child: start ?const Text('Bienvenue sur le Store fé', style: TextStyle(color: Colors.white),):const LinearProgressIndicator()),
+
+
+
+                  SizedBox(
+                    height: 320,
+                    child: Row(children: [
+                      Expanded(
+                          child: Image.network(
+                              "https://i.postimg.cc/jdcRqPPx/fe2.png"))
+                    ]),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ]),
         ),
       ),
     );
   }
 }
 
-Widget OblicImage(String image) {
+OblicImage(
+  String image,
+) {
   return Transform.rotate(
     angle: 1.96 * pi,
     child: Container(
@@ -140,13 +151,15 @@ Widget OblicImage(String image) {
       height: 300,
       width: 110,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: CachedNetworkImage(
-          imageUrl: image,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => const LinearProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
+          borderRadius: BorderRadius.circular(10),
+          child: CachedNetworkImage(
+            imageUrl: image,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const LinearProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          )
+
+
       ),
     ),
   );
