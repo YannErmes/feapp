@@ -1,13 +1,22 @@
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 
 
 
-class Compte extends StatelessWidget {
+class Compte extends StatefulWidget {
   final String nomuser ;
-  Compte({super.key, required this.nomuser,});
+  const Compte({super.key, required this.nomuser});
+
+  @override
+  State<Compte> createState() => _CompteState();
+}
+
+class _CompteState extends State<Compte> {
+  @override
 
   List<FlSpot> lineChartData = [
     const FlSpot(0, 2),
@@ -16,16 +25,65 @@ class Compte extends StatelessWidget {
     const FlSpot(3, 1),
     const FlSpot(4, 4),
   ];
-
-
   int c = DateTime.now().minute;
+  final coin = Hive.box('mybox2');
 
+
+  Future<void> reward() async {
+    // Crée un flux qui émet un événement toutes les 3 secondes
+    final myPeriod = Stream.periodic(const Duration(seconds: 1), (count) => count);
+
+    int i = 10;
+    if(coin.get(1)== null) {
+      coin.put(1, 2);
+    } else{
+
+
+        // Écoute les événements émis par le flux
+        final tap = myPeriod.listen((event) {
+          // Incrémente le compteur 'i' de 1 à chaque événement
+
+
+          setState(() {
+            int  a = coin.get(1);
+            a = a + i;
+            if (a < 20*c  ) {
+            coin.put(1, a);
+          }
+            else{
+              coin.put(1, 2);
+            }
+        });
+          // Affiche la nouvelle valeur de 'i'
+          print(i);
+        });
+
+        // Optionnellement, annule l'écoute après 30 secondes
+        Future.delayed(const Duration(seconds: 30), () {
+          tap.cancel();
+          print('Listener cancelled');
+        });
+
+
+  }
+
+  }
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    reward();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
 
+        title: Text('Rewards ${coin.get(1)}'),
+        leading: Icon(CupertinoIcons.tray_arrow_down
+        ),
       ) ,
       backgroundColor: const Color(0xFFB0ADB0),
       floatingActionButton: IconButton(
@@ -36,6 +94,7 @@ class Compte extends StatelessWidget {
         icon: const Icon(Icons.arrow_back_ios, size: 30,),
       ),
       body: SafeArea(
+
 
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -67,7 +126,7 @@ class Compte extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0, top: 98),
-                              child: Text('Alors cher $nomuser,Quand passerez-vous votre prochaine commande!' ,style: const TextStyle(color: Colors.white),),
+                              child: Text('Alors cher ${widget.nomuser},Quand passerez-vous votre prochaine commande!' ,style: const TextStyle(color: Colors.white),),
                             )
                           ],
                         ),
@@ -92,7 +151,7 @@ class Compte extends StatelessWidget {
 
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0, top: 125),
-                              child: Text('$nomuser nous nous occupons de tout !' ,style: const TextStyle(color: Colors.white),),
+                              child: Text('${widget.nomuser} nous nous occupons de tout !' ,style: const TextStyle(color: Colors.white),),
                             )
                           ],
                         ),
@@ -104,7 +163,8 @@ class Compte extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 40,),
+                const SizedBox(
+                child: Text('La Fluctuation des commande est mis ajoure a chaque instant ! '),),
 
                 Container(width: 355,
                   height: 140,
@@ -198,6 +258,37 @@ class Compte extends StatelessWidget {
 
 
                 ),
+                
+                Container(
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.yellow,
+                  ),
+                  child: Text('Reward programme '),
+                ),
+                
+                Container(
+
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+
+                    image: DecorationImage(image: NetworkImage('https://i.postimg.cc/1tZtM5xJ/3d-Gold-Award-Ceremony-Wallpaper-Background-Wallpaper-Image-For-Free-Download-Pngtree.png'),fit: BoxFit.cover)
+                  ),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: SizedBox(
+                            height: 250,
+                            child: LottieBuilder.network('https://lottie.host/49b89537-0cd0-4c8e-95f1-e2bbafaa1d7e/rtbRja4rKd.json')),
+                      ),
+                      Center(child: Text('${coin.get(1)} XOF' ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),))
+                    ],
+                  ),
+                  
+                  
+                )
+
+
 
 
 

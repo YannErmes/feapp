@@ -33,6 +33,10 @@ class _SplashscreenState extends State<Splashscreen> {
             start = !start;
           });
 
+          Navigator.push(context, MaterialPageRoute(builder: (context) {return
+           homepage(t: 1,usernom: '',);
+          },));
+
 
       }
 
@@ -86,6 +90,7 @@ class _SplashscreenState extends State<Splashscreen> {
                       end: Alignment.topCenter,
                       colors: [
                     Colors.black,
+                    Colors.black,
                     Colors.black54,
                     Colors.black38,
                   ])),
@@ -93,43 +98,51 @@ class _SplashscreenState extends State<Splashscreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
-
-                  SizedBox(
-                      height: 200,
-                      width: 100,
-                      child: LottieBuilder.network('https://lottie.host/ce695df7-40a6-4052-a545-a4b23b53dc7e/2W9Gg9cENN.json',fit: BoxFit.cover,)),
 
 
-                  ElevatedButton(
-                      style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.black87)
+
+
+
+
+
+
+
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 320,
+                        child: Row(children: [
+                          Expanded(
+                              child: Image.network(
+                                  "https://i.postimg.cc/jdcRqPPx/fe2.png"))
+                        ]),
                       ),
-                      onPressed: (){
-                    setState(() {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const homepage(usernom: '', t: 1,)
-
-                          ));
-                    });
-
-                  }, child: start ?const Text('Bienvenue sur le Store fé', style: TextStyle(color: Colors.white),):const LinearProgressIndicator()),
+                      Container(
 
 
+                        height: 350,
+                        child:  CachedNetworkImage(
+                          imageUrl: 'https://i.postimg.cc/wMMQxkWt/Untitled-image-21.png',
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => CircularProgressIndicator(color: Colors.yellow,),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                        ),
+                      ),
 
-                  SizedBox(
-                    height: 320,
-                    child: Row(children: [
-                      Expanded(
-                          child: Image.network(
-                              "https://i.postimg.cc/jdcRqPPx/fe2.png"))
-                    ]),
+
+                    ],
                   ),
+
+
+
+
+
+//                   SizedBox(
+//                       height:250,
+//                       width: 200,
+//                       child: LottieBuilder.network(
+// 'https://lottie.host/14fb6e56-772e-4375-97ab-01f683dafbc3/2FXsw70cg8.json'                        ,fit: BoxFit.cover,)),
+                  //https://lottie.host/ce695df7-40a6-4052-a545-a4b23b53dc7e/2W9Gg9cENN.json
                 ],
               ),
             ),

@@ -21,7 +21,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   File? imagePath;
   String? imageName;
   String? imageData;
-
+bool anime = false ;
   final ImagePicker imagePicker = ImagePicker();
   TextEditingController captionController = TextEditingController();
 
@@ -92,17 +92,34 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     }
   }
 
+  Future<void> animateforme() async {
+    await Future.delayed(const Duration(seconds: 1), () {
+      print('ok');
+      setState(() {
+        anime = true ;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    animateforme() ;
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(seconds: 3),
       margin: const EdgeInsets.only(bottom: 5),
 
       height: 40,
       width: 380,
       decoration: BoxDecoration(
-color:const Color(0xFFB0ADB0),
+color: anime ?const Color(0xFFB0ADB0) : Colors.transparent,
         boxShadow: const [
           BoxShadow(
 

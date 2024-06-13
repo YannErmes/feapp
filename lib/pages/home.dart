@@ -33,6 +33,7 @@ class homepage extends StatefulWidget {
 class _homepageState extends State<homepage> {
   bool mode = false;
   bool chargement = false;
+  bool anime = false;
   int i = 0;
 
 
@@ -52,6 +53,15 @@ class _homepageState extends State<homepage> {
       print('ok');
       setState(() {
         chargement = !chargement;
+      });
+    });
+  }
+
+  Future<void> animateforme(bool form) async {
+    await Future.delayed(const Duration(seconds: 1), () {
+      print('ok');
+      setState(() {
+         anime = form ;
       });
     });
   }
@@ -104,7 +114,7 @@ class _homepageState extends State<homepage> {
                     child: CachedNetworkImage(
                       imageUrl:
                           'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
-                      placeholder: (context, url) =>
+                      height: 100 , placeholder: (context, url) =>
                           const LinearProgressIndicator(),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.image_not_supported_rounded),
@@ -132,7 +142,7 @@ class _homepageState extends State<homepage> {
                       ));
                 },
                 label: const Text('Acueille'),
-                icon: const Icon(Icons.home)),
+                icon: const Icon(CupertinoIcons.home)),
             const SizedBox(
               height: 15,
             ),
@@ -162,7 +172,7 @@ class _homepageState extends State<homepage> {
                     ));
               },
               label: const Text('Avis'),
-              icon: const Icon(Icons.comment),
+              icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
             ),
             const SizedBox(
               height: 15,
@@ -225,6 +235,7 @@ class _homepageState extends State<homepage> {
 
                   // image piker bar
                   Container(
+
                     child: const ImagePickerWidget(),
                   ),
 
@@ -233,36 +244,42 @@ class _homepageState extends State<homepage> {
                   ),
 
                   //                                                      slid P
-                  Container(
-                    height: 190,
-                    width: 300,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        boxShadow: const [
-                          BoxShadow(
-                              offset: Offset(-8, -8),
-                              color: Colors.black87,
-                              blurRadius: 15,
-                              spreadRadius: 1),
-                          BoxShadow(
-                              offset: Offset(8, 8),
-                              color: Colors.white,
-                              blurRadius: 15,
-                              spreadRadius: 1),
-                        ],
-                        image: const DecorationImage(
-                            image: NetworkImage(
-                                'https://i.postimg.cc/D0qf3b9L/sld.png'),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: const SliderP()
+                  GestureDetector(
+                    onTap:(){
+                      animateforme(false);
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 2),
+                      height: anime ?  100: 190 ,
+                      width: anime ? 380 : 300 ,
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade50,
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(-8, -8),
+                                color: Colors.black87,
+                                blurRadius: 15,
+                                spreadRadius: 1),
+                            BoxShadow(
+                                offset: Offset(8, 8),
+                                color: Colors.white,
+                                blurRadius: 15,
+                                spreadRadius: 1),
+                          ],
+                          image: const DecorationImage(
+                              image: NetworkImage(
+                                  'https://i.postimg.cc/D0qf3b9L/sld.png'),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: const SliderP()
 
-                        // Image.network('https://img.freepik.com/free-psd/shoes-sale-social-media-post-template-design_505751-4476.jpg?t=st=1716288493~exp=1716292093~hmac=4e97e5827740eeb09735c6999433cc9bbe88b947b8cbd38a113ec6cd567a58d3&w=740', fit: BoxFit.cover,)
+                          // Image.network('https://img.freepik.com/free-psd/shoes-sale-social-media-post-template-design_505751-4476.jpg?t=st=1716288493~exp=1716292093~hmac=4e97e5827740eeb09735c6999433cc9bbe88b947b8cbd38a113ec6cd567a58d3&w=740', fit: BoxFit.cover,)
 
-                        ),
+                          ),
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -288,18 +305,16 @@ class _homepageState extends State<homepage> {
 
                   //                                                    Categorie
                   chargement
-                      ? Container(
+                      ? AnimatedContainer(
+                    duration: Duration(seconds: 1),
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
-                            color: Colors.black12,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(25),
                             border: Border.all(color: Colors.black54, width: 2),
-                            image: const DecorationImage(
-                                image: NetworkImage(
-                                    'https://i.pinimg.com/564x/10/9d/1c/109d1cc9663456342d7fce96f8606b29.jpg'),
-                                fit: BoxFit.cover),
+
                           ),
-                          height: 100,
+                          height: anime ? 100 : 84,
                           padding: EdgeInsets.all(1),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
@@ -308,6 +323,9 @@ class _homepageState extends State<homepage> {
                               final cat = _categorie[index];
                               return GestureDetector(
                                 onTap: () {
+
+                                    animateforme(true);
+
                                   _fetchproduit(
                                       "Get_categorie.php", '${cat['nom']}');
                                 },
