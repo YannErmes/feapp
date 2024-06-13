@@ -15,7 +15,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
@@ -34,7 +34,8 @@ class _homepageState extends State<homepage> {
   bool mode = false;
   bool chargement = false;
   int i = 0;
-
+  bool selectcat = false;
+  bool activeform = false;
 
   //Categorie cat_ctrl = Get.put(Categorie());
 
@@ -42,14 +43,25 @@ class _homepageState extends State<homepage> {
   void initState() {
     // TODO: implement initState
     // _fetchcategorie();
+    // _fetchproduit("Get.php", "produit");
     super.initState();
     timerequest();
-    // _fetchproduit("Get.php", "produit");
+    active() ;
   }
 
+
+
+
+  Future<void> active ()async{
+    await   Future.delayed(const Duration(seconds: 3),(){
+      setState(() {
+        activeform = true ;
+      });
+    },);
+  }
   Future<void> charge() async {
     await Future.delayed(const Duration(seconds: 3), () {
-      print('ok');
+
       setState(() {
         chargement = !chargement;
       });
@@ -66,6 +78,8 @@ class _homepageState extends State<homepage> {
       return;
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +103,6 @@ class _homepageState extends State<homepage> {
           color: Colors.white,
         ),
       ),
-
       //                                          tiroire draxer de la home page
       drawer: Drawer(
         child: Column(
@@ -100,14 +113,14 @@ class _homepageState extends State<homepage> {
               child: Container(
                 margin: const EdgeInsets.all(50),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
+                    borderRadius: BorderRadius.circular(50),
                     child: CachedNetworkImage(
                       imageUrl:
                           'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
                       placeholder: (context, url) =>
                           const LinearProgressIndicator(),
                       errorWidget: (context, url, error) =>
-                          const Icon(Icons.image_not_supported_rounded),
+                          const Icon(Icons.image_not_supported_rounded),height: 100,
                     )),
               ),
             ),
@@ -132,7 +145,7 @@ class _homepageState extends State<homepage> {
                       ));
                 },
                 label: const Text('Acueille'),
-                icon: const Icon(Icons.home)),
+                icon: const Icon(Icons.home_outlined)),
             const SizedBox(
               height: 15,
             ),
@@ -162,7 +175,7 @@ class _homepageState extends State<homepage> {
                     ));
               },
               label: const Text('Avis'),
-              icon: const Icon(Icons.comment),
+              icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
             ),
             const SizedBox(
               height: 15,
@@ -177,7 +190,7 @@ class _homepageState extends State<homepage> {
                     ));
               },
               label: const Text('Information'),
-              icon: const Icon(Icons.info_outline_rounded),
+              icon: const Icon(Icons.info_outlined),
             ),
             const SizedBox(
               height: 10,
@@ -205,7 +218,7 @@ class _homepageState extends State<homepage> {
           style: const TextStyle(color: Colors.black87),
         ),
         actions: [
-           LottieBuilder.network(
+          LottieBuilder.network(
               'https://lottie.host/682e2279-cd6f-41ae-be72-8f94df27fe00/OX4yyOihoQ.json')
         ],
       ),
@@ -224,7 +237,10 @@ class _homepageState extends State<homepage> {
                   ),
 
                   // image piker bar
-                  Container(
+                  AnimatedContainer(
+
+                    duration: const Duration(seconds: 1),
+                    width:  activeform ? 380 : 200,
                     child: const ImagePickerWidget(),
                   ),
 
@@ -233,21 +249,23 @@ class _homepageState extends State<homepage> {
                   ),
 
                   //                                                      slid P
-                  Container(
-                    height: 190,
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 3),
+
+                    height: selectcat ? 90 : 180,
                     width: 300,
                     margin: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        boxShadow: const [
+
+                        boxShadow:  [
                           BoxShadow(
-                              offset: Offset(-8, -8),
-                              color: Colors.black87,
+                              offset: const Offset(-8, -8),
+                              color: activeform ? Colors.black87 : Colors.transparent,
                               blurRadius: 15,
                               spreadRadius: 1),
                           BoxShadow(
-                              offset: Offset(8, 8),
-                              color: Colors.white,
+                              offset: const Offset(8, 8),
+                              color:activeform ? Colors.white : Colors.transparent,
                               blurRadius: 15,
                               spreadRadius: 1),
                         ],
@@ -288,7 +306,8 @@ class _homepageState extends State<homepage> {
 
                   //                                                    Categorie
                   chargement
-                      ? Container(
+                      ? AnimatedContainer(
+                    duration: const Duration(seconds: 2),
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                             color: Colors.black12,
@@ -299,22 +318,30 @@ class _homepageState extends State<homepage> {
                                     'https://i.pinimg.com/564x/10/9d/1c/109d1cc9663456342d7fce96f8606b29.jpg'),
                                 fit: BoxFit.cover),
                           ),
-                          height: 100,
-                          padding: EdgeInsets.all(1),
+                          height: selectcat ? 100 : 85,
+
+                          padding: const EdgeInsets.all(1),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: _categorie.length,
                             itemBuilder: (context, index) {
                               final cat = _categorie[index];
+
                               return GestureDetector(
+
                                 onTap: () {
+                                  setState(() {
+                                    selectcat  = true;
+                                  });
+
+
                                   _fetchproduit(
                                       "Get_categorie.php", '${cat['nom']}');
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: const Color(0xFFC09E5D),
+                                        color: const Color(0XFFF0A732) ,
                                         width: 2),
                                     color: Colors.black38,
                                     borderRadius: BorderRadius.circular(50),
@@ -322,37 +349,33 @@ class _homepageState extends State<homepage> {
                                       BoxShadow(
                                           offset: Offset(-3, -3),
                                           color: Colors.black,
-                                          blurRadius: 15,
-                                          spreadRadius: 1),
-                                      BoxShadow(
-                                          offset: Offset(3, 3),
-                                          color: Colors.white,
-                                          blurRadius: 15,
-                                          spreadRadius: 1),
-                                    ],
+                                    blurRadius: 15,
+                                        spreadRadius: 1),
+                                    BoxShadow(
+                                        offset: Offset(3, 3),
+                                        color: Colors.white,
+                                        blurRadius: 15,
+                                        spreadRadius: 1),
+                                  ],
                                   ),
                                   margin: const EdgeInsets.all(8.0),
-                                  // Marge autour du carré
                                   width: 77,
-                                  // Largeur du carré
                                   height: 40,
-                                  // Hauteur du carré
-                                  // Couleur du carré
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Transform.rotate(
                                         angle: -0.10 * pi,
-                                        child: Container(
-                                            child: CachedNetworkImage(
+                                        child: CachedNetworkImage(
                                           imageUrl: '${cat['images']}',
+
                                           fit: BoxFit.cover,
                                           placeholder: (context, url) =>
                                               const CircularProgressIndicator(),
                                           errorWidget: (context, url, error) =>
                                               const Icon(Icons.error),
-                                        )),
+                                        ),
                                       ),
                                       Text('${cat['nom']}')
                                     ],
@@ -535,7 +558,7 @@ class _homepageState extends State<homepage> {
                   //
                   //                                             Liste de produit
                   chargement
-                      ? Center(child: print_prod(mode, '${widget.useremail}'))
+                      ? Center(child: Print_prod(mode, '${widget.useremail}'))
                       : const CircularProgressIndicator()
                 ],
               ),
@@ -580,7 +603,7 @@ class _homepageState extends State<homepage> {
       }
     } catch (e) {
       // Gérer les erreurs ici
-      print(e.toString());
+      //print(e.toString());
     }
   }
 
@@ -604,44 +627,42 @@ class _homepageState extends State<homepage> {
         setState(() {
           _produit = responseData.cast<Map<String, dynamic>>();
         });
+
+
       } else {
         // Gérer les erreurs
         Get.defaultDialog(
             title:
                 'Oups! pour voir les derniere nouveauté essayé juste de redémmaré l\'application apres 1 minute😉',
             titleStyle: const TextStyle(fontSize: 16),
-            content: IconButton(onPressed: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Splashscreen(),
-                  ));
-            }, icon: Icon(Icons.refresh_outlined))
-
-
-        );
-        print('Erreur de chargement des produits : ${response.statusCode}');
-
-
-
+            content: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Splashscreen(),
+                      ));
+                },
+                icon: const Icon(Icons.refresh_outlined , color: Colors.green,)));
+        //print('Erreur de chargement des produits : ${response.statusCode}');
       }
     } catch (e) {
       // Gérer les erreurs ici
-      print(e.toString());
-       Get.snackbar('Oups!', 'Oups!essayez de verifié votre acces à internet😥.',duration: Duration(seconds: 11),
-       );
-
-
-
+     // print(e.toString());
+      Get.snackbar(
+        'Oups!',
+        'Oups!essayez de verifié votre acces à internet😥.',
+        duration: const Duration(seconds: 11),
+      );
     }
   }
 
   //
   //
   //                                                        Affichage de produit
-  Widget print_prod(bool mode, String userpass) {
+  Widget Print_prod(bool mode, String userpass) {
     var y = _produit.length;
-     var size = MediaQuery.of(context).size.width;
+    var size = MediaQuery.of(context).size.width;
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 19),
@@ -661,7 +682,6 @@ class _homepageState extends State<homepage> {
                       itemCount: _produit.length,
                       itemBuilder: (context, index) {
                         final product = _produit[index];
-
 
                         return InkWell(
                           onTap: () {
@@ -694,28 +714,21 @@ class _homepageState extends State<homepage> {
                     ),
                   )
                 : Container(
-
-             decoration:  BoxDecoration(
-
-               borderRadius: BorderRadius.circular(20),
-
-               color:Colors.white.withOpacity(0.7)
-
-             ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: selectcat? Colors.white.withOpacity(0.7) : Colors.black38),
                     width: size,
                     height: y * 100,
                     child: GridView.builder(
                       scrollDirection: Axis.horizontal,
-                      dragStartBehavior:DragStartBehavior.start ,
+                      dragStartBehavior: DragStartBehavior.start,
                       itemCount: _produit.length,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        mainAxisSpacing: 1,
-                          crossAxisSpacing: 1,
-
-                          maxCrossAxisExtent:size > 500 ?(270*size)/504:200,
-
-                          mainAxisExtent: (170*size)/360
-                      ),
+                          mainAxisSpacing: size > 500 ? size/80 : 1,
+                          crossAxisSpacing: size > 500 ? size/80 : 1,
+                          maxCrossAxisExtent:
+                              size > 500 ? (270 * size) / 600 : 200,
+                          mainAxisExtent: (170 * size) / 360),
                       itemBuilder: (context, index) {
                         final product = _produit[index];
                         return InkWell(
@@ -768,7 +781,8 @@ class _homepageState extends State<homepage> {
             imageUrl: image,
             fit: BoxFit.cover,
             placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.image_not_supported_rounded),
           )),
     ));
   }

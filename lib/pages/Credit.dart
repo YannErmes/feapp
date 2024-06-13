@@ -51,6 +51,9 @@ class _CreditState extends State<Credit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          LottieBuilder.network('https://lottie.host/b3f00300-869d-406c-b912-00a21894053b/JfVMgVoUD6.json')
+        ],
 
       ),
       backgroundColor: const Color(0xFFB0ADB0),
@@ -74,20 +77,55 @@ class _CreditState extends State<Credit> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  SizedBox(
-                      height: 180,
-                      width: 280,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0XFF191AF7),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white70, width: 3)
+                    ),
+
 
                       child:
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                          imageUrl:'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/Productsload%2Fpub%2F19059300_6048107.jpg?alt=media&token=65bf0f95-4376-42f9-a3f6-c90a76725b57' ,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              imageUrl:'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/Untitled%20image%20(14).png?alt=media&token=d4775cd9-7864-4c2c-ab89-dff51250857c' ,
+                              fit: BoxFit.cover,height: 200,width: 300,
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
 
-                        ),
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 60, top: 80),
+                                width: 150,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none
+                                  ),
+                                  style: TextStyle(color: Colors.white),
+
+                                  controller:numero_ctrl,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 60),
+                                width: 150,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none
+                                  ),
+                                  style: TextStyle(color: Colors.white),
+                                  controller: nom_ctrl,
+                                ),
+                              )
+                            ],
+                          )
+                        ],
                       )
 
 
@@ -307,14 +345,14 @@ class _CreditState extends State<Credit> {
         }
       } else {
         // Gérer les cas où le code de statut HTTP n'est pas 200 (OK)
-        Fluttertoast.showToast(msg: "Erreur de connexion au reseaux");
+        Fluttertoast.showToast(msg: "Oups! Une trop de commande en cours réessayez aprés juste 2 minute");
         var responseBodyOfSignUp = jsonDecode(res.body);
         Fluttertoast.showToast(msg: "${responseBodyOfSignUp['message']}");
       }
     } catch (e) {
       // Gérer les erreurs ici
       print(e.toString());
-      Fluttertoast.showToast(msg: "Une erreur ");
+      Fluttertoast.showToast(msg: "Oups! vérifié juste votre connection et validez à nouveaux votre commande. ");
     }
   }
 }

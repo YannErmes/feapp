@@ -44,7 +44,7 @@ class _RcommentaireState extends State<Rcommentaire> {
     } catch (e) {
       // Gérer les erreurs ici
       print(e.toString());
-      Fluttertoast.showToast(msg: "Erreurrrrrrrrrr: $e");
+      Fluttertoast.showToast(msg: "Erreurr: $e");
     }
   }
 

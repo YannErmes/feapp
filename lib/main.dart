@@ -7,6 +7,7 @@ void main() async{
 
   await Hive.initFlutter();
   var box = await Hive.openBox('mybox');
+  var box2 = await Hive.openBox('mybox2');
 
 
   runApp(const MyApp());
@@ -22,15 +23,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
 
 
-      theme: ThemeData.light(),
+      //theme: ThemeData.light(),
 
       themeMode: ThemeMode.system,
 
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(
+      home: Scaffold(
         backgroundColor: Colors.black38,
           body:
 

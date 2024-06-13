@@ -37,13 +37,13 @@ class _singupPageState extends State<singupPage> {
             "dateN": "$date"
           });
 
-      print(jsonDecode(res.body));
+   //   print(jsonDecode(res.body));
 
       if (  res.statusCode == 200) {
         var responseBodyOfSignUp = jsonDecode(res.body);
         if (responseBodyOfSignUp['success'] == true) {
           
-          Get.snackbar('Félicitation☺', "votre compte viens d'étre crée avec succsé \n.Veillez inseré vos identifiant de connection ",duration: Duration(seconds: 5),colorText: Colors.green, );
+          Get.snackbar('Félicitation☺', "votre compte viens d'étre crée avec succsé \n.Veillez inseré vos identifiant de connection ",duration: const Duration(seconds: 5),colorText: Colors.green, );
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -87,7 +87,7 @@ class _singupPageState extends State<singupPage> {
     return Scaffold(
       floatingActionButton: IconButton(
 
-        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
+        style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
         onPressed: () {
 
           Navigator.of(context).pop();

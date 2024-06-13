@@ -21,9 +21,17 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   File? imagePath;
   String? imageName;
   String? imageData;
+  bool activeform = false ;
 
   final ImagePicker imagePicker = ImagePicker();
   TextEditingController captionController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    active();
+  }
 
   Future<void> upload() async {
 
@@ -58,7 +66,8 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       }
     } catch (e) {
       // Gestion des erreurs lors de la requête HTTP
-      print('Erreur lors de l\'envoi de l\'image : $e');
+
+      Fluttertoast.showToast( msg :'Erreur lors de l\'envoi de l\'image : $e');
     }
   }
 
@@ -92,48 +101,52 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     }
   }
 
+  Future<void> active ()async{
+    await   Future.delayed(Duration(seconds: 6),(){
+      setState(() {
+        activeform = true ;
+      });
+    },);
+  }
 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
       margin: const EdgeInsets.only(bottom: 5),
-
       height: 40,
       width: 380,
       decoration: BoxDecoration(
-color:const Color(0xFFB0ADB0),
-        boxShadow: const [
+ color: activeform ?
+ const Color(0xFFB0ADB0)
+     : Colors.blueGrey,
+        boxShadow: [
           BoxShadow(
-
-              offset: Offset(-3,- 3),
-              color: Colors.black,
+              offset: Offset(-5,- 5),
+              color:activeform? Colors.black : Colors.transparent,
               blurRadius: 12,
-              spreadRadius: 5
+              spreadRadius: 2
           ),
           BoxShadow(
-
               offset: Offset(3,3),
-              color: Colors.white,
+              color: activeform ?Colors.white : Colors.transparent,
               blurRadius: 15,
-              spreadRadius: 5
+              spreadRadius: 2
           ),
-
         ],
-
         borderRadius: BorderRadius.circular(15),
-
-
-
 
       ),
 
+      duration: const Duration(seconds: 3),
       child: Center(
         child: TextFormField(
           style: const TextStyle(color: Colors.black, fontFamily:AutofillHints.addressCity , fontSize: 15),
 
           controller: captionController,
           decoration: InputDecoration(
+            fillColor: Colors.transparent,
+
             border: InputBorder.none,
             labelStyle: const TextStyle(color: Colors.black),
             prefixIcon: imagePath != null
