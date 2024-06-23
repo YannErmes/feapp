@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/produit.dart';
 import 'package:fesneakers/oussama/data.dart';
+import 'package:fesneakers/pages/Garantie.dart';
 import 'package:fesneakers/pages/board.dart';
 import 'package:fesneakers/pages/card.dart';
 import 'package:fesneakers/pages/comment.dart';
@@ -36,7 +37,6 @@ class _homepageState extends State<homepage> {
   bool anime = false;
   int i = 0;
 
-
   //Categorie cat_ctrl = Get.put(Categorie());
 
   @override
@@ -61,7 +61,7 @@ class _homepageState extends State<homepage> {
     await Future.delayed(const Duration(seconds: 1), () {
       print('ok');
       setState(() {
-         anime = form ;
+        anime = form;
       });
     });
   }
@@ -80,7 +80,9 @@ class _homepageState extends State<homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFB0ADB0),
+      //backgroundColor: const Color(0xFFB0ADB0),
+      backgroundColor: const Color(0xFFE5D6C8),
+
       floatingActionButton: IconButton(
         style: const ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(Colors.black)),
@@ -114,7 +116,8 @@ class _homepageState extends State<homepage> {
                     child: CachedNetworkImage(
                       imageUrl:
                           'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
-                      height: 100 , placeholder: (context, url) =>
+                      height: 100,
+                      placeholder: (context, url) =>
                           const LinearProgressIndicator(),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.image_not_supported_rounded),
@@ -171,7 +174,7 @@ class _homepageState extends State<homepage> {
                           Commentaire(nom: '${widget.usernom}'),
                     ));
               },
-              label: const Text('Avis'),
+              label: const Text('Fait comme chez toi et laisse ton Avis'),
               icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
             ),
             const SizedBox(
@@ -203,19 +206,33 @@ class _homepageState extends State<homepage> {
               label: const Text('Se connecté'),
               icon: const Icon(Icons.login),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Garantie(),
+                    ));
+              },
+              label: const Text('Garantie sur les articles'),
+              icon: const Icon(Icons.offline_pin_outlined),
+            ),
           ],
         ),
       ),
 
       //                                                                  appbar
       appBar: AppBar(
-        backgroundColor: Colors.white70,
+
         title: Text(
           "${widget.usernom} Bienvenue!",
           style: const TextStyle(color: Colors.black87),
         ),
         actions: [
-           LottieBuilder.network(
+          LottieBuilder.network(
               'https://lottie.host/682e2279-cd6f-41ae-be72-8f94df27fe00/OX4yyOihoQ.json')
         ],
       ),
@@ -233,9 +250,9 @@ class _homepageState extends State<homepage> {
                     height: 20,
                   ),
 
-                  // image piker bar
+                  //                                               image piker bar
                   Container(
-
+                    color:  const Color(0xFFE5D6C8) ,
                     child: const ImagePickerWidget(),
                   ),
 
@@ -245,13 +262,13 @@ class _homepageState extends State<homepage> {
 
                   //                                                      slid P
                   GestureDetector(
-                    onTap:(){
+                    onTap: () {
                       animateforme(false);
                     },
                     child: AnimatedContainer(
-                      duration: Duration(seconds: 2),
-                      height: anime ?  100: 190 ,
-                      width: anime ? 380 : 300 ,
+                      duration: const Duration(seconds: 2),
+                      height: anime ? 100 : 190,
+                      width: anime ? 380 : 300,
                       margin: const EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
                           color: Colors.grey.shade50,
@@ -261,11 +278,7 @@ class _homepageState extends State<homepage> {
                                 color: Colors.black87,
                                 blurRadius: 15,
                                 spreadRadius: 1),
-                            BoxShadow(
-                                offset: Offset(8, 8),
-                                color: Colors.white,
-                                blurRadius: 15,
-                                spreadRadius: 1),
+
                           ],
                           image: const DecorationImage(
                               image: NetworkImage(
@@ -306,16 +319,15 @@ class _homepageState extends State<homepage> {
                   //                                                    Categorie
                   chargement
                       ? AnimatedContainer(
-                    duration: Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(25),
                             border: Border.all(color: Colors.black54, width: 2),
-
                           ),
                           height: anime ? 100 : 84,
-                          padding: EdgeInsets.all(1),
+                          padding: const EdgeInsets.all(1),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: _categorie.length,
@@ -323,8 +335,7 @@ class _homepageState extends State<homepage> {
                               final cat = _categorie[index];
                               return GestureDetector(
                                 onTap: () {
-
-                                    animateforme(true);
+                                  animateforme(true);
 
                                   _fetchproduit(
                                       "Get_categorie.php", '${cat['nom']}');
@@ -628,29 +639,25 @@ class _homepageState extends State<homepage> {
             title:
                 'Oups! pour voir les derniere nouveauté essayé juste de redémmaré l\'application apres 1 minute😉',
             titleStyle: const TextStyle(fontSize: 16),
-            content: IconButton(onPressed: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Splashscreen(),
-                  ));
-            }, icon: Icon(Icons.refresh_outlined))
-
-
-        );
+            content: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Splashscreen(),
+                      ));
+                },
+                icon: const Icon(Icons.refresh_outlined)));
         print('Erreur de chargement des produits : ${response.statusCode}');
-
-
-
       }
     } catch (e) {
       // Gérer les erreurs ici
       print(e.toString());
-       Get.snackbar('Oups!', 'Oups!essayez de verifié votre acces à internet😥.',duration: Duration(seconds: 11),
-       );
-
-
-
+      Get.snackbar(
+        'Oups!',
+        'Oups!essayez de verifié votre acces à internet😥.',
+        duration: const Duration(seconds: 11),
+      );
     }
   }
 
@@ -659,7 +666,7 @@ class _homepageState extends State<homepage> {
   //                                                        Affichage de produit
   Widget print_prod(bool mode, String userpass) {
     var y = _produit.length;
-     var size = MediaQuery.of(context).size.width;
+    var size = MediaQuery.of(context).size.width;
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 19),
@@ -679,7 +686,6 @@ class _homepageState extends State<homepage> {
                       itemCount: _produit.length,
                       itemBuilder: (context, index) {
                         final product = _produit[index];
-
 
                         return InkWell(
                           onTap: () {
@@ -712,28 +718,21 @@ class _homepageState extends State<homepage> {
                     ),
                   )
                 : Container(
-
-             decoration:  BoxDecoration(
-
-               borderRadius: BorderRadius.circular(20),
-
-               color:Colors.white.withOpacity(0.7)
-
-             ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white.withOpacity(0.7)),
                     width: size,
                     height: y * 100,
                     child: GridView.builder(
                       scrollDirection: Axis.horizontal,
-                      dragStartBehavior:DragStartBehavior.start ,
+                      dragStartBehavior: DragStartBehavior.start,
                       itemCount: _produit.length,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        mainAxisSpacing: 1,
+                          mainAxisSpacing: 1,
                           crossAxisSpacing: 1,
-
-                          maxCrossAxisExtent:size > 500 ?(270*size)/504:200,
-
-                          mainAxisExtent: (170*size)/360
-                      ),
+                          maxCrossAxisExtent:
+                              size > 500 ? (270 * size) / 504 : 200,
+                          mainAxisExtent: (170 * size) / 360),
                       itemBuilder: (context, index) {
                         final product = _produit[index];
                         return InkWell(
@@ -786,7 +785,8 @@ class _homepageState extends State<homepage> {
             imageUrl: image,
             fit: BoxFit.cover,
             placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.image_not_supported_rounded),
           )),
     ));
   }

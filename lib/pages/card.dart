@@ -41,7 +41,7 @@ class _cardpageState extends State<cardpage> {
 
 
       ),
-      backgroundColor: const Color(0xFFB0ADB0),
+      backgroundColor: const Color(0xFFE5D6C8),
       body: SafeArea(
         child: Stack(
           children: [

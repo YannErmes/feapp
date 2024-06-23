@@ -81,17 +81,17 @@ class _CompteState extends State<Compte> {
     return Scaffold(
       appBar:AppBar(
 
-        title: Text('Rewards ${coin.get(1)}'),
-        leading: Icon(CupertinoIcons.tray_arrow_down
+        title: Text('Votre sotre est activer en mode basic' , style: TextStyle(fontSize: 18),),
+        leading: Icon(Icons.offline_pin_outlined, color:Colors.blue,
         ),
       ) ,
-      backgroundColor: const Color(0xFFB0ADB0),
+      backgroundColor: const Color(0xFFE5D6C8),
       floatingActionButton: IconButton(
         hoverColor: Colors.white,
         onPressed: () {
           Navigator.of(context).pop();
         },
-        icon: const Icon(Icons.arrow_back_ios, size: 30,),
+        icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white,),
       ),
       body: SafeArea(
 
