@@ -28,7 +28,7 @@ bool send = false ;
   Widget build(BuildContext context) {
     return
       Scaffold(
-        backgroundColor: const Color(0xFFB0ADB0),
+        backgroundColor: const Color(0xFFE5D6C8),
         floatingActionButton: IconButton(
           style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black87)),
           onPressed: (){

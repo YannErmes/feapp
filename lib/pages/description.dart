@@ -52,7 +52,7 @@ class Description extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      backgroundColor: const Color(0xFFB0ADB0),
+      backgroundColor: const Color(0xFFE5D6C8),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(5),

@@ -61,7 +61,6 @@ bool anime = false ;
       print('Erreur lors de l\'envoi de l\'image : $e');
     }
   }
-
   Future<void> getImage() async {
     try {
       // Sélectionner une image depuis la galerie
@@ -115,39 +114,28 @@ bool anime = false ;
     return AnimatedContainer(
       duration: Duration(seconds: 3),
       margin: const EdgeInsets.only(bottom: 5),
-
       height: 40,
-      width: 380,
+      width: anime ? 380 :100,
       decoration: BoxDecoration(
-color: anime ?const Color(0xFFB0ADB0) : Colors.transparent,
         boxShadow: const [
           BoxShadow(
 
               offset: Offset(-3,- 3),
-              color: Colors.black,
+              color: Colors.black12,
               blurRadius: 12,
               spreadRadius: 5
           ),
-          BoxShadow(
 
-              offset: Offset(3,3),
-              color: Colors.white,
-              blurRadius: 15,
-              spreadRadius: 5
-          ),
 
         ],
-
-        borderRadius: BorderRadius.circular(15),
-
-
-
+        color: anime ? Colors.black54: Colors.blueGrey,
+        borderRadius: BorderRadius.circular(16),
 
       ),
 
       child: Center(
         child: TextFormField(
-          style: const TextStyle(color: Colors.black, fontFamily:AutofillHints.addressCity , fontSize: 15),
+          style: const TextStyle(color: Colors.white, fontFamily:AutofillHints.addressCity , fontSize: 15),
 
           controller: captionController,
           decoration: InputDecoration(
@@ -166,11 +154,11 @@ color: anime ?const Color(0xFFB0ADB0) : Colors.transparent,
 
 
                 : IconButton(
-                onPressed: getImage, icon: const Icon(Icons.image_search_outlined)),
+                onPressed: getImage, icon: const Icon(Icons.image_search_outlined , color: Colors.white,)),
 
 
             suffixIcon: IconButton(
-              icon: const Icon(CupertinoIcons.question_circle),
+              icon: const Icon(CupertinoIcons.question_circle , color: Colors.white,),
               onPressed: () {
                Get.snackbar('', "Retrouvez n'importe quel modèle de votre désir "
                                 "en envoyant simplement une photo de votre galerie. Notre équipe "
