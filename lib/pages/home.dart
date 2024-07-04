@@ -159,7 +159,7 @@ class _homepageState extends State<homepage> {
                     },
                     child: AvatarGlow(
 
-                      startDelay: Duration(seconds: 3),
+                      startDelay: Duration(seconds: 4),
                       repeat: rep.get(10) ?? true,
                       glowColor: Colors.white,
                       glowCount: 5,
@@ -551,8 +551,8 @@ class _homepageState extends State<homepage> {
                                 // Hauteur du carré
                                 // Couleur du carré
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                                   children: [
                                     Transform.rotate(
                                       angle: -0.10 * pi,
