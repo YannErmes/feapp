@@ -1,192 +1,240 @@
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'dart:async';
 
-class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fesneakers/pages/home.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class MyCustomWidget extends StatefulWidget {
+  const MyCustomWidget({super.key});
 
   @override
+  _MyCustomWidgetState createState() => _MyCustomWidgetState();
+}
+
+class _MyCustomWidgetState extends State<MyCustomWidget> {
+  @override
   Widget build(BuildContext context) {
-   // refference
-    final fav = Hive.box('mybox');
-    // write data
-    void writebox (){
-      fav.put(1, 'yanno');
-      fav.put(4, 'yanno4');
-      fav.put(5, 'yanno5');
-
-    }
-// red
-    void redbox (){
-     print( fav.get(1));
-     print( fav.get(4));
-     print( fav.get(5));
-
-
-    }
-// dele
-    void delbox (){
-     print( fav.delete(1));
-
-
-    }
-
-
-
-
     return Scaffold(
-backgroundColor: Colors.grey,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        leading: const Icon(Icons.menu),
-        actions: const [
-          Icon(Icons.search),
-          SizedBox(width: 16),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: Center(
-                child: Column(
-                  children: [
-                    const Text(
-                      'NIKE',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'React Element 55',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Premium Laser Fuchsia',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.grey,
-                          boxShadow: const [
-                            BoxShadow(offset: Offset(5, 5), color: Colors.black,
-                            blurRadius: 15,
-                            spreadRadius: 1),
-                            BoxShadow(offset: Offset(-5, -5), color: Colors.white,
-                                blurRadius: 15,
-                                spreadRadius: 1),
-                          ]),
-                      child: Image.network(
-                        'https://i.postimg.cc/0QgNY185/url-https-california-times-brightspot-s3-amazonaws-com-b3-10-10c245034893adf233fc1cf3071a-1351750.jpg',
-                        height: 200,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Color:',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        SizedBox(width: 8),
-                        CircleAvatar(backgroundColor: Colors.red, radius: 12),
-                        SizedBox(width: 8),
-                        CircleAvatar(backgroundColor: Colors.green, radius: 12),
-                        SizedBox(width: 8),
-                        CircleAvatar(backgroundColor: Colors.blue, radius: 12),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Size:',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            '47',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+         SizedBox(
+          width: 250.0,
+          child: DefaultTextStyle(
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontFamily: 'Nike',
             ),
-            const SizedBox(height: 16),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.yellow, size: 24),
-                    Icon(Icons.star, color: Colors.yellow, size: 24),
-                    Icon(Icons.star, color: Colors.yellow, size: 24),
-                    Icon(Icons.star, color: Colors.yellow, size: 24),
-                    Icon(Icons.star_border, color: Colors.yellow, size: 24),
-                  ],
-                ),
-                Text(
-                  'EUR 125.90',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+            child: AnimatedTextKit(
+              repeatForever: false,
+              pause: Duration(hours: 1),
+
+              animatedTexts: [
+                TypewriterAnimatedText('fé présnte Sneakres store 3.0 ,Clikquez sur l\'image et accrohez vous bien...',
+                speed: Duration(milliseconds: 100)),
               ],
+              onTap: () {
+                print("Tap Event");
+              },
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FloatingActionButton(
-                  onPressed: writebox,
-                  backgroundColor: Colors.green,
-                  child: const Icon(Icons.tab),
-                ),
-
-
-                FloatingActionButton(
-                  onPressed: redbox,
-                  backgroundColor: Colors.green,
-                  child: const Icon(Icons.add),
-                ),
-                FloatingActionButton(
-                  onPressed: delbox,
-                  backgroundColor: Colors.green,
-                  child: const Icon(Icons.shopping_cart),
-                ),
-              ],
+          ),
+        ),
+            OpenContainer(
+              closedBuilder: (_, openContainer) {
+                return Center(
+                  child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/yxL9TVTY/Untitled-image-19.png' ,fit: BoxFit.cover,),
+                );
+              },
+              openColor: Colors.white,
+              closedElevation: 20,
+              closedShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              transitionDuration: const Duration(milliseconds: 700),
+              openBuilder: (_, closeContainer) {
+                return const SecondClass();
+              },
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SecondClass extends StatefulWidget {
+  const SecondClass({super.key});
+
+  @override
+  _SecondClassState createState() => _SecondClassState();
+}
+
+class _SecondClassState extends State<SecondClass>
+    with TickerProviderStateMixin {
+  late AnimationController scaleController;
+  late Animation<double> scaleAnimation;
+
+  double _opacity = 0;
+  bool _value = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    )..addStatusListener(
+          (status) {
+        if (status == AnimationStatus.completed) {
+          Navigator.of(context).pushReplacement(
+            ThisIsFadeRoute(
+              route: const ThirdPage(),
+            ),
+          );
+          Timer(
+            const Duration(milliseconds: 300),
+                () {
+              scaleController.reset();
+            },
+          );
+        }
+      },
+    );
+
+    scaleAnimation =
+        Tween<double>(begin: 0.0, end: 12).animate(scaleController);
+
+    Timer(const Duration(milliseconds: 600), () {
+      setState(() {
+        _opacity = 1.0;
+        _value = false;
+      });
+    });
+    Timer(const Duration(milliseconds: 2000), () {
+      setState(() {
+        scaleController.forward();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    scaleController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 80),
+                child: Text(
+                  "C'est partie",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Center(
+            child: AnimatedOpacity(
+              curve: Curves.fastLinearToSlowEaseIn,
+              duration: const Duration(seconds: 6),
+              opacity: _opacity,
+              child: AnimatedContainer(
+                curve: Curves.fastLinearToSlowEaseIn,
+                duration: const Duration(seconds: 2),
+                height: _value ? 50 : 200,
+                width: _value ? 50 : 200,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.deepPurpleAccent.withOpacity(.2),
+                      blurRadius: 100,
+                      spreadRadius: 10,
+                    ),
+                  ],
+                  color: Colors.deepPurpleAccent,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(
+                        color: Colors.purple, shape: BoxShape.circle),
+                    child: AnimatedBuilder(
+                      animation: scaleAnimation,
+                      builder: (c, child) => Transform.scale(
+                        scale: scaleAnimation.value,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.deepPurpleAccent,
+                          ),
+
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ThisIsFadeRoute extends PageRouteBuilder {
+  final Widget? page;
+  final Widget route;
+
+  ThisIsFadeRoute({this.page, required this.route})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page!,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        homepage(t: 1, usernom: '',),
+  );
+}
+
+class ThirdPage extends StatelessWidget {
+  const ThirdPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Go Back'),
+        centerTitle: true,
+        backgroundColor: Colors.deepPurpleAccent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
     );
   }

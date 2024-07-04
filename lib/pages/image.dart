@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -117,17 +118,7 @@ bool anime = false ;
       height: 40,
       width: anime ? 380 :100,
       decoration: BoxDecoration(
-        boxShadow: const [
-          BoxShadow(
 
-              offset: Offset(-3,- 3),
-              color: Colors.black12,
-              blurRadius: 12,
-              spreadRadius: 5
-          ),
-
-
-        ],
         color: anime ? Colors.black54: Colors.blueGrey,
         borderRadius: BorderRadius.circular(16),
 
@@ -157,14 +148,22 @@ bool anime = false ;
                 onPressed: getImage, icon: const Icon(Icons.image_search_outlined , color: Colors.white,)),
 
 
-            suffixIcon: IconButton(
-              icon: const Icon(CupertinoIcons.question_circle , color: Colors.white,),
-              onPressed: () {
-               Get.snackbar('', "Retrouvez n'importe quel modèle de votre désir "
-                                "en envoyant simplement une photo de votre galerie. Notre équipe "
-                   "d'experts se charge de le retrouver avec tous les détails possibles."  , duration: const Duration(seconds: 10) );
-              },
+            suffixIcon: AvatarGlow(
+              curve: Easing.legacy,
+              glowCount: 4,
+              glowColor: Colors.white,
+
+              child: IconButton(
+                icon: const Icon(CupertinoIcons.question_circle , color: Colors.white,),
+                onPressed: () {
+                  Get.snackbar('', "Retrouvez n'importe quel modèle de votre désir "
+                      "en envoyant simplement une photo de votre galerie. Notre équipe "
+                      "d'experts se charge de le retrouver avec tous les détails possibles."  , duration: const Duration(seconds: 10) );
+                },
+              ),
             ),
+
+
 
 
             suffixIconColor: Colors.black87,

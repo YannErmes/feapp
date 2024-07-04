@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:fesneakers/pages/Credit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -115,71 +116,81 @@ class _ListCardState extends State<ListCard> {
                 final card = cards[index];
                 bool deleteMode = card['deleteMode'] ?? false;
 
-                return Column(
-                  children: [
-                    Container(
-                      height: 100,
+                return  AnimationConfiguration.staggeredList(
+                  position: index,
+                  duration: const Duration(milliseconds: 375),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: SlideAnimation(
 
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.white),
-                      ),
-                      child: ListTile(
-                        hoverColor: Colors.black38,
-                        mouseCursor: MouseCursor.uncontrolled,
-                        leading:CircleAvatar(
-                          radius: 50,
-                          child:  Image.network(
-                            '${card['image']}',
-                            fit: BoxFit.cover,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 100,
+
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white),
+                            ),
+                            child: ListTile(
+                              hoverColor: Colors.black38,
+                              mouseCursor: MouseCursor.uncontrolled,
+                              leading:CircleAvatar(
+                                radius: 50,
+                                child:  Image.network(
+                                  '${card['image']}',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+
+                              title: Text('${card['nom']}', style: const TextStyle(color: Colors.black87),),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(' Code: ${card['eid']}' , style: const TextStyle(color: Colors.black87),),
+                                  Text('Status : ${card['status']}')
+                                ],
+                              ),
+                              trailing: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    // Basculez le mode de suppression
+
+                                    // Supprimez la carte si le mode de suppression est activé
+                                    if (card['deleteMode'] = true) {
+                                      setState(() {
+                                        _delCard('${card['eid']}' , '${card['userpass']}');
+                                      });
+                                    }else {
+                                      return ;
+                                    }
+                                  });
+                                },
+                                child: deleteMode
+                                    ? const Icon(CupertinoIcons.xmark_square, color: Colors.red)
+                                    : const Icon(CupertinoIcons.delete , color: Colors.black87,),
+                              ),
+
+                            ),
                           ),
-                        ),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Credit( prix: '${card['prix']}' , image: '${card['image']}', code: '${card['eid']}', nom: '${card['nom']}'),));
+                            },
+                            icon: const Icon(
+                              Icons.shopify,
+                              size: 30,
+                              color: Colors.green,
+                            ),
+                            label: const Text('Commander'),
+                          ),
 
-                        title: Text('${card['nom']}', style: const TextStyle(color: Colors.black87),),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(' Code: ${card['eid']}' , style: const TextStyle(color: Colors.black87),),
-                            Text('Status : ${card['status']}')
-                          ],
-                        ),
-                        trailing: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              // Basculez le mode de suppression
-
-                              // Supprimez la carte si le mode de suppression est activé
-                              if (card['deleteMode'] = true) {
-                                setState(() {
-                                  _delCard('${card['eid']}' , '${card['userpass']}');
-                                });
-                              }else {
-                                return ;
-                              }
-                            });
-                          },
-                          child: deleteMode
-                              ? const Icon(CupertinoIcons.xmark_square, color: Colors.red)
-                              : const Icon(CupertinoIcons.delete , color: Colors.black87,),
-                        ),
-
+                        ],
                       ),
                     ),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Credit( prix: '${card['prix']}' , image: '${card['image']}', code: '${card['eid']}', nom: '${card['nom']}'),));
-                      },
-                      icon: const Icon(
-                        Icons.shopify,
-                        size: 30,
-                        color: Colors.green,
-                      ),
-                      label: const Text('Commander'),
-                    ),
-
-                  ],
+                  ),
                 );
               },
             ),
@@ -189,3 +200,4 @@ class _ListCardState extends State<ListCard> {
     );
   }
 }
+

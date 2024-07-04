@@ -50,6 +50,7 @@ class _cardpageState extends State<cardpage> {
               children: [
                 Container(
                     padding: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                         color: Colors.white30,
                         borderRadius: BorderRadius.circular(20),

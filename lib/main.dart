@@ -1,7 +1,11 @@
+import 'package:fesneakers/pages/home.dart';
 import 'package:fesneakers/pages/splash.dart';
+import 'package:fesneakers/test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import 'oussama/fliter_brand.dart';
 
 void main() async{
 
@@ -35,7 +39,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Colors.black38,
           body:
 
-             Splashscreen(),
+          MyCustomWidget(),
            ),
     );
   }

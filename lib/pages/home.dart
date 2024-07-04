@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/produit.dart';
 import 'package:fesneakers/oussama/data.dart';
@@ -20,6 +21,8 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
+import '../oussama/fliter_brand.dart';
+
 class homepage extends StatefulWidget {
   final String? useremail;
   final String? usernom;
@@ -35,6 +38,7 @@ class _homepageState extends State<homepage> {
   bool mode = false;
   bool chargement = false;
   bool anime = false;
+
   int i = 0;
 
   //Categorie cat_ctrl = Get.put(Categorie());
@@ -77,32 +81,163 @@ class _homepageState extends State<homepage> {
     }
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  bool animebrand = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
+      extendBodyBehindAppBar: true,
+      endDrawerEnableOpenDragGesture: true,
       //backgroundColor: const Color(0xFFB0ADB0),
       backgroundColor: const Color(0xFFE5D6C8),
 
-      floatingActionButton: IconButton(
-        style: const ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.black)),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => cardpage(
-                  useremail: '${widget.useremail}',
+      // filter brand
+
+      floatingActionButton: AnimatedContainer(
+        height: animebrand ? 50 : 300,
+        duration: Duration(seconds: 2),
+        curve: Curves.decelerate,
+
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: animebrand
+            ? Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/febase'
+                                    '-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownloa'
+                                    'd%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc',height: 50,)),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://firebasestorage.'
+                              'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
+                              'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
+                          height: 50,
+                        )),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://firebasestorage.'
+                              'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
+                              'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
+                          height: 50,
+                        )),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://firebasestorage.'
+                              'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
+                              'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
+                          height: 50,
+                        )),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        animebrand=! animebrand;
+                      });
+                    },
+                    child: AvatarGlow(
+                      glowColor: Colors.white,
+                      glowCount: 5,
+                      curve: Curves.fastOutSlowIn,
+
+
+
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: CachedNetworkImage(
+                            imageUrl: 'https://firebasestorage.googleapis.com/v0/b/'
+                                'febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdow'
+                                'nload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc',height: 50,
+                          )),
+                    ),
+                  ),
+                ],
+              )
+            : SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+              child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        _fetchproduit(
+                            "marque.php", 'nike');
+                      },
+                      child: brand(
+                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _fetchproduit(
+                            "marque.php", 'nb');
+                      },
+                      child: brand(
+                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBotas%20de%20f%C3%BAtbol%20New%20Balance.jfif?alt=media&token=ffee4096-a824-4723-ba94-8c3153face5c'),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _fetchproduit(
+                            "marque.php", 'addidas');
+                      },
+                      child: brand(
+                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fadidas.jfif?alt=media&token=89f99b82-b1df-418e-bbb0-304efe1a02c0'),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _fetchproduit(
+                            "marque.php", 'jordan');
+                      },
+                      child: brand(
+                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FAir%20Jordan%20Logo%20PNG%20Transparent%20%26%20SVG%20Vector%20-%20Freebie%20Supply.jfif?alt=media&token=fcd49bfe-fc5a-4348-b19f-3a64b2226392'),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _fetchproduit(
+                            "marque.php", 'balanciaga');
+                      },
+                      child: brand(
+                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBalenciaga%20SVG%20%26%20PNG%20Download.jfif?alt=media&token=128a5069-4fa7-40f6-9069-6c53b03b3ffa'),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _fetchproduit(
+                            "marque.php", 'puma');
+                      },
+                      child: brand(
+                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          animebrand=! animebrand;
+                        });
+                      },
+                      child:Icon(Icons.cancel,color: Colors.black, size: 30,),
+                    ),
+                  ],
                 ),
-              ));
-        },
-        icon: const Icon(
-          Icons.shopping_cart_checkout,
-          size: 30,
-          color: Colors.white,
-        ),
+            ),
       ),
 
-      //                                          tiroire draxer de la home page
+
+      // drawer
       drawer: Drawer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -223,351 +358,311 @@ class _homepageState extends State<homepage> {
           ],
         ),
       ),
-
       //                                                                  appbar
-      appBar: AppBar(
-
-        title: Text(
-          "${widget.usernom} Bienvenue!",
-          style: const TextStyle(color: Colors.black87),
-        ),
+      /*  appBar: AppBar(
+        title:
         actions: [
           LottieBuilder.network(
               'https://lottie.host/682e2279-cd6f-41ae-be72-8f94df27fe00/OX4yyOihoQ.json')
         ],
-      ),
+      ),*/
 
       // Corps de la page
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  //                                               image piker bar
-                  Container(
-                    color:  const Color(0xFFE5D6C8) ,
-                    child: const ImagePickerWidget(),
-                  ),
-
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  //                                                      slid P
-                  GestureDetector(
-                    onTap: () {
-                      animateforme(false);
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(seconds: 2),
-                      height: anime ? 100 : 190,
-                      width: anime ? 380 : 300,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade50,
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(-8, -8),
-                                color: Colors.black87,
-                                blurRadius: 15,
-                                spreadRadius: 1),
-
-                          ],
-                          image: const DecorationImage(
-                              image: NetworkImage(
-                                  'https://i.postimg.cc/D0qf3b9L/sld.png'),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: const SliderP()
-
-                          // Image.network('https://img.freepik.com/free-psd/shoes-sale-social-media-post-template-design_505751-4476.jpg?t=st=1716288493~exp=1716292093~hmac=4e97e5827740eeb09735c6999433cc9bbe88b947b8cbd38a113ec6cd567a58d3&w=740', fit: BoxFit.cover,)
-
+            child: Column(
+              children: [
+                // first container
+                Container(
+                  padding: EdgeInsets.all(8),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30))),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "${widget.usernom} Bienvenue!",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  //                                    contaenair de categorie
-                  const SizedBox(
-                    height: 35,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Catégorie',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        Icon(
-                          CupertinoIcons.color_filter,
-                          size: 20,
-                          color: Colors.white,
-                        )
-                      ],
-                    ),
-                  ),
-
-                  //                                                    Categorie
-                  chargement
-                      ? AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.black54, width: 2),
-                          ),
-                          height: anime ? 100 : 84,
-                          padding: const EdgeInsets.all(1),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _categorie.length,
-                            itemBuilder: (context, index) {
-                              final cat = _categorie[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  animateforme(true);
-
-                                  _fetchproduit(
-                                      "Get_categorie.php", '${cat['nom']}');
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: const Color(0xFFC09E5D),
-                                        width: 2),
-                                    color: Colors.black38,
-                                    borderRadius: BorderRadius.circular(50),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          offset: Offset(-3, -3),
-                                          color: Colors.black,
-                                          blurRadius: 15,
-                                          spreadRadius: 1),
-                                      BoxShadow(
-                                          offset: Offset(3, 3),
-                                          color: Colors.white,
-                                          blurRadius: 15,
-                                          spreadRadius: 1),
-                                    ],
-                                  ),
-                                  margin: const EdgeInsets.all(8.0),
-                                  // Marge autour du carré
-                                  width: 77,
-                                  // Largeur du carré
-                                  height: 40,
-                                  // Hauteur du carré
-                                  // Couleur du carré
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Transform.rotate(
-                                        angle: -0.10 * pi,
-                                        child: Container(
-                                            child: CachedNetworkImage(
-                                          imageUrl: '${cat['images']}',
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) =>
-                                              const CircularProgressIndicator(),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        )),
-                                      ),
-                                      Text('${cat['nom']}')
-                                    ],
-                                  ),
-                                ),
-                              );
+                          GestureDetector(
+                            child: Icon(
+                              Icons.menu,
+                              size: 25,
+                            ),
+                            onTap: () {
+                              _scaffoldkey.currentState?.openDrawer();
                             },
                           ),
-                        )
-                      : const CircularProgressIndicator(),
+                        ],
+                      ),
 
-                  //
-                  //
-                  //                                             Bar de filtrage
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black54,
-                    ),
-                    height: 45,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'Filtré',
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      // image pikers
+                      Container(
+                        child: const ImagePickerWidget(),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      //  slide P
+                      GestureDetector(
+                        onTap: () {
+                          animateforme(false);
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(seconds: 2),
+                          height: anime ? 100 : 150,
+                          width: anime ? 380 : 300,
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(-8, -8),
+                                    color: Colors.black87,
+                                    blurRadius: 15,
+                                    spreadRadius: 1),
+                              ],
+                              image: const DecorationImage(
+                                  image: NetworkImage(
+                                      'https://i.postimg.cc/D0qf3b9L/sld.png'),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: const SliderP()
+
+                              // Image.network('https://img.freepik.com/free-psd/shoes-sale-social-media-post-template-design_505751-4476.jpg?t=st=1716288493~exp=1716292093~hmac=4e97e5827740eeb09735c6999433cc9bbe88b947b8cbd38a113ec6cd567a58d3&w=740', fit: BoxFit.cover,)
+
+                              ),
+                        ),
+                      ),
+                      // text categorie
+                      const SizedBox(
+                        height: 35,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Catégorie',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _fetchproduit("prixh.php", '11000');
-                                });
-                              },
-                              icon: const Icon(
-                                CupertinoIcons.arrow_up_square_fill,
-                                color: Colors.green,
-                                size: 30,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                _fetchproduit("prixb.php", '11000');
-                              },
-                              icon: const Icon(
-                                CupertinoIcons.arrow_down_square_fill,
-                                color: Colors.red,
-                                size: 30,
-                              )),
+                            Icon(
+                              CupertinoIcons.color_filter,
+                              size: 20,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //
 
-                          //
-                          //
-                          //                          bottom sheet filtrage par brande
-                          IconButton(
-                              color: Colors.grey,
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    backgroundColor: Colors.white70,
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'nike');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30'),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'nb');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBotas%20de%20f%C3%BAtbol%20New%20Balance.jfif?alt=media&token=ffee4096-a824-4723-ba94-8c3153face5c'),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'addidas');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fadidas.jfif?alt=media&token=89f99b82-b1df-418e-bbb0-304efe1a02c0'),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'converce');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FConverse%20Logo%20and%20symbol%2C%20meaning%2C%20history%2C%20PNG%2C%20brand.jfif?alt=media&token=743405a2-f6bb-4c2d-be0c-1e360dcd5960'),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'jordan');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FAir%20Jordan%20Logo%20PNG%20Transparent%20%26%20SVG%20Vector%20-%20Freebie%20Supply.jfif?alt=media&token=fcd49bfe-fc5a-4348-b19f-3a64b2226392'),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'balanciaga');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBalenciaga%20SVG%20%26%20PNG%20Download.jfif?alt=media&token=128a5069-4fa7-40f6-9069-6c53b03b3ffa'),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                _fetchproduit(
-                                                    "marque.php", 'puma');
-                                              },
-                                              child: brand(
-                                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    });
+                //
+
+                const SizedBox(
+                  height: 10,
+                ),
+
+                //                                    contaenair de categorie
+
+                //                                                    Categorie
+                chargement
+                    ? AnimatedContainer(
+                        duration: const Duration(seconds: 1),
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: anime ? Colors.transparent : Colors.white,
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.black54, width: 1),
+                        ),
+                        height: anime ? 100 : 84,
+
+                        padding: const EdgeInsets.all(1),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _categorie.length,
+                          itemBuilder: (context, index) {
+                            final cat = _categorie[index];
+                            return GestureDetector(
+                              onTap: () {
+                                animateforme(true);
+
+                                _fetchproduit(
+                                    "Get_categorie.php", '${cat['nom']}');
                               },
-                              icon: const Icon(
-                                Icons.filter_alt_outlined,
-                                color: Colors.white,
-                              ))
-                        ],
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xFFC09E5D), width: 2),
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(50),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        offset: Offset(-3, -3),
+                                        color: Colors.black,
+                                        blurRadius: 15,
+                                        spreadRadius: 1),
+                                    BoxShadow(
+                                        offset: Offset(3, 3),
+                                        color: Colors.white,
+                                        blurRadius: 15,
+                                        spreadRadius: 1),
+                                  ],
+                                ),
+                                margin: const EdgeInsets.all(8.0),
+                                // Marge autour du carré
+                                width: anime ? 70 : 77,
+                                // Largeur du carré
+                                height: anime ? 60 : 40,
+                                // Hauteur du carré
+                                // Couleur du carré
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Transform.rotate(
+                                      angle: -0.10 * pi,
+                                      child: Container(
+                                          child: CachedNetworkImage(
+                                        imageUrl: '${cat['images']}',
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )),
+                                    ),
+                                    Text('${cat['nom']}')
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : const CircularProgressIndicator(),
+
+                //
+                //
+                //                                             Bar de filtrage
+                Stack(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.black54,
+                      ),
+                      height: 45,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                'Filtré',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _fetchproduit("prixh.php", '11000');
+                                  });
+                                },
+                                icon: const Icon(
+                                  CupertinoIcons.arrow_up_square_fill,
+                                  color: Colors.green,
+                                  size: 30,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  _fetchproduit("prixb.php", '11000');
+                                },
+                                icon: const Icon(
+                                  CupertinoIcons.arrow_down_square_fill,
+                                  color: Colors.red,
+                                  size: 30,
+                                )),
+
+                            //
+                            //
+                            //                          bottom sheet filtrage par brande
+
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
 
-                  //
-                  //
-                  //                                              Titer produit
+                //
+                //
+                //                                              Titer produit
 
-                  SizedBox(
-                    height: 30,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'Produit',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
+                SizedBox(
+                  height: 30,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Produit',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                mode = !mode;
-                              });
-                            },
-                            icon: mode
-                                ? const Icon(
-                                    CupertinoIcons.increase_quotelevel,
-                                    size: 25,
-                                    color: Colors.white,
-                                  )
-                                : const Icon(
-                                    Icons.grid_view_rounded,
-                                    size: 25,
-                                    color: Colors.white,
-                                  ))
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              mode = !mode;
+                            });
+                          },
+                          icon: mode
+                              ? const Icon(
+                                  CupertinoIcons.increase_quotelevel,
+                                  size: 25,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.grid_view_rounded,
+                                  size: 25,
+                                  color: Colors.white,
+                                ))
+                    ],
                   ),
+                ),
 
-                  //
-                  //
-                  //                                             Liste de produit
-                  chargement
-                      ? Center(child: print_prod(mode, '${widget.useremail}'))
-                      : const CircularProgressIndicator()
-                ],
-              ),
+                //
+                //
+                //                                             Liste de produit
+                chargement
+                    ? Center(child: print_prod(mode, '${widget.useremail}'))
+                    : const CircularProgressIndicator()
+              ],
             ),
           ),
         ),
@@ -777,8 +872,8 @@ class _homepageState extends State<homepage> {
   brand(String image) {
     return GestureDetector(
         child: Container(
-      height: 50,
-      margin: const EdgeInsets.symmetric(vertical: 80, horizontal: 9),
+          margin: EdgeInsets.symmetric(vertical: 4),
+
       child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: CachedNetworkImage(
@@ -787,6 +882,7 @@ class _homepageState extends State<homepage> {
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) =>
                 const Icon(Icons.image_not_supported_rounded),
+            height: 50,
           )),
     ));
   }
