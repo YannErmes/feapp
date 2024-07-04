@@ -292,19 +292,19 @@ class Description extends StatelessWidget {
                                   child: Transform.rotate(
                                     angle: 6,
                                     child: Center(
-                                      child: descimage(image2),
+                                      child: descimage(image2,context),
                                     ),
                                   ),
                                 ),
                                 SizedBox(
                                   height: 280,
                                   width: 260,
-                                  child: descimage(image1),
+                                  child: descimage(image1 ,context),
                                 ),
                                 SizedBox(
                                   height: 280,
                                   width: 260,
-                                  child: descimage(image3),
+                                  child: descimage(image3 , context),
                                 ),
                               ],
                             ),
@@ -327,14 +327,32 @@ class Description extends StatelessWidget {
 
 
 }
-descimage (String image){
-  return  CachedNetworkImage(
-    imageUrl: image,
-    fit: BoxFit.cover,
-    placeholder: (context, url) => const CircularProgressIndicator(),
-    errorWidget: (context, url, error) => const Icon(Icons.error),
+Widget descimage(String image, BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+
+            content: CachedNetworkImage(imageUrl: image,),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Ferme le dialog
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+    child: CachedNetworkImage(
+      imageUrl: image,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => CircularProgressIndicator(),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+    ),
   );
-
-
-
 }

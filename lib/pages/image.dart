@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +25,12 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   String? imageName;
   String? imageData;
 bool anime = false ;
+bool repeat = true ;
+  final rep = Hive.box('mybox3');
+
+
+
+
   final ImagePicker imagePicker = ImagePicker();
   TextEditingController captionController = TextEditingController();
 
@@ -91,7 +99,6 @@ bool anime = false ;
       print('Erreur lors de la sélection de l\'image : $e');
     }
   }
-
   Future<void> animateforme() async {
     await Future.delayed(const Duration(seconds: 1), () {
       print('ok');
@@ -101,11 +108,28 @@ bool anime = false ;
     });
   }
 
+  check_rep(){
+    var t = rep.get(22);
+    if( t =='null'){
+print ('ok');
+print(t);
+    }else{
+      print('non');
+      print(t);
+      rep.put(22, false);
+
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     animateforme() ;
+    check_rep();
+
+
+
   }
 
 
@@ -143,19 +167,21 @@ bool anime = false ;
                   color: Colors.green,
                 ))
 
-
                 : IconButton(
                 onPressed: getImage, icon: const Icon(Icons.image_search_outlined , color: Colors.white,)),
 
 
             suffixIcon: AvatarGlow(
+              repeat: rep.get(22) ?? true ,
               curve: Easing.legacy,
               glowCount: 4,
               glowColor: Colors.white,
 
               child: IconButton(
-                icon: const Icon(CupertinoIcons.question_circle , color: Colors.white,),
+                icon:  Icon(CupertinoIcons.question_circle , color: Colors.white,),
                 onPressed: () {
+               rep.put(22, false);
+
                   Get.snackbar('', "Retrouvez n'importe quel modèle de votre désir "
                       "en envoyant simplement une photo de votre galerie. Notre équipe "
                       "d'experts se charge de le retrouver avec tous les détails possibles."  , duration: const Duration(seconds: 10) );

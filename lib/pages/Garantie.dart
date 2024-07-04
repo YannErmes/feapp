@@ -36,7 +36,7 @@ class _GarantieState extends State<Garantie> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         margin: EdgeInsets.symmetric(horizontal: 12),
-                        height: 600,
+
                         width: 400,
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
@@ -53,15 +53,15 @@ class _GarantieState extends State<Garantie> {
 
                               ),
                             ),
-                            txt('Pour tout article avec prix de livraison  \n '
-                                'la livraison devient gratuite en cas de non \n respect des livreurs du delais (jours)\n '
+                            txt('Pour tout article avec prix de livraison  '
+                                'la livraison devient gratuite en cas de non respect des livreurs du delais (jours)\n '
                                 'de livraison convenue.'),
-                            txt('Pour tout article  livraison  gratuite , \n '
-                                'bénéficier d\'une remise de 5% \n en cas de non respect du\n delais (jours)\n '
+                            txt('Pour tout article  livraison  gratuite , '
+                                'bénéficier d\'une remise de 5% en cas de non respect du\n delais (jours)\n '
                                 'de livraison convenue.'),
-                            txt('Remise systématique de 5% \n et cas non comformité de l\'article.'),
-                            txt('Si vous changé d\'avis beneficié d\'une \n possibilité de rechange de l\'article 2\n fois sur une '
-                                ' periode de 7 jours si \n l\'article est toujours intacte.')
+                            txt('Remise systématique de 5%  et cas non comformité de l\'article.'),
+                            txt('Si vous changé d\'avis beneficié d\'une  possibilité de rechange de l\'article 2 fois sur une '
+                                ' periode de 7 jours si  l\'article est toujours intacte.')
                           ],
                         ),
                       ),
@@ -86,7 +86,7 @@ class _GarantieState extends State<Garantie> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(Icons.offline_pin_rounded ,color: Colors.green,),
-        Text(text, style: TextStyle(fontSize: 16 ,fontWeight: FontWeight.bold),),
+        Expanded(child: Text(text, style: TextStyle(fontSize: 16 ,fontWeight: FontWeight.bold),)),
       ],
     );
   }

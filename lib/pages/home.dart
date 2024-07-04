@@ -38,6 +38,10 @@ class _homepageState extends State<homepage> {
   bool mode = false;
   bool chargement = false;
   bool anime = false;
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  bool animebrand = true;
+  bool repeat = true;
+  final rep = Hive.box('mybox3');
 
   int i = 0;
 
@@ -81,8 +85,7 @@ class _homepageState extends State<homepage> {
     }
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
-  bool animebrand = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,12 +153,18 @@ class _homepageState extends State<homepage> {
                     onTap: () {
                       setState(() {
                         animebrand=! animebrand;
+                        rep.put(10, false);
+
                       });
                     },
                     child: AvatarGlow(
+
+                      startDelay: Duration(seconds: 3),
+                      repeat: rep.get(10) ?? true,
                       glowColor: Colors.white,
                       glowCount: 5,
                       curve: Curves.fastOutSlowIn,
+
 
 
 
@@ -227,6 +236,7 @@ class _homepageState extends State<homepage> {
                       onTap: () {
                         setState(() {
                           animebrand=! animebrand;
+                          repeat = false ;
                         });
                       },
                       child:Icon(Icons.cancel,color: Colors.black, size: 30,),
@@ -239,123 +249,126 @@ class _homepageState extends State<homepage> {
 
       // drawer
       drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                margin: const EdgeInsets.all(50),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
-                      height: 100,
-                      placeholder: (context, url) =>
-                          const LinearProgressIndicator(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.image_not_supported_rounded),
-                    )),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.all(50),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(200),
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
+                        height: 100,
+                        placeholder: (context, url) =>
+                            const LinearProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.image_not_supported_rounded),
+                      )),
+                ),
               ),
-            ),
-            Container(
-              color: Colors.black87,
-              height: 1,
-              width: 300,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton.icon(
+              Container(
+                color: Colors.black87,
+                height: 1,
+                width: 300,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const homepage(
+                            usernom: 'fé',
+                            useremail: '',
+                            t: 1,
+                          ),
+                        ));
+                  },
+                  label: const Text('Acueille'),
+                  icon: const Icon(CupertinoIcons.home)),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const homepage(
-                          usernom: 'fé',
-                          useremail: '',
-                          t: 1,
+                        builder: (context) => cardpage(
+                          useremail: '${widget.useremail}',
                         ),
                       ));
                 },
-                label: const Text('Acueille'),
-                icon: const Icon(CupertinoIcons.home)),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => cardpage(
-                        useremail: '${widget.useremail}',
-                      ),
-                    ));
-              },
-              label: const Text('Panier'),
-              icon: const Icon(Icons.shopping_cart_checkout),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          Commentaire(nom: '${widget.usernom}'),
-                    ));
-              },
-              label: const Text('Fait comme chez toi et laisse ton Avis'),
-              icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          Compte(nomuser: '${widget.usernom}'),
-                    ));
-              },
-              label: const Text('Information'),
-              icon: const Icon(Icons.info_outline_rounded),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ));
-              },
-              label: const Text('Se connecté'),
-              icon: const Icon(Icons.login),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Garantie(),
-                    ));
-              },
-              label: const Text('Garantie sur les articles'),
-              icon: const Icon(Icons.offline_pin_outlined),
-            ),
-          ],
+                label: const Text('Panier'),
+                icon: const Icon(Icons.shopping_cart_checkout),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Commentaire(nom: '${widget.usernom}'),
+                      ));
+                },
+                label: const Text('Fait comme chez toi et laisse ton Avis'),
+                icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Compte(nomuser: '${widget.usernom}'),
+                      ));
+                },
+                label: const Text('Information'),
+                icon: const Icon(Icons.info_outline_rounded),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ));
+                },
+                label: const Text('Se connecté'),
+                icon: const Icon(Icons.login),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Garantie(),
+                      ));
+                },
+                label: const Text('Garantie sur les articles'),
+                icon: const Icon(Icons.offline_pin_outlined),
+              ),
+            ],
+          ),
         ),
       ),
       //                                                                  appbar
@@ -379,7 +392,7 @@ class _homepageState extends State<homepage> {
                   padding: EdgeInsets.all(8),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.brown.shade300,
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30))),
@@ -402,6 +415,7 @@ class _homepageState extends State<homepage> {
                             child: Icon(
                               Icons.menu,
                               size: 25,
+                              color: Colors.white,
                             ),
                             onTap: () {
                               _scaffoldkey.currentState?.openDrawer();
