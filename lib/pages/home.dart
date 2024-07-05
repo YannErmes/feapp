@@ -54,6 +54,7 @@ class _homepageState extends State<homepage> {
     super.initState();
     timerequest();
     // _fetchproduit("Get.php", "produit");
+
   }
 
   Future<void> charge() async {
@@ -86,9 +87,11 @@ class _homepageState extends State<homepage> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       key: _scaffoldkey,
       extendBodyBehindAppBar: true,
       endDrawerEnableOpenDragGesture: true,
@@ -154,7 +157,6 @@ class _homepageState extends State<homepage> {
                       setState(() {
                         animebrand=! animebrand;
                         rep.put(10, false);
-
                       });
                     },
                     child: AvatarGlow(
@@ -412,13 +414,18 @@ class _homepageState extends State<homepage> {
                             ),
                           ),
                           GestureDetector(
-                            child: Icon(
-                              Icons.menu,
-                              size: 25,
-                              color: Colors.white,
+                            child: AvatarGlow(
+                              repeat: rep.get(43) ?? true,
+
+                              child: Icon(
+                                Icons.menu,
+                                size: 25,
+                                color: Colors.white,
+                              ),
                             ),
                             onTap: () {
                               _scaffoldkey.currentState?.openDrawer();
+                              rep.put(43, false);
                             },
                           ),
                         ],
@@ -652,7 +659,7 @@ class _homepageState extends State<homepage> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              mode = !mode;
+                              mode =!mode;
                             });
                           },
                           icon: mode
@@ -776,6 +783,15 @@ class _homepageState extends State<homepage> {
   Widget print_prod(bool mode, String userpass) {
     var y = _produit.length;
     var size = MediaQuery.of(context).size.width;
+    if(size>500 || mode){
+      setState(() {
+        mode = true;
+      });
+    }else{
+      setState(() {
+        mode = false;
+      });
+    }
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 19),

@@ -108,27 +108,13 @@ bool repeat = true ;
     });
   }
 
-  check_rep(){
-    var t = rep.get(22);
-    if( t =='null'){
-print ('ok');
-print(t);
-    }else{
-      print('non');
-      print(t);
-      rep.put(22, false);
 
-    }
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     animateforme() ;
-    check_rep();
-
-
 
   }
 
@@ -172,7 +158,7 @@ print(t);
 
 
             suffixIcon: AvatarGlow(
-              repeat: rep.get(22) ?? true ,
+              repeat: rep.get(15) ?? true ,
               curve: Easing.legacy,
               glowCount: 4,
               glowColor: Colors.white,
@@ -180,11 +166,14 @@ print(t);
               child: IconButton(
                 icon:  Icon(CupertinoIcons.question_circle , color: Colors.white,),
                 onPressed: () {
-               rep.put(22, false);
+                  setState(() {
+                    rep.put(15, false);
+                  });
 
-                  Get.snackbar('', "Retrouvez n'importe quel modèle de votre désir "
-                      "en envoyant simplement une photo de votre galerie. Notre équipe "
-                      "d'experts se charge de le retrouver avec tous les détails possibles."  , duration: const Duration(seconds: 10) );
+
+                  Get.snackbar('Cc', "Retrouvez n'importe lequel des modèle de voos désir "
+                      "en envoyant simplement une photo de votre galerie et en ajoutant un numero ou une indication dans la barre. Notre équipe "
+                      "d'experts se charge de le retrouver avec tous les détails possibles et de vous contactez directement pour vous faire gagné du temps."  , duration: const Duration(seconds: 10) );
                 },
               ),
             ),
