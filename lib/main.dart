@@ -26,22 +26,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-
-
       theme: ThemeData.light(),
-
       themeMode: ThemeMode.system,
 
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(
-        backgroundColor: Colors.black38,
-          body:
-
-          MyCustomWidget(),
-           ),
+      home:  Scaffold(
+    backgroundColor: Colors.black38,
+    body:
+    MyCustomWidget(),
+    ),
     );
   }
 }

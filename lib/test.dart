@@ -15,6 +15,17 @@ class MyCustomWidget extends StatefulWidget {
 }
 
 class _MyCustomWidgetState extends State<MyCustomWidget> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     start();
+  }
+  Future<void> start ()async{
+    Future.delayed(Duration(seconds: 3),() => Navigator.push(context, MaterialPageRoute(builder: (context) => SecondClass(),)),);
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +47,8 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
               pause: Duration(hours: 1),
 
               animatedTexts: [
-                TypewriterAnimatedText('fé présnte Sneakres store 3.0 ,Clikquez sur l\'image et accrohez vous bien...',
-                speed: Duration(milliseconds: 100)),
+                TypewriterAnimatedText('fé présnte Sneakres store 3.0 , accrohez vous bien...',
+                speed: Duration(milliseconds: 50)),
               ],
               onTap: () {
                 print("Tap Event");

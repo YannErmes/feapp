@@ -44,7 +44,7 @@ class _RcommentaireState extends State<Rcommentaire> {
     } catch (e) {
       // Gérer les erreurs ici
       print(e.toString());
-      Fluttertoast.showToast(msg: "Erreurrrrrrrrrr: $e");
+      Fluttertoast.showToast(msg: "Erreur: Veiller reessayé plus tard");
     }
   }
 
@@ -88,7 +88,7 @@ class _RcommentaireState extends State<Rcommentaire> {
                         borderRadius: BorderRadius.circular(15)
 
                     ),
-                    child:Expanded(child: Text('${cmt['commentaire']}')),
+                    child:Text('${cmt['commentaire']}'),
                   ),
                   SizedBox(
 
