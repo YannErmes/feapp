@@ -66,7 +66,7 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
               closedElevation: 20,
               closedShape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
-              transitionDuration: const Duration(milliseconds: 700),
+              transitionDuration: const Duration(milliseconds: 2),
               openBuilder: (_, closeContainer) {
                 return const SecondClass();
               },

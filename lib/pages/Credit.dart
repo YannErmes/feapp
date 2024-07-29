@@ -147,7 +147,7 @@ class _CreditState extends State<Credit> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            hintText: "Addresses d'expedition",
+                            hintText: "Addresse d'expedition",
                             suffixIcon:
                             const Icon(Icons.location_on_sharp),
                           ),
@@ -204,7 +204,7 @@ class _CreditState extends State<Credit> {
                                     ],
                                   ));
                             },
-                            label: const Text('Commandre'),
+                            label: const Text('Commandé'),
                             icon: const Icon(
                               Icons.security_sharp,
                               color: Colors.green,
@@ -214,7 +214,7 @@ class _CreditState extends State<Credit> {
                   ),
                   const SizedBox(
                     height: 20,
-                    child: Text('Conactez nous'),
+                    child: Text('Conactez-nous'),
                   ),
                   Container(
                     padding: const EdgeInsets.all(10),
