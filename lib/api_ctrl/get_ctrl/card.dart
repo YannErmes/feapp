@@ -44,7 +44,7 @@ class _ListCardState extends State<ListCard> {
   Future<void> _fetchcards() async {
     try {
       var response = await http.post(
-        Uri.parse('https://nanisneakers.000webhostapp.com/Get_card.php'),
+        Uri.parse('https://www.fe-store.pro/Get_card.php'),
         body: {"nom": 'card', "userpass": widget.userpass},
       );
 
@@ -80,7 +80,7 @@ class _ListCardState extends State<ListCard> {
   Future<void> _delCard(String eid, String userpass) async {
     try {
       var response = await http.post(
-        Uri.parse('https://nanisneakers.000webhostapp.com/delet_card.php'),
+        Uri.parse('https://www.fe-store.pro/delet_card.php'),
         body: {
           "userpass": userpass,
           "eid": eid,

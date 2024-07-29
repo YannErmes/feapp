@@ -38,19 +38,12 @@ class Produits extends StatelessWidget {
 
      child: Column(
           children: [
-            Container(
-              // images de produit
-
-
-                child: ClipRRect(
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15))
-                    , child: CachedNetworkImage(
-                    imageUrl: image,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
-                  ))),
+            CachedNetworkImage(
+            imageUrl: image,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
+                              ),
 
             //prix et nom ......
             Expanded(

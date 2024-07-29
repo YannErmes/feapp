@@ -9,8 +9,8 @@ import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final Uri _url = Uri.parse(
-    'https://web.facebook.com/profile.php?id=100080292073620&sk=about');
-final Uri _url2 = Uri.parse('https://wa.me/212694858938');
+    'https://web.facebook.com/fesneakers?_rdc=1&_rdr');
+final Uri _url2 = Uri.parse('https://wa.me/22955950259');
 
 class Credit extends StatefulWidget {
   final String image;
@@ -51,6 +51,7 @@ class _CreditState extends State<Credit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Validé ma commande'),
 
       ),
       backgroundColor: const Color(0xFFE5D6C8),
@@ -146,7 +147,7 @@ class _CreditState extends State<Credit> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            hintText: "Address d'expedition",
+                            hintText: "Addresses d'expedition",
                             suffixIcon:
                             const Icon(Icons.location_on_sharp),
                           ),
@@ -285,7 +286,7 @@ class _CreditState extends State<Credit> {
     Get.back();
     try {
       var res = await http.post(
-          Uri.parse('https://nanisneakers.000webhostapp.com/commandes.php'),
+          Uri.parse('https://www.fe-store.pro/commande.php'),
           body: {
             "nom": nom_ctrl.text,
             "numero": numero_ctrl.text,

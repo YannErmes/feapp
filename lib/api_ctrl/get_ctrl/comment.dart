@@ -27,7 +27,7 @@ class _RcommentaireState extends State<Rcommentaire> {
 
     try {
       var response = await http
-          .post(Uri.parse('http://nanisneakers.000webhostapp.com/Get.php'),
+          .post(Uri.parse('https://www.fe-store.pro/Get.php'),
           body: {
             "nom": 'commentaire',
           });
@@ -65,8 +65,6 @@ class _RcommentaireState extends State<Rcommentaire> {
             final cmt = _products[index];
             return Container(
               margin: const EdgeInsets.all(10),
-
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -83,9 +81,14 @@ class _RcommentaireState extends State<Rcommentaire> {
                     height: 180,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.black12,
                         border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(15)
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomRight: Radius.circular(15)
+                          
+                        )
 
                     ),
                     child:Text('${cmt['commentaire']}'),

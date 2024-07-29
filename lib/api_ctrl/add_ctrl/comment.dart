@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
 Add_comment(String nom, String commentaire) async {
-  Fluttertoast.showToast(msg: "Félicitations");
+
   DateTime date = DateTime.now();
   try {
     var res = await http.post(
-        Uri.parse('https://nanisneakers.000webhostapp.com/add_comment.php'),
+        Uri.parse('https://www.fe-store.pro/add_comment.php'),
         body: {
           "nom": nom,
           "commentaire": commentaire,

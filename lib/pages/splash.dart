@@ -1,179 +1,252 @@
-import 'dart:math';
+import 'dart:async';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/pages/home.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter/services.dart';
 
-class Splashscreen extends StatefulWidget {
-  const Splashscreen({super.key});
+class MyCustomWidget extends StatefulWidget {
+  const MyCustomWidget({super.key});
 
   @override
-  State<Splashscreen> createState() => _SplashscreenState();
+  _MyCustomWidgetState createState() => _MyCustomWidgetState();
 }
 
-class _SplashscreenState extends State<Splashscreen> {
-  bool start = false ;
+class _MyCustomWidgetState extends State<MyCustomWidget> {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      yann();
-    });
+    start();
+  }
+  Future<void> start ()async{
+    Future.delayed(Duration(seconds: 5),() => Navigator.push(context, MaterialPageRoute(builder: (context) => SecondClass(),)),);
 
   }
-
-  Future<void> yann() async {
-    await Future.delayed(
-        const Duration(seconds: 4),
-      () {
-          print ('ok');
-          setState(() {
-            start = !start;
-          });
-
-          Navigator.push(context, MaterialPageRoute(builder: (context) {return
-           homepage(t: 1,usernom: '',);
-          },));
-
-
-      }
-
-
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Stack(alignment: AlignmentDirectional.topEnd, children: [
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SizedBox(
-                  height: 300,
-                  child: Center(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
 
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          OblicImage(
-                              'https://i.postimg.cc/HnNMDgny/b072b67e5756473d8de9f5a72d81a6af.jpg'),
-                          OblicImage(
-                              'https://i.postimg.cc/Jh8kWKrP/adc31364b898e3c30897b946ac5c175f.jpg'),
-                          OblicImage(
-                              'https://i.postimg.cc/YSthP9RP/3373879e3c932e3e7a8442bba7ee83eb.jpg'),
-                          OblicImage(
-                              'https://i.pinimg.com/564x/47/06/dd/4706dd9f077b207aca6942d54171463b.jpg'),
-                          OblicImage(
-                              'https://i.postimg.cc/R0CwHGkq/pexels-photo-2048547.jpg'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 250.0,
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  fontFamily: 'Nike',
+                ),
+                child: AnimatedTextKit(
+                  repeatForever: false,
+                  pause: Duration(hours: 1),
 
-                        ],
-                      ),
-                    ),
-                  ),
+                  animatedTexts: [
+                    TypewriterAnimatedText('fé présnte Sneakres store 3.0 , accrohez vous bien...',
+                        speed: Duration(milliseconds: 50)),
+                  ],
+                  onTap: () {
+                    print("Tap Event");
+                  },
                 ),
               ),
             ),
-
-
-            // container 2 de la stack
-            Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                    Colors.black,
-                    Colors.black,
-                    Colors.black54,
-                    Colors.black38,
-                  ])),
-              alignment: AlignmentDirectional.bottomEnd,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-
-
-
-
-
-
-
-
-
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 320,
-                        child: Row(children: [
-                          Expanded(
-                              child: Image.network(
-                                  "https://i.postimg.cc/jdcRqPPx/fe2.png"))
-                        ]),
-                      ),
-                      Container(
-
-
-                        height: 350,
-                        child:  CachedNetworkImage(
-                          imageUrl: 'https://i.postimg.cc/wMMQxkWt/Untitled-image-21.png',
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => CircularProgressIndicator(color: Colors.yellow,),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                        ),
-                      ),
-
-
-                    ],
-                  ),
-
-
-
-
-
-//                   SizedBox(
-//                       height:250,
-//                       width: 200,
-//                       child: LottieBuilder.network(
-// 'https://lottie.host/14fb6e56-772e-4375-97ab-01f683dafbc3/2FXsw70cg8.json'                        ,fit: BoxFit.cover,)),
-                  //https://lottie.host/ce695df7-40a6-4052-a545-a4b23b53dc7e/2W9Gg9cENN.json
-                ],
-              ),
+            OpenContainer(
+              closedBuilder: (_, openContainer) {
+                return Center(
+                  child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/yxL9TVTY/Untitled-image-19.png' ,fit: BoxFit.cover,),
+                );
+              },
+              openColor: Colors.white,
+              closedElevation: 20,
+              closedShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              transitionDuration: const Duration(milliseconds: 700),
+              openBuilder: (_, closeContainer) {
+                return const SecondClass();
+              },
             ),
-          ]),
+          ],
         ),
       ),
     );
   }
 }
 
-OblicImage(
-  String image,
-) {
-  return Transform.rotate(
-    angle: 1.96 * pi,
-    child: Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(10),
-      height: 300,
-      width: 110,
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: CachedNetworkImage(
-            imageUrl: image,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const LinearProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          )
+class SecondClass extends StatefulWidget {
+  const SecondClass({super.key});
 
+  @override
+  _SecondClassState createState() => _SecondClassState();
+}
 
+class _SecondClassState extends State<SecondClass>
+    with TickerProviderStateMixin {
+  late AnimationController scaleController;
+  late Animation<double> scaleAnimation;
+
+  double _opacity = 0;
+  bool _value = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    )..addStatusListener(
+          (status) {
+        if (status == AnimationStatus.completed) {
+          Navigator.of(context).pushReplacement(
+            ThisIsFadeRoute(
+              route: const ThirdPage(),
+            ),
+          );
+          Timer(
+            const Duration(milliseconds: 300),
+                () {
+              scaleController.reset();
+            },
+          );
+        }
+      },
+    );
+
+    scaleAnimation =
+        Tween<double>(begin: 0.0, end: 12).animate(scaleController);
+
+    Timer(const Duration(milliseconds: 600), () {
+      setState(() {
+        _opacity = 1.0;
+        _value = false;
+      });
+    });
+    Timer(const Duration(milliseconds: 2000), () {
+      setState(() {
+        scaleController.forward();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    scaleController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 80),
+                child: Text(
+                  "C'est partie",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Center(
+            child: AnimatedOpacity(
+              curve: Curves.fastLinearToSlowEaseIn,
+              duration: const Duration(seconds: 6),
+              opacity: _opacity,
+              child: AnimatedContainer(
+                curve: Curves.fastLinearToSlowEaseIn,
+                duration: const Duration(seconds: 2),
+                height: _value ? 50 : 200,
+                width: _value ? 50 : 200,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.deepPurpleAccent.withOpacity(.2),
+                      blurRadius: 100,
+                      spreadRadius: 10,
+                    ),
+                  ],
+                  color: Colors.deepPurpleAccent,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(
+                        color: Colors.purple, shape: BoxShape.circle),
+                    child: AnimatedBuilder(
+                      animation: scaleAnimation,
+                      builder: (c, child) => Transform.scale(
+                        scale: scaleAnimation.value,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.deepPurpleAccent,
+                          ),
+
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-    ),
+    );
+  }
+}
+
+class ThisIsFadeRoute extends PageRouteBuilder {
+  final Widget? page;
+  final Widget route;
+
+  ThisIsFadeRoute({this.page, required this.route})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page!,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        homepage(t: 1, usernom: '',),
   );
+}
+
+class ThirdPage extends StatelessWidget {
+  const ThirdPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Go Back'),
+        centerTitle: true,
+        backgroundColor: Colors.deepPurpleAccent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+      ),
+    );
+  }
 }

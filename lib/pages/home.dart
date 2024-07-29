@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:ui';
+import 'package:animations/animations.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/produit.dart';
@@ -11,6 +13,7 @@ import 'package:fesneakers/pages/comment.dart';
 import 'package:fesneakers/pages/description.dart';
 import 'package:fesneakers/pages/image.dart';
 import 'package:fesneakers/pages/login.dart';
+import 'package:fesneakers/pages/politic_page.dart';
 import 'package:fesneakers/pages/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -20,6 +23,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../oussama/fliter_brand.dart';
 
@@ -42,11 +46,9 @@ class _homepageState extends State<homepage> {
   bool animebrand = true;
   bool repeat = true;
   final rep = Hive.box('mybox3');
-
+  final id = Hive.box('mybox');
   int i = 0;
-
   //Categorie cat_ctrl = Get.put(Categorie());
-
   @override
   void initState() {
     // TODO: implement initState
@@ -54,17 +56,11 @@ class _homepageState extends State<homepage> {
     super.initState();
     timerequest();
     // _fetchproduit("Get.php", "produit");
-
+    
   }
+  
 
-  Future<void> charge() async {
-    await Future.delayed(const Duration(seconds: 3), () {
-      print('ok');
-      setState(() {
-        chargement = !chargement;
-      });
-    });
-  }
+
 
   Future<void> animateforme(bool form) async {
     await Future.delayed(const Duration(seconds: 1), () {
@@ -78,11 +74,19 @@ class _homepageState extends State<homepage> {
   timerequest() {
     i = widget.t;
     if (i == 1) {
-      charge();
+
       _fetchproduit("Get.php", "produit");
       _fetchcategorie();
     } else {
       return;
+    }
+  }
+  void _launchURL() async {
+    const url = 'https://fe-store-politique-de-confidentialite.netlify.app/'; // Remplacez par l'URL de votre politique de confidentialité
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Impossible d\'ouvrir l\'URL $url';
     }
   }
 
@@ -91,285 +95,442 @@ class _homepageState extends State<homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
 
       key: _scaffoldkey,
       extendBodyBehindAppBar: true,
       endDrawerEnableOpenDragGesture: true,
       //backgroundColor: const Color(0xFFB0ADB0),
       backgroundColor: const Color(0xFFE5D6C8),
-
       // filter brand
+      floatingActionButton: SizedBox(
 
-      floatingActionButton: AnimatedContainer(
-        height: animebrand ? 50 : 300,
-        duration: Duration(seconds: 2),
-        curve: Curves.decelerate,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: BackdropFilter(
+            filter: ImageFilter.blur( sigmaX: 15, sigmaY: 15),
+            child: AnimatedContainer(
 
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: animebrand
-            ? Stack(
+              decoration: BoxDecoration(
+
+                borderRadius: BorderRadius.circular(30),
+
+              ),
+              height: animebrand ? 50 : 300,
+              duration: Duration(seconds: 2),
+              curve: Curves.decelerate,
+
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: animebrand
+                  ? Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                  imageUrl:
+                                      'https://firebasestorage.googleapis.com/v0/b/febase'
+                                          '-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownloa'
+                                          'd%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc',height: 50,)),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl: 'https://firebasestorage.'
+                                    'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
+                                    'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
+                                height: 50,
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl: 'https://firebasestorage.'
+                                    'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
+                                    'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
+                                height: 50,
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl: 'https://firebasestorage.'
+                                    'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
+                                    'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
+                                height: 50,
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              animebrand=! animebrand;
+                              rep.put(10, false);
+                            });
+                          },
+                          child: AvatarGlow(
+
+                            startDelay: Duration(seconds: 4),
+                            repeat: rep.get(10) ?? true,
+                            glowColor: Colors.white,
+                            glowCount: 5,
+                            curve: Curves.fastOutSlowIn,
+
+
+
+
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: CachedNetworkImage(
+                                  imageUrl: 'https://firebasestorage.googleapis.com/v0/b/'
+                                      'febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdow'
+                                      'nload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc',height: 50,
+                                )),
+                          ),
+                        ),
+                      ],
+                    )
+                  : SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                    child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              _fetchproduit(
+                                  "marque.php", 'nike');
+                            },
+                            child: brand(
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _fetchproduit(
+                                  "marque.php", 'nb');
+                            },
+                            child: brand(
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBotas%20de%20f%C3%BAtbol%20New%20Balance.jfif?alt=media&token=ffee4096-a824-4723-ba94-8c3153face5c'),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _fetchproduit(
+                                  "marque.php", 'addidas');
+                            },
+                            child: brand(
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fadidas.jfif?alt=media&token=89f99b82-b1df-418e-bbb0-304efe1a02c0'),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _fetchproduit(
+                                  "marque.php", 'jordan');
+                            },
+                            child: brand(
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FAir%20Jordan%20Logo%20PNG%20Transparent%20%26%20SVG%20Vector%20-%20Freebie%20Supply.jfif?alt=media&token=fcd49bfe-fc5a-4348-b19f-3a64b2226392'),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _fetchproduit(
+                                  "marque.php", 'balanciaga');
+                            },
+                            child: brand(
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBalenciaga%20SVG%20%26%20PNG%20Download.jfif?alt=media&token=128a5069-4fa7-40f6-9069-6c53b03b3ffa'),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _fetchproduit(
+                                  "marque.php", 'puma');
+                            },
+                            child: brand(
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc'),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                animebrand=! animebrand;
+                                repeat = false ;
+                              });
+                            },
+                            child:Icon(Icons.cancel,color: Colors.black, size: 30,),
+                          ),
+                        ],
+                      ),
+                  ),
+            ),
+          ),
+        ),
+      ),
+      
+      // drawer
+      drawer: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: ClipRRect(
+          child: Drawer(
+            backgroundColor: Colors.white70,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                            imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/febase'
-                                    '-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownloa'
-                                    'd%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc',height: 50,)),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                          imageUrl: 'https://firebasestorage.'
-                              'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
-                              'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
-                          height: 50,
-                        )),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                          imageUrl: 'https://firebasestorage.'
-                              'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
-                              'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
-                          height: 50,
-                        )),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                          imageUrl: 'https://firebasestorage.'
-                              'googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2'
-                              'Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',
-                          height: 50,
-                        )),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        animebrand=! animebrand;
-                        rep.put(10, false);
-                      });
-                    },
-                    child: AvatarGlow(
-
-                      startDelay: Duration(seconds: 4),
-                      repeat: rep.get(10) ?? true,
-                      glowColor: Colors.white,
-                      glowCount: 5,
-                      curve: Curves.fastOutSlowIn,
-
-
-
-
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.all(50),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(200),
                           child: CachedNetworkImage(
-                            imageUrl: 'https://firebasestorage.googleapis.com/v0/b/'
-                                'febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdow'
-                                'nload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc',height: 50,
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
+                            height: 100,
+                            placeholder: (context, url) =>
+                                const LinearProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.image_not_supported_rounded),
                           )),
                     ),
                   ),
-                ],
-              )
-            : SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-              child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        _fetchproduit(
-                            "marque.php", 'nike');
+                  Container(
+                    color: Colors.black87,
+                    height: 1,
+                    width: 300,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,PageRouteBuilder(pageBuilder:
+                            (context, animation, anotheranimation) => const homepage(
+                              usernom: 'fé',
+                              useremail: '',
+                              t: 1,
+                            ),
+                            transitionDuration: Duration(seconds: 1),
+                            reverseTransitionDuration: Duration(seconds:1),
+                            transitionsBuilder: (context, animation , anotheranimation , child){
+                              animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                  reverseCurve: Curves.fastOutSlowIn);
+                              return Align(
+                                alignment: Alignment.bottomCenter,
+                                child: SizeTransition(
+                                  sizeFactor: animation,
+                                  axisAlignment: 0,
+                                  child:  const homepage(
+                                    usernom: 'fé',
+                                    useremail: '',
+                                    t: 1,
+                                  ),
+                                ),
+
+                              );
+                            }
+
+                        ) ,
+                        );
+
                       },
-                      child: brand(
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FNike%20decide%20deixar%20de%20vender%20seus%20produtos%20na%20Amazon.jfif?alt=media&token=2817c49a-4664-4716-8e95-bf87a47fcd30',),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _fetchproduit(
-                            "marque.php", 'nb');
-                      },
-                      child: brand(
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBotas%20de%20f%C3%BAtbol%20New%20Balance.jfif?alt=media&token=ffee4096-a824-4723-ba94-8c3153face5c'),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _fetchproduit(
-                            "marque.php", 'addidas');
-                      },
-                      child: brand(
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fadidas.jfif?alt=media&token=89f99b82-b1df-418e-bbb0-304efe1a02c0'),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _fetchproduit(
-                            "marque.php", 'jordan');
-                      },
-                      child: brand(
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FAir%20Jordan%20Logo%20PNG%20Transparent%20%26%20SVG%20Vector%20-%20Freebie%20Supply.jfif?alt=media&token=fcd49bfe-fc5a-4348-b19f-3a64b2226392'),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _fetchproduit(
-                            "marque.php", 'balanciaga');
-                      },
-                      child: brand(
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBalenciaga%20SVG%20%26%20PNG%20Download.jfif?alt=media&token=128a5069-4fa7-40f6-9069-6c53b03b3ffa'),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _fetchproduit(
-                            "marque.php", 'puma');
-                      },
-                      child: brand(
-                          'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fdownload%20(3).jfif?alt=media&token=4b7fc20d-8bc4-48ac-8080-82d27338ebbc'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          animebrand=! animebrand;
-                          repeat = false ;
-                        });
-                      },
-                      child:Icon(Icons.cancel,color: Colors.black, size: 30,),
-                    ),
-                  ],
-                ),
-            ),
-      ),
+                      label: const Text('Acueille'),
+                      icon: const Icon(CupertinoIcons.home)),
+                  const SizedBox(
+                    height: 15,
+                  ),
 
 
-      // drawer
-      drawer: Drawer(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.all(50),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(200),
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
-                        height: 100,
-                        placeholder: (context, url) =>
-                            const LinearProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.image_not_supported_rounded),
-                      )),
-                ),
-              ),
-              Container(
-                color: Colors.black87,
-                height: 1,
-                width: 300,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const homepage(
-                            usernom: 'fé',
-                            useremail: '',
-                            t: 1,
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,PageRouteBuilder(pageBuilder:
+                          (context, animation, anotheranimation) =>  cardpage(
+                            useremail: '${id.get(3)}',
                           ),
-                        ));
-                  },
-                  label: const Text('Acueille'),
-                  icon: const Icon(CupertinoIcons.home)),
-              const SizedBox(
-                height: 15,
+                          transitionDuration: Duration(seconds: 1),
+                          reverseTransitionDuration: Duration(seconds:1),
+                          transitionsBuilder: (context, animation , anotheranimation , child){
+                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                reverseCurve: Curves.fastOutSlowIn);
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0,
+                                child:  cardpage(
+                                  useremail: '${id.get(3)}',
+                                ),
+                              ),
+
+                            );
+                          }
+
+                      ) ,
+                      );
+
+                    },
+                    label: const Text('Panier'),
+                    icon: const Icon(Icons.shopping_cart_checkout),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,PageRouteBuilder(pageBuilder:
+                          (context, animation, anotheranimation) =>   Commentaire(nom: '${id.get(1)}'),
+                          transitionDuration: Duration(seconds: 1),
+                          reverseTransitionDuration: Duration(seconds:1),
+                          transitionsBuilder: (context, animation , anotheranimation , child){
+                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                reverseCurve: Curves.fastOutSlowIn);
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0,
+                                child:  Commentaire(nom: '${id.get(1)}'),
+                              ),
+
+                            );
+                          }
+
+                      ) ,
+                      );
+                    },
+                    label: const Text('Fait comme chez toi et laisse ton Avis'),
+                    icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,PageRouteBuilder(pageBuilder:
+                          (context, animation, anotheranimation) =>    Compte(nomuser: '${widget.usernom}'),
+                          transitionDuration: Duration(seconds: 1),
+                          reverseTransitionDuration: Duration(seconds:1),
+                          transitionsBuilder: (context, animation , anotheranimation , child){
+                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                reverseCurve: Curves.fastOutSlowIn);
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0,
+                                child:   Compte(nomuser: '${widget.usernom}'),
+                              ),
+
+                            );
+                          }
+
+                      ) ,
+                      );
+
+                    },
+                    label: const Text('Information'),
+                    icon: const Icon(Icons.info_outline_rounded),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,PageRouteBuilder(pageBuilder:
+                          (context, animation, anotheranimation) =>  LoginPage(),
+                          transitionDuration: Duration(seconds: 1),
+                          reverseTransitionDuration: Duration(seconds:1),
+                          transitionsBuilder: (context, animation , anotheranimation , child){
+                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                reverseCurve: Curves.fastOutSlowIn);
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0,
+                                child:  LoginPage(),
+                              ),
+
+                            );
+                          }
+
+                      ) ,
+                      );
+
+                    },
+                    label: const Text('Se connecté'),
+                    icon: const Icon(Icons.login),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,PageRouteBuilder(pageBuilder:
+                          (context, animation, anotheranimation) =>Garantie(),
+                          transitionDuration: Duration(seconds: 1),
+                          reverseTransitionDuration: Duration(seconds:1),
+                          transitionsBuilder: (context, animation , anotheranimation , child){
+                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                reverseCurve: Curves.fastOutSlowIn);
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0,
+                                child: Garantie(),
+                              ),
+
+                            );
+                          }
+
+                      ) ,
+                      );
+
+                    },
+                    label: const Text('Garantie sur les articles'),
+                    icon: const Icon(Icons.offline_pin_outlined),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+
+
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PrivacyPolicyPage(),
+                          ));
+                    },
+                    child: const Text('Politique de Confidentialité (Interne)'),
+
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                 /* TextButton(
+                    onPressed: _launchURL,
+                    child: const Text('Politique de Confidentialité (Externe)'),
+
+                  ),*/
+                ],
               ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => cardpage(
-                          useremail: '${widget.useremail}',
-                        ),
-                      ));
-                },
-                label: const Text('Panier'),
-                icon: const Icon(Icons.shopping_cart_checkout),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Commentaire(nom: '${widget.usernom}'),
-                      ));
-                },
-                label: const Text('Fait comme chez toi et laisse ton Avis'),
-                icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Compte(nomuser: '${widget.usernom}'),
-                      ));
-                },
-                label: const Text('Information'),
-                icon: const Icon(Icons.info_outline_rounded),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ));
-                },
-                label: const Text('Se connecté'),
-                icon: const Icon(Icons.login),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Garantie(),
-                      ));
-                },
-                label: const Text('Garantie sur les articles'),
-                icon: const Icon(Icons.offline_pin_outlined),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -404,12 +565,13 @@ class _homepageState extends State<homepage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                         CircleAvatar(backgroundColor : Colors.transparent,radius: 20,child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',),),
                           Expanded(
                             child: Text(
-                              "${widget.usernom} Bienvenue!",
+                              " ${id.get(1)} Bienvenue!",
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 25,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -507,12 +669,13 @@ class _homepageState extends State<homepage> {
                 //                                    contaenair de categorie
 
                 //                                                    Categorie
-                chargement
+                _categorie.isNotEmpty
                     ? AnimatedContainer(
                         duration: const Duration(seconds: 1),
                         margin: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
-                          color: anime ? Colors.transparent : Colors.white,
+                          image: DecorationImage(image: NetworkImage('https://i.pinimg.com/564x/b7/b3/fc/b7b3fc0f87a00089b6a4900a6be059db.jpg'),fit: BoxFit.cover,opacity: 0.6),
+
                           borderRadius: BorderRadius.circular(25),
                           border: Border.all(color: Colors.black54, width: 1),
                         ),
@@ -527,7 +690,6 @@ class _homepageState extends State<homepage> {
                             return GestureDetector(
                               onTap: () {
                                 animateforme(true);
-
                                 _fetchproduit(
                                     "Get_categorie.php", '${cat['nom']}');
                               },
@@ -538,14 +700,10 @@ class _homepageState extends State<homepage> {
                                   color: Colors.black38,
                                   borderRadius: BorderRadius.circular(50),
                                   boxShadow: const [
-                                    BoxShadow(
-                                        offset: Offset(-3, -3),
-                                        color: Colors.black,
-                                        blurRadius: 15,
-                                        spreadRadius: 1),
+
                                     BoxShadow(
                                         offset: Offset(3, 3),
-                                        color: Colors.white,
+                                        color: Colors.black12,
                                         blurRadius: 15,
                                         spreadRadius: 1),
                                   ],
@@ -680,7 +838,7 @@ class _homepageState extends State<homepage> {
                 //
                 //
                 //                                             Liste de produit
-                chargement
+                _produit.isNotEmpty
                     ? Center(child: print_prod(mode, '${widget.useremail}'))
                     : const CircularProgressIndicator()
               ],
@@ -701,7 +859,7 @@ class _homepageState extends State<homepage> {
 
     try {
       var response = await http.post(
-          Uri.parse('https://nanisneakers.000webhostapp.com/Get.php'),
+          Uri.parse('https://www.fe-store.pro/Get.php'),
           body: {
             "nom": 'categorie',
           });
@@ -739,7 +897,7 @@ class _homepageState extends State<homepage> {
 
     try {
       var response = await http.post(
-          Uri.parse('https://nanisneakers.000webhostapp.com/$path'),
+          Uri.parse('https://www.fe-store.pro/$path'),
           body: {
             "nom": name,
           });
@@ -760,7 +918,7 @@ class _homepageState extends State<homepage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Splashscreen(),
+                        builder: (context) => const MyCustomWidget(),
                       ));
                 },
                 icon: const Icon(Icons.refresh_outlined)));
@@ -812,10 +970,22 @@ class _homepageState extends State<homepage> {
                       itemBuilder: (context, index) {
                         final product = _produit[index];
 
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(33),
+                            child: OpenContainer(
+                              
+                              transitionDuration: Duration(seconds: 1),
+                              transitionType: ContainerTransitionType.fade,
+
+                              closedBuilder: (context, action) =>
+                              Produits(
+                                  image: '${product['image1']}',
+                                  nom: '${product['nom']}',
+                                  prix: '${product['prix']}',
+                                  Code: '${product['eid']}'),
+                              openBuilder: (context, action) {
                                 return Description(
                                   image1: '${product['image1']}',
                                   image2: '${product['image2']}',
@@ -825,18 +995,10 @@ class _homepageState extends State<homepage> {
                                   description: '${product['description']}',
                                   quantite: '${product['quantite']}',
                                   eid: '${product['eid']}',
-                                  useremail: userpass,
+                                  useremail: id.get(3),
                                 );
                               },
-                            ));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Produits(
-                                image: '${product['image1']}',
-                                nom: '${product['nom']}',
-                                prix: '${product['prix']}',
-                                Code: '${product['eid']}'),
+                            ),
                           ),
                         );
                       },
@@ -846,24 +1008,35 @@ class _homepageState extends State<homepage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white.withOpacity(0.7)),
-                    width: size,
+
                     height: y * 100,
                     child: GridView.builder(
+
                       scrollDirection: Axis.horizontal,
                       dragStartBehavior: DragStartBehavior.start,
                       itemCount: _produit.length,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          mainAxisSpacing: 1,
-                          crossAxisSpacing: 1,
+                          mainAxisSpacing: size/19,
+                          crossAxisSpacing: 8,
                           maxCrossAxisExtent:
                               size > 500 ? (270 * size) / 504 : 200,
                           mainAxisExtent: (170 * size) / 360),
                       itemBuilder: (context, index) {
                         final product = _produit[index];
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
+                        return  Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: OpenContainer(
+                              transitionDuration: Duration(seconds: 1),
+
+                              closedBuilder: (context, action) =>
+                                  Produits(
+                                      image: '${product['image1']}',
+                                      nom: '${product['nom']}',
+                                      prix: '${product['prix']}',
+                                      Code: '${product['eid']}'),
+                              openBuilder: (context, action) {
                                 return Description(
                                   image1: '${product['image1']}',
                                   image2: '${product['image2']}',
@@ -873,18 +1046,10 @@ class _homepageState extends State<homepage> {
                                   description: '${product['description']}',
                                   quantite: '${product['quantite']}',
                                   eid: '${product['eid']}',
-                                  useremail: userpass,
+                                  useremail: id.get(3),
                                 );
                               },
-                            ));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Produits(
-                                image: '${product['image1']}',
-                                nom: '${product['nom']}',
-                                prix: '${product['prix']}',
-                                Code: '${product['eid']}'),
+                            ),
                           ),
                         );
                       },

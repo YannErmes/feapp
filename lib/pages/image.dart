@@ -24,7 +24,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   File? imagePath;
   String? imageName;
   String? imageData;
-bool anime = false ;
+  bool anime = false ;
 bool repeat = true ;
   final rep = Hive.box('mybox3');
 
@@ -38,7 +38,7 @@ bool repeat = true ;
 
     try {
       // URL de l'API pour télécharger l'image
-      String uri = "https://nanisneakers.000webhostapp.com/Upload.php";
+      String uri = "https://www.fe-store.pro/Upload.php";
 
       // Requête POST avec les données d'image
       var response = await http.post(
@@ -59,7 +59,8 @@ bool repeat = true ;
 
         Get.back();
         Get.defaultDialog(title: "Felicitation !', Votre image a été envoyée"
-            " avec succès. Restez connecté pour recevoir prochainement les résultats. À bientôt !" ,titleStyle: const TextStyle(fontSize: 20),content: const Text('') );
+            " avec succès. Nous envrons les resultats directement dans votre inbox . À bientôt !" ,titleStyle: const TextStyle(fontSize: 20),content: const Text('') );
+        captionController.clear();
 
       } else {
         print(
@@ -171,9 +172,9 @@ bool repeat = true ;
                   });
 
 
-                  Get.snackbar('Cc', "Retrouvez n'importe lequel des modèle de voos désir "
+                  Get.snackbar('Cc', "Retrouvez n'importe lequel des modèle de vos désir "
                       "en envoyant simplement une photo de votre galerie et en ajoutant un numero ou une indication dans la barre. Notre équipe "
-                      "d'experts se charge de le retrouver avec tous les détails possibles et de vous contactez directement pour vous faire gagné du temps."  , duration: const Duration(seconds: 10) );
+                      "d'experts se charge de le retrouver avec tous les détails possibles et de vous contactez directement pour vous faire gagné du temps."  , duration: const Duration(seconds: 16),colorText: Colors.white, backgroundColor: Colors.black12  );
                 },
               ),
             ),

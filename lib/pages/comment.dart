@@ -90,10 +90,10 @@ class _CommentaireState extends State<Commentaire> {
                             onPressed: () {
                               showModalBottomSheet(
                                   backgroundColor: Colors.white70,
-                                  context: context,
+                                  context: context,isScrollControlled: true,
                                   builder: (BuildContext context) {
                                     return SizedBox(
-                                        height: 650,
+                                        height: 600,
                                         child: Center(
                                             child: Column(
                                           children: [
@@ -113,6 +113,8 @@ class _CommentaireState extends State<Commentaire> {
                                                     onPressed: () {
                                                       Add_comment(widget.nom,
                                                           _commentctrl.text);
+                                                      _commentctrl.clear();
+                                                      Navigator.pop(context);
                                                     },
                                                   ),
                                                   border: OutlineInputBorder(

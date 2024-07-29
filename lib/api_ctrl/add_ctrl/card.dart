@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 Add_card(String image, String nom, String eid  , String email) async {
   try {
     var res = await http
-        .post(Uri.parse('https://nanisneakers.000webhostapp.com/add_card.php'), body: {
+        .post(Uri.parse('https://www.fe-store.pro/add_card.php'), body: {
       "eid": eid,
       "image": image,
       "nom": nom,

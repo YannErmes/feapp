@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   registerAndSaveUserRecord( String email , String password ,String nomuser) async {
     try {
       var res = await http.post(
-        Uri.parse('https://nanisneakers.000webhostapp.com/login.php'),
+        Uri.parse('https://www.fe-store.pro/login.php'),
         body: {
           "email": email,
           "password": password,
@@ -87,10 +87,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Icon(Icons.wifi_off)));
     }
   }
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

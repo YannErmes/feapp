@@ -28,7 +28,7 @@ class _singupPageState extends State<singupPage> {
 
     try {
       var res = await http.post(
-          Uri.parse('https://nanisneakers.000webhostapp.com/singup.php'),
+          Uri.parse('https://www.fe-store.pro/singup.php'),
           body: {
             "name": _usernameController.text,
             "email": _emailController.text,
@@ -220,7 +220,7 @@ class _singupPageState extends State<singupPage> {
                             registerAndSaveUserRecord();
                           } else {}
                         },
-                        label: const Text('Sigup'),
+                        label: const Text('SignUp'),
                         icon: const Icon(CupertinoIcons.person_add_solid),
                       ),
                     ],
