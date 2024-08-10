@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 
 class MyCustomWidget extends StatefulWidget {
   const MyCustomWidget({super.key});
@@ -15,6 +16,7 @@ class MyCustomWidget extends StatefulWidget {
 }
 
 class _MyCustomWidgetState extends State<MyCustomWidget> {
+
 
   @override
   void initState() {
@@ -26,6 +28,9 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
     Future.delayed(Duration(seconds: 5),() => Navigator.push(context, MaterialPageRoute(builder: (context) => SecondClass(),)),);
 
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +53,7 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
 
                   animatedTexts: [
                     TypewriterAnimatedText('fé présnte Sneakres store 3.0 , accrohez vous bien...',
-                        speed: Duration(milliseconds: 50)),
+                        speed: Duration(microseconds: 50)),
                   ],
                   onTap: () {
                     print("Tap Event");
@@ -56,20 +61,8 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
                 ),
               ),
             ),
-            OpenContainer(
-              closedBuilder: (_, openContainer) {
-                return Center(
-                  child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/yxL9TVTY/Untitled-image-19.png' ,fit: BoxFit.cover,),
-                );
-              },
-              openColor: Colors.white,
-              closedElevation: 20,
-              closedShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              transitionDuration: const Duration(milliseconds: 2),
-              openBuilder: (_, closeContainer) {
-                return const SecondClass();
-              },
+            Center(
+              child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/yxL9TVTY/Untitled-image-19.png' ,fit: BoxFit.cover,),
             ),
           ],
         ),
@@ -120,6 +113,7 @@ class _SecondClassState extends State<SecondClass>
 
     scaleAnimation =
         Tween<double>(begin: 0.0, end: 12).animate(scaleController);
+
 
     Timer(const Duration(milliseconds: 600), () {
       setState(() {
@@ -217,6 +211,8 @@ class ThisIsFadeRoute extends PageRouteBuilder {
   final Widget? page;
   final Widget route;
 
+
+
   ThisIsFadeRoute({this.page, required this.route})
       : super(
     pageBuilder: (
@@ -230,8 +226,15 @@ class ThisIsFadeRoute extends PageRouteBuilder {
         Animation<double> animation,
         Animation<double> secondaryAnimation,
         Widget child,
-        ) =>
-        homepage(t: 1, usernom: '',),
+        ) {
+
+
+
+
+      return
+      homepage(t: 1, usernom: '',);
+
+    }
   );
 }
 

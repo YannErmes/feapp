@@ -14,6 +14,7 @@ import 'package:fesneakers/pages/description.dart';
 import 'package:fesneakers/pages/image.dart';
 import 'package:fesneakers/pages/login.dart';
 import 'package:fesneakers/pages/politic_page.dart';
+import 'package:fesneakers/pages/sigin.dart';
 import 'package:fesneakers/pages/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -56,7 +57,18 @@ class _homepageState extends State<homepage> {
     super.initState();
     timerequest();
     // _fetchproduit("Get.php", "produit");
+  //  first_use();
     
+  }
+
+  first_use() async {
+    if(id.get(3) == null){
+       print('eeeeeeeeeeeeenull ${id.get(3)}');
+      return Navigator.push(context, MaterialPageRoute(builder: (context) => singupPage(),));
+    }else {
+      return print('eeeeeeeeeeeee ${id.get(3)}');
+    }
+
   }
   
 
@@ -723,12 +735,12 @@ class _homepageState extends State<homepage> {
                                       angle: -0.10 * pi,
                                       child: Container(
                                           child: CachedNetworkImage(
-                                        imageUrl: '${cat['images']}',
+                                        imageUrl: '${cat['image']}',
                                         fit: BoxFit.cover,
                                         placeholder: (context, url) =>
                                             const CircularProgressIndicator(),
                                         errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
+                                            const Icon(Icons.image_not_supported_rounded),
                                       )),
                                     ),
                                     Text('${cat['nom']}')
@@ -961,7 +973,7 @@ class _homepageState extends State<homepage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.black38),
-                    height: 240,
+                    height: 220,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemExtent: 200,
@@ -986,6 +998,7 @@ class _homepageState extends State<homepage> {
                                   prix: '${product['prix']}',
                                   Code: '${product['eid']}'),
                               openBuilder: (context, action) {
+
                                 return Description(
                                   image1: '${product['image1']}',
                                   image2: '${product['image2']}',
@@ -995,7 +1008,7 @@ class _homepageState extends State<homepage> {
                                   description: '${product['description']}',
                                   quantite: '${product['quantite']}',
                                   eid: '${product['eid']}',
-                                  useremail: id.get(3),
+                                  useremail: id.get(3)
                                 );
                               },
                             ),
@@ -1081,4 +1094,7 @@ class _homepageState extends State<homepage> {
           )),
     ));
   }
+
+
+
 }

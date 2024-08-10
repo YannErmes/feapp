@@ -148,7 +148,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             Text(
-              'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at ermes1643@gmail.com.',
+              'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at agencydiamond827@gmail.com.',
               style: TextStyle(fontSize: 16.0),
             ),
           ],

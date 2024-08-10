@@ -14,7 +14,7 @@ class Description extends StatelessWidget {
   final String description;
   final String quantite;
   final String eid;
-  final String useremail;
+  final String? useremail;
 
   const Description(
       {super.key,
@@ -192,7 +192,7 @@ class Description extends StatelessWidget {
                             children: [
                               ElevatedButton.icon(
                                   onPressed: () {
-                                    Add_card(image1, nom, eid, useremail);
+                                    Add_card(image1, nom, eid, useremail ?? 'fé');
                                   },
                                   icon: const Icon(
                                     Icons.add_shopping_cart,
@@ -252,7 +252,7 @@ class Description extends StatelessWidget {
                                       'Commander',
                                       style: TextStyle(color: Colors.white),
                                     )),
-                              ).animate().shake(duration: Duration(seconds: 11), ),
+                              ).animate().shader(duration: Duration(seconds: 5)),
                             ],
                           ),
                         )
@@ -311,7 +311,7 @@ class Description extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     height: 280,
-                                    width: 260,
+                                    width: 247,
                                     child: Transform.rotate(
                                       angle: 6,
                                       child: Center(

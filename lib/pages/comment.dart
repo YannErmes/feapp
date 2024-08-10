@@ -53,6 +53,7 @@ class _CommentaireState extends State<Commentaire> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
+
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.black12,
                         boxShadow: [
@@ -66,7 +67,7 @@ class _CommentaireState extends State<Commentaire> {
                   ),
 
                   Container(
-                    height: 220,
+                    height: 230,
                     width: 400,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(20)),
@@ -78,7 +79,7 @@ class _CommentaireState extends State<Commentaire> {
                                 bottomLeft: Radius.circular(50)),
                             child: CachedNetworkImage(
                               imageUrl:
-                                  'https://i.postimg.cc/cJN09bx4/free-photo-of-store-display-with-nike-sneakers.jpg',
+                                  'https://i.postimg.cc/gj87kb1w/Untitled-image-9.jpg',
                               width: double.infinity,
                               fit: BoxFit.cover,
                             )),

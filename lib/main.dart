@@ -37,10 +37,27 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home:  Scaffold(
     backgroundColor: Colors.black38,
-    body:
-    MyCustomWidget()
+    body: starter()
     ),
     );
   }
 }
 // chargement https://lottie.host/e8390845-9909-4a2c-90d2-76e9541ab615/h1a9ulnHzR.json
+
+class starter extends StatelessWidget {
+  const starter({super.key});
+
+
+  @override
+
+  Widget build(BuildContext context) {
+    final first = Hive.box('mybox');
+    if(first.get(1)== "null"){
+      return   MyCustomWidget();
+    }else {
+      return homepage(t: 1, usernom: '${first.get(1)}',);
+
+
+    }
+  }
+}

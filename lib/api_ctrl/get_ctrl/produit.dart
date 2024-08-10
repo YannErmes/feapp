@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -48,47 +50,54 @@ class Produits extends StatelessWidget {
             //prix et nom ......
             Expanded(
 
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15))
-                ),
-              
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-              
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15))
+                    ),
 
-              
-                child:  Row(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
 
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Code: $Code'),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+
+
+                    child:  Row(
+
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text( nom ,
-                          style:
-                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black),),
-              
-              
-                        // le prix
-                        Container(
-                          width: 52,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Center(
-                            child: Text('$prix f', style: const TextStyle(
-                                color: Colors.green
-                            ),),
-                          ),
+                        Text('Code: $Code'),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text( nom ,
+                              style:
+                              const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black),),
+
+
+                            // le prix
+                            Container(
+                              width: 52,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5)
+                              ),
+                              child: Center(
+                                child: Text('$prix f', style: const TextStyle(
+                                    color: Colors.green
+                                ),),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             )
