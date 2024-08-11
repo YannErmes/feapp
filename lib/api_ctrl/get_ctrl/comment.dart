@@ -78,7 +78,7 @@ class _RcommentaireState extends State<Rcommentaire> {
                   Container(
                     padding: const EdgeInsets.all(5),
                     margin: const EdgeInsets.only(left: 10 , top: 10),
-                    height: 180,
+
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         color: Colors.black12,

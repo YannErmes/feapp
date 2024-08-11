@@ -61,15 +61,6 @@ class _homepageState extends State<homepage> {
     
   }
 
-  first_use() async {
-    if(id.get(3) == null){
-       print('eeeeeeeeeeeeenull ${id.get(3)}');
-      return Navigator.push(context, MaterialPageRoute(builder: (context) => singupPage(),));
-    }else {
-      return print('eeeeeeeeeeeee ${id.get(3)}');
-    }
-
-  }
   
 
 
@@ -110,7 +101,7 @@ class _homepageState extends State<homepage> {
       
 
       key: _scaffoldkey,
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
       endDrawerEnableOpenDragGesture: true,
       //backgroundColor: const Color(0xFFB0ADB0),
       backgroundColor: const Color(0xFFE5D6C8),
@@ -526,7 +517,7 @@ class _homepageState extends State<homepage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PrivacyPolicyPage(),
+                            builder: (context) => PolitiqueConfidentialitePage(),
                           ));
                     },
                     child: const Text('Politique de Confidentialité (Interne)'),
@@ -556,307 +547,343 @@ class _homepageState extends State<homepage> {
       ),*/
 
       // Corps de la page
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Center(
+      body: CustomScrollView(
+
+slivers: [
+  SliverAppBar(
+
+    shadowColor: Colors.black54,
+
+    leading:Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CircleAvatar(backgroundColor : Colors.transparent,radius: 20,child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',),),
+    ),
+expandedHeight: 415,
+    title: Expanded(
+      child: Text(
+        " ${id.get(1)} Bienvenue!",
+        style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold),
+      ),
+    ),
+    actions: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          child: AvatarGlow(
+            repeat: rep.get(43) ?? true,
+
+            child: Icon(
+              Icons.menu,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            _scaffoldkey.currentState?.openDrawer();
+            rep.put(43, false);
+          },
+        ),
+      )
+    ],
+    backgroundColor:Color(0xFFE5D6C8),
+    flexibleSpace: FlexibleSpaceBar(
+      background:
+      Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(8),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: Colors.brown.shade300,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30))),
             child: Column(
               children: [
-                // first container
-                Container(
-                  padding: EdgeInsets.all(8),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.brown.shade300,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30))),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                         CircleAvatar(backgroundColor : Colors.transparent,radius: 20,child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',),),
-                          Expanded(
-                            child: Text(
-                              " ${id.get(1)} Bienvenue!",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          GestureDetector(
-                            child: AvatarGlow(
-                              repeat: rep.get(43) ?? true,
 
-                              child: Icon(
-                                Icons.menu,
-                                size: 25,
-                                color: Colors.white,
-                              ),
-                            ),
-                            onTap: () {
-                              _scaffoldkey.currentState?.openDrawer();
-                              rep.put(43, false);
-                            },
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      // image pikers
-                      Container(
-                        child: const ImagePickerWidget(),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      //  slide P
-                      GestureDetector(
-                        onTap: () {
-                          animateforme(false);
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(seconds: 2),
-                          height: anime ? 100 : 150,
-                          width: anime ? 380 : 300,
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              boxShadow: const [
-                                BoxShadow(
-                                    offset: Offset(-8, -8),
-                                    color: Colors.black87,
-                                    blurRadius: 15,
-                                    spreadRadius: 1),
-                              ],
-                              image: const DecorationImage(
-                                  image: NetworkImage(
-                                      'https://i.postimg.cc/D0qf3b9L/sld.png'),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: const SliderP()
-
-                              // Image.network('https://img.freepik.com/free-psd/shoes-sale-social-media-post-template-design_505751-4476.jpg?t=st=1716288493~exp=1716292093~hmac=4e97e5827740eeb09735c6999433cc9bbe88b947b8cbd38a113ec6cd567a58d3&w=740', fit: BoxFit.cover,)
-
-                              ),
-                        ),
-                      ),
-                      // text categorie
-                      const SizedBox(
-                        height: 35,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Catégorie',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            Icon(
-                              CupertinoIcons.color_filter,
-                              size: 20,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //
-
-                //
 
                 const SizedBox(
-                  height: 10,
+                  height: 56,
                 ),
-
-                //                                    contaenair de categorie
-
-                //                                                    Categorie
-                _categorie.isNotEmpty
-                    ? AnimatedContainer(
-                        duration: const Duration(seconds: 1),
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(image: NetworkImage('https://i.pinimg.com/564x/b7/b3/fc/b7b3fc0f87a00089b6a4900a6be059db.jpg'),fit: BoxFit.cover,opacity: 0.6),
-
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.black54, width: 1),
-                        ),
-                        height: anime ? 100 : 84,
-
-                        padding: const EdgeInsets.all(1),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _categorie.length,
-                          itemBuilder: (context, index) {
-                            final cat = _categorie[index];
-                            return GestureDetector(
-                              onTap: () {
-                                animateforme(true);
-                                _fetchproduit(
-                                    "Get_categorie.php", '${cat['nom']}');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: const Color(0xFFC09E5D), width: 2),
-                                  color: Colors.black38,
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: const [
-
-                                    BoxShadow(
-                                        offset: Offset(3, 3),
-                                        color: Colors.black12,
-                                        blurRadius: 15,
-                                        spreadRadius: 1),
-                                  ],
-                                ),
-                                margin: const EdgeInsets.all(8.0),
-                                // Marge autour du carré
-                                width: anime ? 70 : 77,
-                                // Largeur du carré
-                                height: anime ? 60 : 40,
-                                // Hauteur du carré
-                                // Couleur du carré
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                                  children: [
-                                    Transform.rotate(
-                                      angle: -0.10 * pi,
-                                      child: Container(
-                                          child: CachedNetworkImage(
-                                        imageUrl: '${cat['image']}',
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.image_not_supported_rounded),
-                                      )),
-                                    ),
-                                    Text('${cat['nom']}')
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    : const CircularProgressIndicator(),
-
-                //
-                //
-                //                                             Bar de filtrage
-                Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
+                // image pikers
+                Container(
+                  child: const ImagePickerWidget(),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                //  slide P
+                GestureDetector(
+                  onTap: () {
+                    animateforme(false);
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(seconds: 2),
+                    height: anime ? 100 : 150,
+                    width: anime ? 380 : 300,
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        boxShadow: const [
+                          BoxShadow(
+                              offset: Offset(-8, -8),
+                              color: Colors.black87,
+                              blurRadius: 15,
+                              spreadRadius: 1),
+                        ],
+                        image: const DecorationImage(
+                            image: NetworkImage(
+                                'https://i.postimg.cc/D0qf3b9L/sld.png'),
+                            fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.black54,
-                      ),
-                      height: 45,
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                'Filtré',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _fetchproduit("prixh.php", '11000');
-                                  });
-                                },
-                                icon: const Icon(
-                                  CupertinoIcons.arrow_up_square_fill,
-                                  color: Colors.green,
-                                  size: 30,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  _fetchproduit("prixb.php", '11000');
-                                },
-                                icon: const Icon(
-                                  CupertinoIcons.arrow_down_square_fill,
-                                  color: Colors.red,
-                                  size: 30,
-                                )),
+                        child: const SliderP()
 
-                            //
-                            //
-                            //                          bottom sheet filtrage par brande
+                      // Image.network('https://img.freepik.com/free-psd/shoes-sale-social-media-post-template-design_505751-4476.jpg?t=st=1716288493~exp=1716292093~hmac=4e97e5827740eeb09735c6999433cc9bbe88b947b8cbd38a113ec6cd567a58d3&w=740', fit: BoxFit.cover,)
 
-                          ],
-                        ),
-                      ),
                     ),
-                  ],
+                  ),
                 ),
-
-                //
-                //
-                //                                              Titer produit
-
-                SizedBox(
-                  height: 30,
+                // text categorie
+                const SizedBox(
+                  height: 35,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Expanded(
-                        child: Text(
-                          'Produit',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
+                      Text(
+                        'Catégorie',
+                        style:
+                        TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              mode =!mode;
-                            });
-                          },
-                          icon: mode
-                              ? const Icon(
-                                  CupertinoIcons.increase_quotelevel,
-                                  size: 25,
-                                  color: Colors.white,
-                                )
-                              : const Icon(
-                                  Icons.grid_view_rounded,
-                                  size: 25,
-                                  color: Colors.white,
-                                ))
+                      Icon(
+                        CupertinoIcons.color_filter,
+                        size: 20,
+                        color: Colors.white,
+                      )
                     ],
                   ),
                 ),
-
-                //
-                //
-                //                                             Liste de produit
-                _produit.isNotEmpty
-                    ? Center(child: print_prod(mode, '${widget.useremail}'))
-                    : const CircularProgressIndicator()
               ],
             ),
           ),
+          SizedBox(height: 10,),
+          _categorie.isNotEmpty
+              ? AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              image: DecorationImage(image: NetworkImage('https://i.pinimg.com/564x/b7/b3/fc/b7b3fc0f87a00089b6a4900a6be059db.jpg'),fit: BoxFit.cover,opacity: 0.6),
+
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(color: Colors.black54, width: 1),
+            ),
+            height: anime ? 100 : 84,
+
+            padding: const EdgeInsets.all(1),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _categorie.length,
+              itemBuilder: (context, index) {
+                final cat = _categorie[index];
+                return GestureDetector(
+                  onTap: () {
+                    animateforme(true);
+                    _fetchproduit(
+                        "Get_categorie.php", '${cat['nom']}');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color(0xFFC09E5D), width: 2),
+                      color: Colors.black38,
+                      borderRadius: BorderRadius.circular(50),
+                      boxShadow: const [
+
+                        BoxShadow(
+                            offset: Offset(3, 3),
+                            color: Colors.black12,
+                            blurRadius: 15,
+                            spreadRadius: 1),
+                      ],
+                    ),
+                    margin: const EdgeInsets.all(8.0),
+                    // Marge autour du carré
+                    width: anime ? 70 : 77,
+                    // Largeur du carré
+                    height: anime ? 60 : 40,
+                    // Hauteur du carré
+                    // Couleur du carré
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        Transform.rotate(
+                          angle: -0.10 * pi,
+                          child: Container(
+                              child: CachedNetworkImage(
+                                imageUrl: '${cat['image']}',
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                const Icon(Icons.image_not_supported_rounded),
+                              )),
+                        ),
+                        Text('${cat['nom']}')
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          )
+              : const CircularProgressIndicator(),
+        ],
+      ),
+
+
+    ),
+
+    pinned: true,
+
+
+  ),
+
+  SliverToBoxAdapter(
+    child: SafeArea(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Center(
+          child: Column(
+            children: [
+              // first container
+
+              //
+
+              //
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              //                                    contaenair de categorie
+
+              //                                                    Categorie
+
+
+              //
+              //
+              //                                             Bar de filtrage
+              Stack(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black54,
+                    ),
+                    height: 45,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'Filtré',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 20),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _fetchproduit("prixh.php", '11000');
+                                });
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.arrow_up_square_fill,
+                                color: Colors.green,
+                                size: 30,
+                              )),
+                          IconButton(
+                              onPressed: () {
+                                _fetchproduit("prixb.php", '11000');
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.arrow_down_square_fill,
+                                color: Colors.red,
+                                size: 30,
+                              )),
+
+                          //
+                          //
+                          //                          bottom sheet filtrage par brande
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              //
+              //
+              //                                              Titer produit
+
+              SizedBox(
+                height: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Produit',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            mode =!mode;
+                          });
+                        },
+                        icon: mode
+                            ? const Icon(
+                          CupertinoIcons.increase_quotelevel,
+                          size: 25,
+                          color: Colors.white,
+                        )
+                            : const Icon(
+                          Icons.grid_view_rounded,
+                          size: 25,
+                          color: Colors.white,
+                        ))
+                  ],
+                ),
+              ),
+
+              //
+              //
+              //                                             Liste de produit
+              _produit.isNotEmpty
+                  ? Center(child: print_prod(mode, '${widget.useremail}'))
+                  : const CircularProgressIndicator()
+            ],
+          ),
         ),
+      ),
+    ),
+  )
+],
+
+
       ),
     );
   }
@@ -988,7 +1015,7 @@ class _homepageState extends State<homepage> {
                             borderRadius: BorderRadius.circular(33),
                             child: OpenContainer(
                               
-                              transitionDuration: Duration(seconds: 1),
+                              transitionDuration: Duration(microseconds: 500),
                               transitionType: ContainerTransitionType.fade,
 
                               closedBuilder: (context, action) =>
@@ -1041,7 +1068,7 @@ class _homepageState extends State<homepage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: OpenContainer(
-                              transitionDuration: Duration(seconds: 1),
+                              transitionDuration: Duration(microseconds: 500),
 
                               closedBuilder: (context, action) =>
                                   Produits(

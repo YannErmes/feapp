@@ -58,9 +58,10 @@ bool repeat = true ;
       if (responseData["success"] == true) {
 
         Get.back();
-        Get.defaultDialog(title: "Felicitation !', Votre image a été envoyée"
+        Get.defaultDialog(title: "Felicitation !, Votre image a été envoyée"
             " avec succès. Nous envrons les resultats directement dans votre inbox . À bientôt !" ,titleStyle: const TextStyle(fontSize: 20),content: const Text('') );
         captionController.clear();
+
 
       } else {
         print(

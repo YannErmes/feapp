@@ -4,6 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/pages/home.dart';
+import 'package:fesneakers/pages/sigin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -232,7 +233,7 @@ class ThisIsFadeRoute extends PageRouteBuilder {
 
 
       return
-      homepage(t: 1, usernom: '',);
+      singupPage();
 
     }
   );

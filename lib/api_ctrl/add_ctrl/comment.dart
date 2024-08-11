@@ -15,7 +15,7 @@ Add_comment(String nom, String commentaire) async {
         body: {
           "nom": nom,
           "commentaire": commentaire,
-          "date": '$date',
+          "date": '${date.day}-${date.month}-${date.year}/${date.hour}:${date.minute}',
         });
 
     if (res.statusCode == 200) {
