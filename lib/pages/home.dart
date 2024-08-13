@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:animations/animations.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fesneakers/api_ctrl/get_ctrl/card.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/produit.dart';
 import 'package:fesneakers/oussama/data.dart';
 import 'package:fesneakers/pages/Garantie.dart';
@@ -33,6 +34,7 @@ class homepage extends StatefulWidget {
   final String? usernom;
   final int t;
 
+
   const homepage({super.key, this.useremail, this.usernom, required this.t});
 
   @override
@@ -49,6 +51,7 @@ class _homepageState extends State<homepage> {
   final rep = Hive.box('mybox3');
   final id = Hive.box('mybox');
   int i = 0;
+  cardgetter usecard = Get.put(cardgetter());
   //Categorie cat_ctrl = Get.put(Categorie());
   @override
   void initState() {
@@ -98,8 +101,6 @@ class _homepageState extends State<homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-
       key: _scaffoldkey,
       extendBodyBehindAppBar: false,
       endDrawerEnableOpenDragGesture: true,
@@ -291,7 +292,10 @@ class _homepageState extends State<homepage> {
                                 'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
                             height: 100,
                             placeholder: (context, url) =>
-                                const LinearProgressIndicator(),
+                                SizedBox(
+                                  height:10,
+                                    width: 30,
+                                    child: const LinearProgressIndicator()),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.image_not_supported_rounded),
                           )),
@@ -556,19 +560,52 @@ slivers: [
 
     leading:Padding(
       padding: const EdgeInsets.all(8.0),
-      child: CircleAvatar(backgroundColor : Colors.transparent,radius: 20,child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',),),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,PageRouteBuilder(pageBuilder:
+              (context, animation, anotheranimation) => const homepage(
+            usernom: 'fé',
+            useremail: '',
+            t: 1,
+          ),
+              transitionDuration: Duration(seconds: 1),
+              reverseTransitionDuration: Duration(seconds:1),
+              transitionsBuilder: (context, animation , anotheranimation , child){
+                animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                    reverseCurve: Curves.fastOutSlowIn);
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    axisAlignment: 0,
+                    child:  const homepage(
+                      usernom: 'fé',
+                      useremail: '',
+                      t: 1,
+                    ),
+                  ),
+
+                );
+              }
+
+          ) ,
+          );
+
+        },
+
+      child: CircleAvatar(backgroundColor : Colors.transparent,radius: 20,child: CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',),)),
     ),
-expandedHeight: 415,
-    title: Expanded(
-      child: Text(
-        " ${id.get(1)} Bienvenue!",
-        style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold),
-      ),
+expandedHeight: 425,
+    title: Text(
+      " ${id.get(1) ?? ''} Bienvenue!",
+      style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold),
     ),
     actions: [
+      usecard.taille('${id.get(3)}', context),
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
@@ -577,7 +614,7 @@ expandedHeight: 415,
 
             child: Icon(
               Icons.menu,
-              size: 30,
+              size: 20,
               color: Colors.white,
             ),
           ),
@@ -586,7 +623,8 @@ expandedHeight: 415,
             rep.put(43, false);
           },
         ),
-      )
+      ),
+
     ],
     backgroundColor:Color(0xFFE5D6C8),
     flexibleSpace: FlexibleSpaceBar(
@@ -606,7 +644,7 @@ expandedHeight: 415,
 
 
                 const SizedBox(
-                  height: 56,
+                  height: 70,
                 ),
                 // image pikers
                 Container(
@@ -675,6 +713,7 @@ expandedHeight: 415,
               ? AnimatedContainer(
             duration: const Duration(seconds: 1),
             margin: const EdgeInsets.symmetric(horizontal: 5),
+
             decoration: BoxDecoration(
               image: DecorationImage(image: NetworkImage('https://i.pinimg.com/564x/b7/b3/fc/b7b3fc0f87a00089b6a4900a6be059db.jpg'),fit: BoxFit.cover,opacity: 0.6),
 
@@ -683,7 +722,7 @@ expandedHeight: 415,
             ),
             height: anime ? 100 : 84,
 
-            padding: const EdgeInsets.all(1),
+            padding: const EdgeInsets.symmetric(horizontal: 1),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: _categorie.length,
@@ -751,6 +790,7 @@ expandedHeight: 415,
     pinned: true,
 
 
+
   ),
 
   SliverToBoxAdapter(
@@ -762,13 +802,6 @@ expandedHeight: 415,
             children: [
               // first container
 
-              //
-
-              //
-
-              const SizedBox(
-                height: 10,
-              ),
 
               //                                    contaenair de categorie
 
@@ -781,10 +814,10 @@ expandedHeight: 415,
               Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       color: Colors.black54,
                     ),
                     height: 45,
@@ -1015,7 +1048,7 @@ expandedHeight: 415,
                             borderRadius: BorderRadius.circular(33),
                             child: OpenContainer(
                               
-                              transitionDuration: Duration(microseconds: 500),
+                              transitionDuration: Duration(seconds: 1),
                               transitionType: ContainerTransitionType.fade,
 
                               closedBuilder: (context, action) =>
@@ -1068,7 +1101,7 @@ expandedHeight: 415,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: OpenContainer(
-                              transitionDuration: Duration(microseconds: 500),
+                              transitionDuration: Duration(seconds: 1),
 
                               closedBuilder: (context, action) =>
                                   Produits(

@@ -10,6 +10,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
+import '../../pages/card.dart';
+
 
 
 class ListCard extends StatefulWidget {
@@ -201,3 +203,89 @@ class _ListCardState extends State<ListCard> {
   }
 }
 
+class cardgetter extends GetxController {
+
+    List cards = [];
+  Future<void> _fetchcards( String userpass) async {
+    try {
+      var response = await http.post(
+        Uri.parse('https://www.fe-store.pro/Get_card.php'),
+        body: {"nom": 'card', "userpass": userpass},
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = json.decode(response.body);
+          cards = responseData.cast<Map<String, dynamic>>().map((card) {
+            // Ajoutez une clé 'deleteMode' à chaque carte
+            return {...card, 'deleteMode': false};
+          }).toList();
+          update();
+
+      } else {
+        Get.defaultDialog(
+            title:
+            'Oups! chargement de votre panier depuis le local sécurisé essayez de redémmaré l\'application dans 50 seconde 😉',
+            titleStyle: const TextStyle(fontSize: 15),
+            content: SizedBox(
+                height: 30,
+                child: LottieBuilder.network(
+                    'https://lottie.host/7586c362-df43-4a53-be74-7ba3da4297cf/Y0ZkJP3d4R.json')));
+        print('Erreur de chargement des produits : ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e.toString());
+
+      Get.defaultDialog(
+          title: 'Oups! la connection à internet a été interrompue 😥 !',
+          titleStyle: const TextStyle(fontSize: 15),
+          content: const SizedBox(height: 30, child: Icon(Icons.wifi_off)));
+    }
+  }
+  taille (String userpass , var context){
+    _fetchcards(userpass);
+    return Stack(
+      children: [
+
+        IconButton(
+         icon: Icon (Icons.shopping_cart_checkout ,size: 21, color: Colors.white,)
+             ,  onPressed: () {
+          Navigator.push(
+            context,PageRouteBuilder(pageBuilder:
+              (context, animation, anotheranimation) =>  cardpage(
+            useremail:userpass,
+          ),
+              transitionDuration: Duration(seconds: 1),
+              reverseTransitionDuration: Duration(seconds:1),
+              transitionsBuilder: (context, animation , anotheranimation , child){
+                animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                    reverseCurve: Curves.fastOutSlowIn);
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    axisAlignment: 0,
+                    child:  cardpage(
+                      useremail: userpass,
+                    ),
+                  ),
+
+                );
+              }
+
+          ) ,
+          );
+
+        },
+
+
+        ),
+        Positioned(top: 3,left: 28,height: 25,
+
+            child:  Text('${cards.length}', style: TextStyle(color: Colors.black54 , fontWeight: FontWeight.bold,),))
+
+      ],
+    );
+  }
+
+
+}
