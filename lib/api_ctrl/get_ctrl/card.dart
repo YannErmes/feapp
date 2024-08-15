@@ -152,7 +152,7 @@ class _ListCardState extends State<ListCard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(' Code: ${card['eid']}' , style: const TextStyle(color: Colors.black87),),
-                                  Text('Status : ${card['status']}')
+                                  Text('Status : ${card['commande_en_cours']}')
                                 ],
                               ),
                               trailing: GestureDetector(

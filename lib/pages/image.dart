@@ -58,9 +58,10 @@ bool repeat = true ;
       if (responseData["success"] == true) {
 
         Get.back();
-        Get.defaultDialog(title: "Felicitation !, Votre image a été envoyée"
-            " avec succès. Nous envrons les resultats directement dans votre inbox . À bientôt !" ,titleStyle: const TextStyle(fontSize: 20),content: const Text('') );
+        Get.defaultDialog(title: "Felicitation !Votre image a été envoyée"
+            " avec succès.Nous envrons les resultats directement dans votre inbox . À bientôt !" ,titleStyle: const TextStyle(fontSize: 20),content: const Text('') );
         captionController.clear();
+        Navigator.pop(context);
 
 
       } else {
@@ -91,7 +92,7 @@ bool repeat = true ;
           imagePath = File(pickedFile.path);
           imageName = pickedFile.name ?? pickedFile.path.split('/').last;
         });
-        Fluttertoast.showToast(msg: 'Image sélectionnée! Ajoutez votre numéro de téléphone et autres information de votre choix avant l\'envoie');
+        Fluttertoast.showToast(msg: 'Image sélectionnée! Ajoutez votre numéro de téléphone et autres information de votre choix avant l\'envoie',timeInSecForIosWeb: 10);
         print('Image sélectionnée et encodée en base64.');
       } else {
         print('Aucune image sélectionnée.');
@@ -147,9 +148,15 @@ bool repeat = true ;
             prefixIcon: imagePath != null
                 ? IconButton(
                 onPressed:() {
-                  Get.defaultDialog(content: const CircularProgressIndicator() , title: 'Envoie en cours...');
-                  upload();
-                },
+                  if(captionController.text.isNotEmpty) {
+                        Get.defaultDialog(
+                            content: const CircularProgressIndicator(),
+                            title: 'Envoie en cours...');
+                        upload();
+                      }else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("N'oublez pas d'insérer dans le champs quelques indications sur votre requéte et une numero ou une adresse mail pour recevoire les resultats de notre équipe,Merci!"),duration: Duration(seconds: 9),));
+                  }
+                    },
                 icon: const Icon(
                   CupertinoIcons.paperplane,
                   color: Colors.green,

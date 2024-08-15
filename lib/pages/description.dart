@@ -91,23 +91,10 @@ class Description extends StatelessWidget {
                                     Text(
                                       nom,
                                       style: const TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 20,
+                                          ),
                                     ),
-                                    // container de prix
-                                    Container(
-                                        height: 30,
-                                        width: 60,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Colors.black),
-                                        child: Center(
-                                            child: Text(
-                                          '$prix f',
-                                          style: const TextStyle(
-                                              color: Colors.green),
-                                        )))
+
                                   ],
                                 ),
 
@@ -119,6 +106,21 @@ class Description extends StatelessWidget {
                                       style: const TextStyle(
                                           color: Colors.redAccent),
                                     ),
+                                    Spacer(),
+                                    // container de prix
+                                    Container(
+                                        height: 30,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(5),
+                                            color: Colors.black),
+                                        child: Center(
+                                            child: Text(
+                                              '$prix f',
+                                              style: const TextStyle(
+                                                  color: Colors.green),
+                                            )))
                                   ],
                                 ),
 
@@ -138,9 +140,13 @@ class Description extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Container(
+                            padding: const EdgeInsets.all(10),
+
                             height: 200,
                             width: 355,
                             decoration: BoxDecoration(
+
+
                                 image: const DecorationImage(
                                     image: NetworkImage(
                                         'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/Untitled-image-2.png?alt=media&token=692ef897-56f6-4db6-94bb-3d5558bbe9bb'),
@@ -149,7 +155,7 @@ class Description extends StatelessWidget {
                                 border:
                                     Border.all(color: Colors.black12, width: 2),
                                 borderRadius: BorderRadius.circular(15),
-                                color: Colors.white.withOpacity(0.6)),
+                                color: Colors.white),
 
                             // scrol view de la description
                             child: SingleChildScrollView(
@@ -304,10 +310,8 @@ class Description extends StatelessWidget {
                           width: 250,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30),
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
+                            child: PageView(
                               scrollDirection: Axis.horizontal,
-                              child: Row(
                                 children: [
                                   SizedBox(
                                     height: 280,
@@ -330,7 +334,7 @@ class Description extends StatelessWidget {
                                     child: descimage(image3 , context),
                                   ),
                                 ],
-                              ),
+
                             ),
                           ),
                         ),

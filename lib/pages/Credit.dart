@@ -3,14 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'home.dart';
+
 final Uri _url = Uri.parse(
-    'https://web.facebook.com/fesneakers?_rdc=1&_rdr');
-final Uri _url2 = Uri.parse('https://wa.me/22955950259');
+    'https://www.facebook.com/profile.php?id=61557796385945');
+final Uri _url2 = Uri.parse('https://wa.me/212710038821');
 
 class Credit extends StatefulWidget {
   final String image;
@@ -34,6 +37,7 @@ class _CreditState extends State<Credit> {
   TextEditingController qte_ctrl = TextEditingController();
   TextEditingController region_ctrl = TextEditingController();
   TextEditingController numero_ctrl = TextEditingController();
+  final idcreadipage = Hive.box('mybox');
 
   Future<void> _launchUrl() async {
     if (!await launchUrl(_url)) {
@@ -182,28 +186,38 @@ class _CreditState extends State<Credit> {
                         ),
                         ElevatedButton.icon(
                             onPressed: () {
-                              Get.defaultDialog(
-                                  title: 'Petite vérification verifié',
-                                  content: Column(
-                                    children: [
-                                      Text(
-                                          'Livraison de ${qte_ctrl.text}  ${widget.nom} à ${nom_ctrl.text} dans la region de  ${region_ctrl.text}  joignable au ${numero_ctrl.text}   '),
-                                      ElevatedButton.icon(
-                                        onPressed:(){
-                                          Get.defaultDialog(content: const CircularProgressIndicator());
-                                          Envoye_de_commande();
 
-                                        },
+                              if(numero_ctrl.text.isEmpty || nom_ctrl.text.isEmpty)
+                                {
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Oups! Vérifiez si tout les champs sont bien remplis."),backgroundColor: Colors.redAccent,));
+                                }
+                              else {
+                                Get.defaultDialog(
+                                    title: 'Petite vérification verifié',
+                                    content: Column(
+                                      children: [
+                                        Text(
+                                            'Livraison de ${qte_ctrl.text}  ${widget.nom} à ${nom_ctrl.text} dans la region de  ${region_ctrl.text}  joignable au ${numero_ctrl.text}   '),
+                                        ElevatedButton.icon(
+                                          onPressed:(){
+                                            Get.defaultDialog(content: const CircularProgressIndicator());
+                                            Envoye_de_commande();
 
-                                        label: const Text(
-                                          'Validé',
-                                          style: TextStyle(color: Colors.green),
-                                        ),
-                                        icon: const Icon(CupertinoIcons.paperplane ,color: Colors.green,),
-                                      )
-                                    ],
-                                  ));
+                                          },
+
+                                          label: const Text(
+                                            'Validé',
+                                            style: TextStyle(color: Colors.green),
+                                          ),
+                                          icon: const Icon(CupertinoIcons.paperplane ,color: Colors.green,),
+                                        )
+                                      ],
+                                    ));
+                              }
+
+
                             },
+
                             label: const Text('Commandé'),
                             icon: const Icon(
                               Icons.security_sharp,
@@ -303,6 +317,35 @@ class _CreditState extends State<Credit> {
         if (responseBodyOfSignUp['success'] == true) {
           Get.back();
           Get.defaultDialog(title : 'Felicitation'  ,content: const Icon(Icons.offline_pin ,color: Colors.green,));
+          Future.delayed(Duration(milliseconds: 500),() =>  Navigator.push(
+            context,PageRouteBuilder(pageBuilder:
+              (context, animation, anotheranimation) => const homepage(
+            usernom: 'fé',
+            useremail: '',
+            t: 1,
+          ),
+              transitionDuration: Duration(seconds: 1),
+              reverseTransitionDuration: Duration(seconds:1),
+              transitionsBuilder: (context, animation , anotheranimation , child){
+                animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                    reverseCurve: Curves.fastOutSlowIn);
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    axisAlignment: 0,
+                    child:  const homepage(
+                      usernom: 'fé',
+                      useremail: '',
+                      t: 1,
+                    ),
+                  ),
+
+                );
+              }
+
+          ) ,
+          ));
         } else {
           Fluttertoast.showToast(msg: "${responseBodyOfSignUp['message']}");
         }

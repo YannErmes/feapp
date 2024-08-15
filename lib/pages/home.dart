@@ -614,7 +614,7 @@ expandedHeight: 425,
 
             child: Icon(
               Icons.menu,
-              size: 20,
+              size: 30,
               color: Colors.white,
             ),
           ),
@@ -695,7 +695,7 @@ expandedHeight: 425,
                       Text(
                         'Catégorie',
                         style:
-                        TextStyle(color: Colors.white, fontSize: 20),
+                        TextStyle(color: Colors.white, fontSize: 20, fontFamily:'Schyler' ),
                       ),
                       Icon(
                         CupertinoIcons.color_filter,
@@ -814,7 +814,7 @@ expandedHeight: 425,
               Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -877,8 +877,8 @@ expandedHeight: 425,
                   children: [
                     const Expanded(
                       child: Text(
-                        'Produit',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        'Produits',
+                        style: TextStyle(color: Colors.black87, fontSize: 23),
                       ),
                     ),
                     IconButton(

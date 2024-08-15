@@ -188,7 +188,9 @@ class _SliderPState extends State<SliderP> {
               child: CachedNetworkImage(
                 imageUrl: url,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => const LinearProgressIndicator(),
+                placeholder: (context, url) => SizedBox(
+
+                    child: const LinearProgressIndicator()),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             );

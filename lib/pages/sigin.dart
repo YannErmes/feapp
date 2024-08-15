@@ -43,7 +43,7 @@ class _singupPageState extends State<singupPage> {
         var responseBodyOfSignUp = jsonDecode(res.body);
         if (responseBodyOfSignUp['success'] == true) {
           
-          Get.snackbar('Félicitation☺', "votre compte viens d'étre crée avec succsé \n.Veillez inseré vos identifiant de connection ",duration: Duration(seconds: 5),colorText: Colors.green, );
+          Get.snackbar('Félicitation☺', "votre compte viens d'étre crée avec succsé \n.Veillez inseré vos identifiant de connection ",duration: Duration(seconds: 5),colorText: Colors.white,backgroundColor: Colors.black45 );
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -216,9 +216,11 @@ class _singupPageState extends State<singupPage> {
                       const SizedBox(height: 11.0),
                       ElevatedButton.icon(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate() && _emailController.text.contains('@') && _emailController.text.contains('.com') && _passwordController.text.length>4) {
                             registerAndSaveUserRecord();
-                          } else {}
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Vérfiez si le format de votre email est correcte , remplissez tous les champs et insérez un mots de passe avec au moins 4 charactéres'), duration: Duration(seconds: 9),));
+                          }
                         },
                         label: const Text('SignUp'),
                         icon: const Icon(CupertinoIcons.person_add_solid),

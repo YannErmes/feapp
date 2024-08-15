@@ -66,32 +66,40 @@ class Produits extends StatelessWidget {
 
 
 
-                    child:  Row(
-
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Code: $Code'),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        FittedBox(
+                          child: Text( nom ,
+                            style:
+                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black),),
+                        ),
+                        Row(
+
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text( nom ,
-                              style:
-                              const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black),),
+                            Text('Code:$Code'),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
 
 
-                            // le prix
-                            Container(
-                              width: 52,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5)
-                              ),
-                              child: Center(
-                                child: Text('$prix f', style: const TextStyle(
-                                    color: Colors.green
-                                ),),
-                              ),
+
+                                // le prix
+                                Container(
+                                  width: 52,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5)
+                                  ),
+                                  child: Center(
+                                    child: Text('$prix f', style: const TextStyle(
+                                        color: Colors.green
+                                    ),),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
