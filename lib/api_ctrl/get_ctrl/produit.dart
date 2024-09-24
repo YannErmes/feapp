@@ -2,15 +2,17 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hive/hive.dart';
 
 
 
-class Produits extends StatelessWidget {
+class Produit extends StatelessWidget {
   final String image;
   final String nom;
   final String prix;
   final String Code;
-  const Produits({super.key, required this.image, required this.nom, required this.prix, required this.Code});
+  const Produit({super.key, required this.image, required this.nom, required this.prix, required this.Code});
 
 
 
@@ -117,3 +119,159 @@ class Produits extends StatelessWidget {
 
   }
 }
+
+
+
+class Product {
+  final String name;
+  final String imageUrl1;
+  final String imageUrl2;
+  final String imageUrl3;
+  final String price;
+  final String Description ;
+
+  Product( {required this.name, required this.imageUrl1, required this.imageUrl2, required this.imageUrl3, required this.price,required this.Description});
+}
+
+
+
+class Products extends StatefulWidget {
+  final Map<dynamic, dynamic> product;
+  const Products({super.key, required this.product});
+
+  @override
+  State<Products> createState() => _ProductsState();
+}
+
+class _ProductsState extends State<Products> {
+
+
+
+  var liked = Hive.box('like');
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+
+
+
+        child:Container(
+
+          decoration: BoxDecoration(
+              boxShadow:const [BoxShadow(
+                blurRadius: 15,
+              )],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15)
+          ),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: widget.product['image1'],
+                  height: 150,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  placeholder: (context, url) =>  Image.network("https://i.postimg.cc/sDGVRgq2/Untitled_image_(2).png", height: 11,).animate().shake(duration: Duration(seconds: 100)),
+                  errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
+                ),
+              ),
+
+              //prix et nom ......
+              Expanded(
+
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15))
+                      ),
+
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+
+
+
+                      child:  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            child: Text( widget.product['nom'] ,
+                              style:
+                              const TextStyle(fontWeight: FontWeight.bold, fontSize: 19,color: Colors.black,),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                          ),
+                          Row(
+
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  // le prix
+                                  Container(
+                                    width: 52,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Center(
+                                      child: Text('${widget.product['prix']}f', style: const TextStyle(
+                                          color: Colors.green
+                                      ),),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                          Container(
+                            padding: EdgeInsets.all(3),
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+                            color: Colors.redAccent.shade100),
+                            child: Text("jusqu'a 10%"),
+                          )
+,
+                          Padding(
+                            padding: const EdgeInsets.all(1),
+                            child: IconButton(icon :
+
+                            liked.get("${widget.product['nom']}") == 'liked' ? Icon(Icons.favorite, color: Colors.red,):
+                            Icon(Icons.favorite_border),
+
+                              onPressed: (){
+
+                                setState(() {
+                                  if( liked.get("${widget.product['nom']}") == 'liked')
+                                  {
+                                    liked.put('${widget.product['nom']}', 'unliked');
+                                  }else{
+                                    liked.put('${widget.product['nom']}', 'liked');
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Liker'),backgroundColor: Colors.red.shade200,));
+
+                                  }
+
+                                });
+
+                              },),)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+    );
+  }
+  }

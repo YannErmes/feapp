@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:animations/animations.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fesneakers/api_ctrl/annexapis.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/card.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/produit.dart';
 import 'package:fesneakers/oussama/data.dart';
@@ -15,19 +16,16 @@ import 'package:fesneakers/pages/description.dart';
 import 'package:fesneakers/pages/image.dart';
 import 'package:fesneakers/pages/login.dart';
 import 'package:fesneakers/pages/politic_page.dart';
-import 'package:fesneakers/pages/sigin.dart';
 import 'package:fesneakers/pages/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as https;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../oussama/fliter_brand.dart';
 
 class homepage extends StatefulWidget {
   final String? useremail;
@@ -49,16 +47,19 @@ class _homepageState extends State<homepage> {
   bool animebrand = true;
   bool repeat = true;
   final rep = Hive.box('mybox3');
-  final id = Hive.box('mybox');
+  final userinformation = Hive.box('userauth');
   int i = 0;
-  cardgetter usecard = Get.put(cardgetter());
+
   //Categorie cat_ctrl = Get.put(Categorie());
+   card_ctrl paniertaille = Get.put(card_ctrl());
   @override
   void initState() {
     // TODO: implement initState
     // _fetchcategorie();
     super.initState();
     timerequest();
+
+    taille_panier( "${userinformation.get('utilisateurmail')}");
     // _fetchproduit("Get.php", "produit");
   //  first_use();
     
@@ -87,14 +88,6 @@ class _homepageState extends State<homepage> {
       return;
     }
   }
-  void _launchURL() async {
-    const url = 'https://fe-store-politique-de-confidentialite.netlify.app/'; // Remplacez par l'URL de votre politique de confidentialité
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Impossible d\'ouvrir l\'URL $url';
-    }
-  }
 
 
 
@@ -121,7 +114,7 @@ class _homepageState extends State<homepage> {
 
               ),
               height: animebrand ? 50 : 300,
-              duration: Duration(seconds: 2),
+              duration: Duration(seconds: 1),
               curve: Curves.decelerate,
 
               margin: EdgeInsets.symmetric(horizontal: 20),
@@ -269,7 +262,6 @@ class _homepageState extends State<homepage> {
           ),
         ),
       ),
-      
       // drawer
       drawer: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -353,8 +345,8 @@ class _homepageState extends State<homepage> {
                     onPressed: () {
                       Navigator.push(
                         context,PageRouteBuilder(pageBuilder:
-                          (context, animation, anotheranimation) =>  cardpage(
-                            useremail: '${id.get(3)}',
+                          (context, animation, anotheranimation) =>  ShoppingCartPage(
+
                           ),
                           transitionDuration: Duration(seconds: 1),
                           reverseTransitionDuration: Duration(seconds:1),
@@ -366,9 +358,7 @@ class _homepageState extends State<homepage> {
                               child: SizeTransition(
                                 sizeFactor: animation,
                                 axisAlignment: 0,
-                                child:  cardpage(
-                                  useremail: '${id.get(3)}',
-                                ),
+                                child:  ShoppingCartPage(),
                               ),
 
                             );
@@ -390,7 +380,7 @@ class _homepageState extends State<homepage> {
                     onPressed: () {
                       Navigator.push(
                         context,PageRouteBuilder(pageBuilder:
-                          (context, animation, anotheranimation) =>   Commentaire(nom: '${id.get(1)}'),
+                          (context, animation, anotheranimation) =>   Commentaire(nom: '${userinformation.get('utilisateurnom')}'),
                           transitionDuration: Duration(seconds: 1),
                           reverseTransitionDuration: Duration(seconds:1),
                           transitionsBuilder: (context, animation , anotheranimation , child){
@@ -401,7 +391,7 @@ class _homepageState extends State<homepage> {
                               child: SizeTransition(
                                 sizeFactor: animation,
                                 axisAlignment: 0,
-                                child:  Commentaire(nom: '${id.get(1)}'),
+                                child:  Commentaire(nom: '${userinformation.get('utilisateurnom')}'),
                               ),
 
                             );
@@ -598,14 +588,61 @@ slivers: [
     ),
 expandedHeight: 425,
     title: Text(
-      " ${id.get(1) ?? ''} Bienvenue!",
+      " ${userinformation.get('utilisateurnom') ?? ''} Bienvenue!",
       style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.bold),
     ),
     actions: [
-      usecard.taille('${id.get(3)}', context),
+      Stack(
+        children: [
+          IconButton(
+              onPressed: (){
+                Navigator.push(
+                  context,PageRouteBuilder(pageBuilder:
+                    (context, animation, anotheranimation) =>  ShoppingCartPage(
+
+                ),
+                    transitionDuration: Duration(seconds: 1),
+                    reverseTransitionDuration: Duration(seconds:1),
+                    transitionsBuilder: (context, animation , anotheranimation , child){
+                      animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                          reverseCurve: Curves.fastOutSlowIn);
+                      return Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          axisAlignment: 0,
+                          child:  ShoppingCartPage(),
+                        ),
+
+                      );
+                    }
+
+                ) ,
+                );
+
+              },
+              icon: Icon( Icons.shopping_bag_outlined,
+                size: 40,
+                color: Colors.black,)
+          ),
+          Positioned(
+            left: 30,
+            top: 9,
+
+            child: CircleAvatar(backgroundColor: Colors.red,
+              radius: 9,
+
+              child: Text('$size',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold, fontSize: 8)),),
+          )
+        ],
+      ),
+
+
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
@@ -767,7 +804,11 @@ expandedHeight: 425,
                                 imageUrl: '${cat['image']}',
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
+                                    LoadingAnimationWidget.flickr(
+                                      leftDotColor: Colors.brown.shade200,
+                                      rightDotColor: Colors.black,
+                                      size: 35,
+                                    ),
                                 errorWidget: (context, url, error) =>
                                 const Icon(Icons.image_not_supported_rounded),
                               )),
@@ -780,7 +821,11 @@ expandedHeight: 425,
               },
             ),
           )
-              : const CircularProgressIndicator(),
+              :  LoadingAnimationWidget.flickr(
+            leftDotColor: Colors.brown.shade200,
+            rightDotColor: Colors.black,
+            size: 50,
+          ),
         ],
       ),
 
@@ -794,125 +839,138 @@ expandedHeight: 425,
   ),
 
   SliverToBoxAdapter(
-    child: SafeArea(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Center(
-          child: Column(
+    child: Center(
+      child: Column(
+        children: [
+          // first container
+
+          //                                             Bar de filtrage
+          Stack(
             children: [
-              // first container
-
-
-              //                                    contaenair de categorie
-
-              //                                                    Categorie
-
-
-              //
-              //
-              //                                             Bar de filtrage
-              Stack(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.black54,
-                    ),
-                    height: 45,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'Filtré',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 20),
-                            ),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _fetchproduit("prixh.php", '11000');
-                                });
-                              },
-                              icon: const Icon(
-                                CupertinoIcons.arrow_up_square_fill,
-                                color: Colors.green,
-                                size: 30,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                _fetchproduit("prixb.php", '11000');
-                              },
-                              icon: const Icon(
-                                CupertinoIcons.arrow_down_square_fill,
-                                color: Colors.red,
-                                size: 30,
-                              )),
-
-                          //
-                          //
-                          //                          bottom sheet filtrage par brande
-
-                        ],
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.black54,
+                ),
+                height: 45,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Filtré',
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 20),
+                        ),
                       ),
-                    ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _fetchproduit("prixh.php", '11000');
+                            });
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.arrow_up_square_fill,
+                            color: Colors.green,
+                            size: 30,
+                          )),
+                      IconButton(
+                          onPressed: () {
+                            _fetchproduit("prixb.php", '11000');
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.arrow_down_square_fill,
+                            color: Colors.red,
+                            size: 30,
+                          )),
+
+                      //
+                      //
+                      //                          bottom sheet filtrage par brande
+
+                    ],
                   ),
-                ],
-              ),
-
-              //
-              //
-              //                                              Titer produit
-
-              SizedBox(
-                height: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Produits',
-                        style: TextStyle(color: Colors.black87, fontSize: 23),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            mode =!mode;
-                          });
-                        },
-                        icon: mode
-                            ? const Icon(
-                          CupertinoIcons.increase_quotelevel,
-                          size: 25,
-                          color: Colors.white,
-                        )
-                            : const Icon(
-                          Icons.grid_view_rounded,
-                          size: 25,
-                          color: Colors.white,
-                        ))
-                  ],
                 ),
               ),
-
-              //
-              //
-              //                                             Liste de produit
-              _produit.isNotEmpty
-                  ? Center(child: print_prod(mode, '${widget.useremail}'))
-                  : const CircularProgressIndicator()
             ],
           ),
-        ),
+
+          //
+          //
+          //                                              Titer produit
+
+          SizedBox(
+            height: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Produits',
+                    style: TextStyle(color: Colors.black87, fontSize: 23),
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+
+          //
+          //
+
+        ],
       ),
     ),
+  ),
+  //                                             Liste de produit
+  SliverGrid(
+
+    gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+      mainAxisExtent: 300,
+
+      crossAxisCount:  2, // Deux éléments par ligne
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 16,
+      childAspectRatio: 0.7,),
+    delegate: SliverChildBuilderDelegate(
+
+          (BuildContext context, int index) {
+        final product = _produit[index];
+        return  Container(
+
+         padding: EdgeInsets.all(5),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: OpenContainer(
+              transitionDuration: Duration(microseconds: 500),
+
+              closedBuilder: (context, action) =>
+                  Products(product: _produit[index]),
+              openBuilder: (context, action) {
+                return Description(
+                  image1: '${product['image1']}',
+                  image2: '${product['image2']}',
+                  image3: '${product['image3']}',
+                  prix: double.parse(product['prix'] ),
+                  nom: '${product['nom']}',
+                  description: '${product['description']}',
+                  quantite: '${product['quantite']}',
+                  eid: '${product['eid']}',
+                  useremail:"${userinformation.get('utilisateurmail')}",
+                );
+              },
+            ),
+          ),
+        );
+      },
+      childCount: _produit.length, // Nombre d'éléments
+    ),
+
   )
 ],
 
@@ -930,7 +988,7 @@ expandedHeight: 425,
     // Remplacez l'URL par l'URL de votre API PHP
 
     try {
-      var response = await http.post(
+      var response = await https.post(
           Uri.parse('https://www.fe-store.pro/Get.php'),
           body: {
             "nom": 'categorie',
@@ -959,8 +1017,6 @@ expandedHeight: 425,
     }
   }
 
-//
-//
 //                                                gestion des produit avec requete
   List _produit = [];
 
@@ -968,7 +1024,7 @@ expandedHeight: 425,
     // Remplacez l'URL par l'URL de votre API PHP
 
     try {
-      var response = await http.post(
+      var response = await https.post(
           Uri.parse('https://www.fe-store.pro/$path'),
           body: {
             "nom": name,
@@ -1007,135 +1063,6 @@ expandedHeight: 425,
     }
   }
 
-  //
-  //
-  //                                                        Affichage de produit
-  Widget print_prod(bool mode, String userpass) {
-    var y = _produit.length;
-    var size = MediaQuery.of(context).size.width;
-    if(size>500 || mode){
-      setState(() {
-        mode = true;
-      });
-    }else{
-      setState(() {
-        mode = false;
-      });
-    }
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 19),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            mode
-                ? Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.black38),
-                    height: 220,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemExtent: 200,
-                      cacheExtent: 100,
-                      itemCount: _produit.length,
-                      itemBuilder: (context, index) {
-                        final product = _produit[index];
-
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(33),
-                            child: OpenContainer(
-                              
-                              transitionDuration: Duration(seconds: 1),
-                              transitionType: ContainerTransitionType.fade,
-
-                              closedBuilder: (context, action) =>
-                              Produits(
-                                  image: '${product['image1']}',
-                                  nom: '${product['nom']}',
-                                  prix: '${product['prix']}',
-                                  Code: '${product['eid']}'),
-                              openBuilder: (context, action) {
-
-                                return Description(
-                                  image1: '${product['image1']}',
-                                  image2: '${product['image2']}',
-                                  image3: '${product['image3']}',
-                                  prix: '${product['prix']}',
-                                  nom: '${product['nom']}',
-                                  description: '${product['description']}',
-                                  quantite: '${product['quantite']}',
-                                  eid: '${product['eid']}',
-                                  useremail: id.get(3)
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                : Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white.withOpacity(0.7)),
-
-                    height: y * 100,
-                    child: GridView.builder(
-
-                      scrollDirection: Axis.horizontal,
-                      dragStartBehavior: DragStartBehavior.start,
-                      itemCount: _produit.length,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          mainAxisSpacing: size/19,
-                          crossAxisSpacing: 8,
-                          maxCrossAxisExtent:
-                              size > 500 ? (270 * size) / 504 : 200,
-                          mainAxisExtent: (170 * size) / 360),
-                      itemBuilder: (context, index) {
-                        final product = _produit[index];
-                        return  Padding(
-                          padding: const EdgeInsets.all(2),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: OpenContainer(
-                              transitionDuration: Duration(seconds: 1),
-
-                              closedBuilder: (context, action) =>
-                                  Produits(
-                                      image: '${product['image1']}',
-                                      nom: '${product['nom']}',
-                                      prix: '${product['prix']}',
-                                      Code: '${product['eid']}'),
-                              openBuilder: (context, action) {
-                                return Description(
-                                  image1: '${product['image1']}',
-                                  image2: '${product['image2']}',
-                                  image3: '${product['image3']}',
-                                  prix: '${product['prix']}',
-                                  nom: '${product['nom']}',
-                                  description: '${product['description']}',
-                                  quantite: '${product['quantite']}',
-                                  eid: '${product['eid']}',
-                                  useremail: id.get(3),
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  //
-  //
   //liste de brande pour la bottomsheet
   brand(String image) {
     return GestureDetector(
@@ -1147,13 +1074,62 @@ expandedHeight: 425,
           child: CachedNetworkImage(
             imageUrl: image,
             fit: BoxFit.cover,
-            placeholder: (context, url) => const CircularProgressIndicator(),
+            placeholder: (context, url) =>  LoadingAnimationWidget.flickr(
+              leftDotColor: Colors.brown.shade200,
+              rightDotColor: Colors.black,
+              size: 20,
+            ),
             errorWidget: (context, url, error) =>
                 const Icon(Icons.image_not_supported_rounded),
             height: 50,
           )),
     ));
   }
+
+
+
+  // fech panier taille
+  int size= 0 ;
+  Future<String> taille_panier(String userid)async{
+    var Url = 'https://www.fe-store.pro/web_view_panier.php';
+
+    var response = await https.post(Uri.parse(Url),
+        body:  {
+          'userid' : '$userid'
+        });
+
+    if(response.statusCode == 200){
+
+      var resbody  = jsonDecode(response.body);
+      List<dynamic> panierlist = [];
+      if(resbody['success']== true){
+
+        panierlist = resbody['todos'];
+        //  Map<dynamic,dynamic> paniermap = panierlist ;
+        print(panierlist);
+        size = panierlist.length;
+        return '0' ;
+
+
+      }
+      else {
+        print ("${Text('${resbody['message']}')}");
+        return '0' ;
+
+      }
+
+
+    }else {
+
+      print ('no request');
+      return "0" ;
+    }
+
+
+  }
+
+
+
 
 
 

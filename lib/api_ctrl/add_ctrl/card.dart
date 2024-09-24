@@ -6,14 +6,20 @@ import 'package:http/http.dart' as http;
 
 
 
-Add_card(String image, String nom, String eid  , String email) async {
+Add_card(String image, String nom, String eid  , String email , double prix) async {
+  print('requete');
   try {
-    var res = await http
-        .post(Uri.parse('https://www.fe-store.pro/add_card.php'), body: {
+    var res = await http.post(Uri.parse('https://www.fe-store.pro/add_card.php'),
+        body: {
       "eid": eid,
       "image": image,
       "nom": nom,
-      "userpass" : email
+      "userpass" : email,
+      "prix" :'$prix'
+
+    } , headers: {
+      "Authorization": "yanno"
+
     });
 
     if (res.statusCode == 200) {

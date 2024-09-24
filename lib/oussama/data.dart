@@ -3,6 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 
 
 class Categorie extends StatefulWidget {
@@ -190,7 +192,11 @@ class _SliderPState extends State<SliderP> {
                 fit: BoxFit.cover,
                 placeholder: (context, url) => SizedBox(
 
-                    child: const LinearProgressIndicator()),
+                    child: LoadingAnimationWidget.flickr(
+                      leftDotColor: Colors.brown.shade200,
+                      rightDotColor: Colors.black,
+                      size: 50,
+                    ),),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             );

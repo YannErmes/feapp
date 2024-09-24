@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
@@ -30,6 +29,7 @@ class _ListCardState extends State<ListCard> {
   List<Map<String, dynamic>> cards = [];
 
 
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +40,7 @@ class _ListCardState extends State<ListCard> {
       });
     });
     _fetchcards();
+    calcul();
 
   }
 
@@ -97,6 +98,22 @@ class _ListCardState extends State<ListCard> {
   }
 
 
+  calcul (){
+    double TT = 0 ;
+
+    for( var item in cards){
+      double prix = double.tryParse(item['prix']) ?? 12;
+      int quantite = int.tryParse(item['quantite']) ?? 1;
+      TT =  ((prix -(prix *0.10)) * quantite) + TT;
+
+    }
+
+    print(TT);
+    return TT  ;
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +122,7 @@ class _ListCardState extends State<ListCard> {
       child: Column(
         children: [
 
-          Text('${cards.length}',style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold
 
-          ),),
           Container(
            height: 450,
             child: ListView.builder(
@@ -117,7 +130,7 @@ class _ListCardState extends State<ListCard> {
               itemBuilder: (context, index) {
                 final card = cards[index];
                 bool deleteMode = card['deleteMode'] ?? false;
-
+                int quantite = 1 ;
                 return  AnimationConfiguration.staggeredList(
                   position: index,
                   duration: const Duration(milliseconds: 375),
@@ -151,8 +164,45 @@ class _ListCardState extends State<ListCard> {
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(' Code: ${card['eid']}' , style: const TextStyle(color: Colors.black87),),
-                                  Text('Status : ${card['commande_en_cours']}')
+                                  Text('${card['prix']}' , style: const TextStyle(color: Colors.black87),),
+                                  Container(
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Colors.black)
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(Icons.remove),
+                                          onPressed: () {
+                                            // Diminuer la quantité
+                                            setState(() {
+                                              if (quantite > 1) {
+                                                quantite = quantite - 1;
+                                              } else
+                                                return;
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          '${quantite}',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.add),
+                                          onPressed: () {
+                                            // Augmenter la quantité
+                                            setState(() {
+                                              quantite = quantite + 1;
+
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                               trailing: GestureDetector(
@@ -177,17 +227,7 @@ class _ListCardState extends State<ListCard> {
 
                             ),
                           ),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Credit( prix: '${card['prix']}' , image: '${card['image']}', code: '${card['eid']}', nom: '${card['nom']}'),));
-                            },
-                            icon: const Icon(
-                              Icons.shopify,
-                              size: 30,
-                              color: Colors.green,
-                            ),
-                            label: const Text('Commander'),
-                          ),
+
 
                         ],
                       ),
@@ -197,95 +237,27 @@ class _ListCardState extends State<ListCard> {
               },
             ),
           ),
+
+
+
         ],
       ),
     );
   }
 }
 
-class cardgetter extends GetxController {
-
-    List cards = [];
-  Future<void> _fetchcards( String userpass) async {
-    try {
-      var response = await http.post(
-        Uri.parse('https://www.fe-store.pro/Get_card.php'),
-        body: {"nom": 'card', "userpass": userpass},
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> responseData = json.decode(response.body);
-          cards = responseData.cast<Map<String, dynamic>>().map((card) {
-            // Ajoutez une clé 'deleteMode' à chaque carte
-            return {...card, 'deleteMode': false};
-          }).toList();
-          update();
-
-      } else {
-        Get.defaultDialog(
-            title:
-            'Oups! chargement de votre panier depuis le local sécurisé essayez de redémmaré l\'application dans 50 seconde 😉',
-            titleStyle: const TextStyle(fontSize: 15),
-            content: SizedBox(
-                height: 30,
-                child: LottieBuilder.network(
-                    'https://lottie.host/7586c362-df43-4a53-be74-7ba3da4297cf/Y0ZkJP3d4R.json')));
-        print('Erreur de chargement des produits : ${response.statusCode}');
-      }
-    } catch (e) {
-      print(e.toString());
-
-      Get.defaultDialog(
-          title: 'Oups! la connection à internet a été interrompue 😥 !',
-          titleStyle: const TextStyle(fontSize: 15),
-          content: const SizedBox(height: 30, child: Icon(Icons.wifi_off)));
-    }
-  }
-  taille (String userpass , var context){
-    _fetchcards(userpass);
-    return Stack(
-      children: [
-
-        IconButton(
-         icon: Icon (Icons.shopping_cart_checkout ,size: 21, color: Colors.white,)
-             ,  onPressed: () {
-          Navigator.push(
-            context,PageRouteBuilder(pageBuilder:
-              (context, animation, anotheranimation) =>  cardpage(
-            useremail:userpass,
-          ),
-              transitionDuration: Duration(seconds: 1),
-              reverseTransitionDuration: Duration(seconds:1),
-              transitionsBuilder: (context, animation , anotheranimation , child){
-                animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
-                    reverseCurve: Curves.fastOutSlowIn);
-                return Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizeTransition(
-                    sizeFactor: animation,
-                    axisAlignment: 0,
-                    child:  cardpage(
-                      useremail: userpass,
-                    ),
-                  ),
-
-                );
-              }
-
-          ) ,
-          );
-
-        },
 
 
-        ),
-        Positioned(top: 3,left: 28,height: 25,
-
-            child:  Text('${cards.length}', style: TextStyle(color: Colors.black54 , fontWeight: FontWeight.bold,),))
-
-      ],
-    );
-  }
 
 
-}
+
+
+
+
+
+
+
+
+
+
+

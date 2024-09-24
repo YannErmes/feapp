@@ -1,11 +1,9 @@
 import 'package:fesneakers/pages/home.dart';
 import 'package:fesneakers/pages/splash.dart';
-import 'package:fesneakers/test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'oussama/fliter_brand.dart';
 
 void main() async{
 
@@ -13,6 +11,8 @@ void main() async{
   var box = await Hive.openBox('mybox');
   var box2 = await Hive.openBox('mybox2');
   var box3 = await Hive.openBox('mybox3');
+  var box4 = await Hive.openBox('like');
+  var box5 = await Hive.openBox('userauth');
 
 
   runApp(const MyApp());

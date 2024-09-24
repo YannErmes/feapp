@@ -27,6 +27,9 @@ class _LoginPageState extends State<LoginPage> {
 
 
   bool view =  false ;
+  var storage = Hive.box('userauth');
+
+
   registerAndSaveUserRecord( String email , String password ,String nomuser) async {
     try {
       var res = await http.post(
@@ -42,10 +45,13 @@ class _LoginPageState extends State<LoginPage> {
         if (responseBodyOfSignUp['success'] == true) {
 
           Get.defaultDialog(title: 'Bienvenue $nomuser',content: const CircularProgressIndicator() );
-         writebox(nomuser, password, email);
+
+          storage.put('utilisateurnom', '${_usernameController.text}');
+          storage.put('utilisateurmail', '${_emailController.text}');
+          storage.put('utilisateurpassword', '${_passwordController.text}');
 
           await Future.delayed(
-            const Duration(seconds: 4),
+            const Duration(seconds: 3),
                 ()
                 {
                   Get.back();
@@ -87,6 +93,10 @@ class _LoginPageState extends State<LoginPage> {
               child: Icon(Icons.wifi_off)));
     }
   }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 40,
                       ),
 
-                       redbox()  ,
+
                       TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -251,35 +261,5 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-
-
-  final _memoir = Hive.box('mybox');
-
-  void writebox ( String nom , String password , String email){
-    _memoir.put(1, nom);
-    _memoir.put(2, password);
-    _memoir.put(3, email);
-
-  }
-// read
-  Widget redbox (){
-   String nomuser =  _memoir.get(1) ?? '';
-   String email =  _memoir.get(3) ?? '';
-   String password =  _memoir.get(2) ?? '';
-   return Container(
-     child: TextButton(
-       onPressed: (){
-         registerAndSaveUserRecord(email , password , nomuser);
-       },
-       child: Text('Se connecté sur : $nomuser'),
-     )
-
-   );
-
-  }
-// dele
-  void delbox (){
-    //  print( _fav.delete(1));
-  }
 
 }

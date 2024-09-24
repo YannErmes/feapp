@@ -1,6 +1,5 @@
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
@@ -81,7 +80,7 @@ class _CompteState extends State<Compte> {
     return Scaffold(
       appBar:AppBar(
 
-        title: Text('Votre sotre est activer en mode basic' , style: TextStyle(fontSize: 18),),
+        title: Text('Votre sotre est activer en mode basic' , style: TextStyle(fontSize: 12),),
         leading: Icon(Icons.offline_pin_outlined, color:Colors.blue,
         ),
       ) ,

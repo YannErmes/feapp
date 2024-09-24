@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fesneakers/pages/home.dart';
 import 'package:fesneakers/pages/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
@@ -22,6 +24,8 @@ class _singupPageState extends State<singupPage> {
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  var registretion = Hive.box('userauth');
 
   registerAndSaveUserRecord() async {
     DateTime date = DateTime.now();
@@ -47,8 +51,13 @@ class _singupPageState extends State<singupPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const LoginPage(),
+                builder: (context) => homepage(t: 1),
               ));
+          registretion.put('utilisateurnom', '${_usernameController.text}');
+          registretion.put('utilisateurmail', '${_emailController.text}');
+          registretion.put('utilisateurpassword', '${_passwordController.text}');
+
+
         } else {
           Fluttertoast.showToast(msg: " Oops! ${responseBodyOfSignUp['message ']}");
         }
@@ -217,9 +226,11 @@ class _singupPageState extends State<singupPage> {
                       ElevatedButton.icon(
                         onPressed: () async {
                           if (_formKey.currentState!.validate() && _emailController.text.contains('@') && _emailController.text.contains('.com') && _passwordController.text.length>4) {
-                            registerAndSaveUserRecord();
-                          } else {
+
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Vérfiez si le format de votre email est correcte , remplissez tous les champs et insérez un mots de passe avec au moins 4 charactéres'), duration: Duration(seconds: 9),));
+
+                          } else {
+                            registerAndSaveUserRecord();
                           }
                         },
                         label: const Text('SignUp'),

@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "1089170923738",
+    "project_id": "test-89c30",
+    "storage_bucket": "test-89c30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089170923738:android:2640d5a310a0d37f1ac5e3",
+        "android_client_info": {
+          "package_name": "com.example.fesneakers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTMNhEoSKuFLRINOlTHA6wyR99kn3XyrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089170923738-9ni9il1hq82dt2p3ievst8f2c6lv5l2r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1089170923738-0ae91eqmm5ltkf181qhhrfcr4s5qbrgd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fesneakers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089170923738:android:374aab795406c1d31ac5e3",
+        "android_client_info": {
+          "package_name": "com.example.fitness_site"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTMNhEoSKuFLRINOlTHA6wyR99kn3XyrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089170923738-9ni9il1hq82dt2p3ievst8f2c6lv5l2r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1089170923738-0ae91eqmm5ltkf181qhhrfcr4s5qbrgd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fesneakers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

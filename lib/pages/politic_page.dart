@@ -18,7 +18,7 @@ class PolitiqueConfidentialitePage extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'fé_Store a développé l\'application fé_Store comme une application gratuite.',
+              'fé_Sneakers a développé l\'application fé_Store comme une application gratuite.',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 16.0),
