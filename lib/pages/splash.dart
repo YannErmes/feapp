@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fesneakers/pages/sigin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import 'home.dart';
 
 class MyCustomWidget extends StatefulWidget {
   const MyCustomWidget({super.key});
@@ -50,7 +52,7 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
                   pause: Duration(hours: 1),
 
                   animatedTexts: [
-                    TypewriterAnimatedText('fé présnte Sneakres store 3.0 , accrohez vous bien...',
+                    TypewriterAnimatedText('fé présnte en exclusivité l\'application fé sneakers  , accrohez vous bien...',
                         speed: Duration(microseconds: 50)),
                   ],
                   onTap: () {
@@ -146,7 +148,7 @@ class _SecondClassState extends State<SecondClass>
                 child: Text(
                   "C'est partie",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
                   ),
@@ -172,7 +174,7 @@ class _SecondClassState extends State<SecondClass>
                       spreadRadius: 10,
                     ),
                   ],
-                  color: Colors.deepPurpleAccent,
+                  color: Colors.black12,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(
@@ -180,17 +182,17 @@ class _SecondClassState extends State<SecondClass>
                     width: 100,
                     height: 100,
                     decoration: const BoxDecoration(
-                        color: Colors.purple, shape: BoxShape.circle),
+                        color: Colors.black54, shape: BoxShape.circle),
                     child: AnimatedBuilder(
                       animation: scaleAnimation,
                       builder: (c, child) => Transform.scale(
                         scale: scaleAnimation.value,
                         child: Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.deepPurpleAccent,
-                          ),
-
+                        child: LoadingAnimationWidget.flickr(
+                          leftDotColor: Colors.brown.shade200,
+                          rightDotColor: Colors.black,
+                          size: 50,
+                        )
                         ),
                       ),
                     ),
@@ -229,8 +231,7 @@ class ThisIsFadeRoute extends PageRouteBuilder {
 
 
 
-      return
-      singupPage();
+      return homepage(t: 1, usernom: '',);
 
     }
   );

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:fesneakers/pages/Credit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -9,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
-import '../../pages/card.dart';
 
 
 

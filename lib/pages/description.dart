@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fesneakers/api_ctrl/add_ctrl/card.dart';
-import 'package:fesneakers/pages/Credit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 
@@ -185,7 +183,7 @@ class _DescriptionState extends State<Description> {
                                                   style: const TextStyle(
                                                       color: Colors.white , fontWeight: FontWeight.bold),
                                                 ))),
-                                        Text('${widget.prix}' , style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.redAccent),)
+                                        Text('${widget.prix} fcfa' , style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey, fontWeight: FontWeight.bold),)
                                       ],
                                     )
                                   ],
@@ -225,19 +223,22 @@ class _DescriptionState extends State<Description> {
 
 
                         SizedBox(
-                          height: 20,
+                          height:10,
                         ),
                         Container(
+
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)
+                              color: Colors.yellow.shade100,
+
                             ),
                             child:ListTile(
                               leading: Icon(Icons.local_shipping_outlined),
                               title: Row(
                                 children: [
                                   Icon(Icons.circle_rounded, color: Colors.green,size: 15,),
-                                  Text('Livraison à domicile \n ou en relais \n à partir du 12 septembre',
-                                    overflow: TextOverflow.ellipsis,),
+                                  int.tryParse(widget.eid) != null && int.parse(widget.eid) > 100
+                                      ? Text("Livaison gratuite à \n domicile ou en relais ", style: TextStyle(color: Colors.green),) :Text('Livraison en relais: ${widget.eid}0f',style: TextStyle(color: Colors.black))
+                                  ,
                                 ],
                               ),
 
@@ -250,7 +251,8 @@ class _DescriptionState extends State<Description> {
                         ),
                         Container(
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)
+                                color: Colors.yellow.shade100,
+
                             ),
                             child:ListTile(
                               leading: Icon(Icons.monetization_on_outlined),
@@ -369,7 +371,7 @@ class _DescriptionState extends State<Description> {
                           leading: Icon(Icons.local_shipping_outlined, color: Colors.black),
 
                           children: [
-                            Txt("Le délai d'expédition est de 1 à 2 jours et le délai de livraison est de 4 à 7 jours  après avoir commandé sur le site."
+                            Txt("Le délai d'expédition est de 1 à 2 jours et le délai de livraison est de 3 à 7 jours aprés départ de l'entrepot avec remis de 5% en cas de retard."
                                 " Un WhatsApp / SMS / email de confirmation avec votre numéro de suivi vous sera envoyé dès que votre colis sera expédié de notre entrepôt.", 15, FontWeight.normal, Colors.black)
                           ],
                         ),
@@ -461,11 +463,12 @@ class _DescriptionState extends State<Description> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30),
                             child: PageView(
+                              pageSnapping: true,
                               scrollDirection: Axis.horizontal,
                                 children: [
                                   SizedBox(
                                     height: 280,
-                                    width: 260,
+                                    width: 230,
                                     child: descimage(widget.image1,context),
                                   ),
                                   SizedBox(

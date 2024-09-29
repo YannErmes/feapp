@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive/hive.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -14,7 +15,10 @@ class Rcommentaire extends StatefulWidget {
 }
 
 class _RcommentaireState extends State<Rcommentaire> {
-  List  _products = [];
+  List  _commemtaires = [];
+  var Moncommentaire = Hive.box('userauth');
+  var repondue = Hive.box('repply');
+
 
   @override
   void initState() {
@@ -35,7 +39,7 @@ class _RcommentaireState extends State<Rcommentaire> {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         setState(() {
-          _products = responseData.cast<Map<String, dynamic>>();
+          _commemtaires = responseData.cast<Map<String, dynamic>>();
         });
       } else {
         // Gérer les erreurs
@@ -48,50 +52,43 @@ class _RcommentaireState extends State<Rcommentaire> {
     }
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return
 
       Container(
-
+        padding: EdgeInsets.only(bottom: 100),
         child: ListView.builder(
 
-          itemCount: _products.length,
+          itemCount: _commemtaires.length,
           itemBuilder: (context, index) {
-            final cmt = _products[index];
+            final cmt = _commemtaires[index];
             return Container(
+
               margin: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child:Moncommentaire.get('utilisateurnom') == cmt['nom'] ?
+                  //montext
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  SizedBox(
 
-                    height: 30,
-                    width: 80,
-
-                    child:Center(child: Text('${cmt['nom']}' , style: const TextStyle(color: Colors.white),)),
-                  ),
                   Container(
                     padding: const EdgeInsets.all(5),
                     margin: const EdgeInsets.only(left: 10 , top: 10),
 
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width/1.5,
                     decoration: BoxDecoration(
-                        color: Colors.black12,
-                        border: Border.all(color: Colors.white),
+                        color: Colors.green.shade400,
+
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(15),
                           topRight: Radius.circular(15),
-                          bottomRight: Radius.circular(15)
+                          bottomLeft: Radius.circular(15)
                           
                         )
 
                     ),
-                    child:Text('${cmt['commentaire']}'),
+                    child:Text('${cmt['commentaire']}' , style: TextStyle(color: Colors.white),),
                   ),
                   SizedBox(
 
@@ -99,6 +96,49 @@ class _RcommentaireState extends State<Rcommentaire> {
                     child:Center(child: Text('${cmt['date']}' , style: const TextStyle(color: Colors.white),)),
                   ),
                 ],
+              ) :
+                  // leur text
+              GestureDetector(
+                onLongPress: (){
+
+                  repondue.put('Rmessage', "Reponse à:[ ${cmt['commentaire']}] [ ${cmt['nom']} ]=>");
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('repondre à :${cmt['commentaire']}')));
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+
+                      height: 30,
+                      width: 80,
+
+                      child:Center(child: Text('${cmt['nom']}' , style: const TextStyle(color: Colors.white, fontSize: 20),)),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(left: 10 , top: 10),
+
+                      width: MediaQuery.of(context).size.width/ 1.5,
+                      decoration: BoxDecoration(
+                          color: Colors.blueGrey.shade900,
+
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15)
+
+                          )
+
+                      ),
+                      child:Text('${cmt['commentaire']}', style: TextStyle(color: Colors.white),),
+                    ),
+                    SizedBox(
+
+
+                      child:Center(child: Text('${cmt['date']}' , style: const TextStyle(color: Colors.white),)),
+                    ),
+                  ],
+                ),
               ),
             );
           },

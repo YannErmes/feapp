@@ -2,19 +2,22 @@ import 'dart:convert';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
+var repplyer  = Hive.box('repply');
 Add_comment(String nom, String commentaire) async {
 
   DateTime date = DateTime.now();
   try {
+
     var res = await http.post(
         Uri.parse('https://www.fe-store.pro/add_comment.php'),
         body: {
           "nom": nom,
-          "commentaire": commentaire,
+          "commentaire": '${repplyer.get('Rmessage') ?? ''}\n $commentaire',
           "date": '${date.day}-${date.month}-${date.year}/${date.hour}:${date.minute}',
         });
 
@@ -22,6 +25,7 @@ Add_comment(String nom, String commentaire) async {
       var responseBodyOfSignUp = jsonDecode(res.body);
       if (responseBodyOfSignUp['success'] == true) {
         Fluttertoast.showToast(msg: "Félicitations ! Ajout reussie");
+        repplyer.delete('Rmessage');
       } else {
         Fluttertoast.showToast(
             msg: "Une erreur est survenue, veuillez réessayer");

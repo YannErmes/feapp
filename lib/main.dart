@@ -13,6 +13,7 @@ void main() async{
   var box3 = await Hive.openBox('mybox3');
   var box4 = await Hive.openBox('like');
   var box5 = await Hive.openBox('userauth');
+  var box6 = await Hive.openBox('repply');
 
 
   runApp(const MyApp());
@@ -52,10 +53,13 @@ class starter extends StatelessWidget {
 
   Widget build(BuildContext context) {
     final first = Hive.box('mybox');
-    if(first.get(1)== "null"){
+    if(first.get(1)== null){
+      first.put(1, 'ok');
       return   MyCustomWidget();
     }else {
-      return homepage(t: 1, usernom: '${first.get(1)}',);
+      return  homepage(t: 1, usernom: '',);
+
+
 
 
     }

@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -98,7 +97,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
         title: Text('Checkout'),
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Icon(Icons.arrow_back, color: Colors.black),
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+            icon :Icon (Icons.arrow_back, color: Colors.black)),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -220,10 +223,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             " afin de confirmer votre commande. Nous vous enverrons"
                             " une confirmation via WhatsApp ainsi que votre numéro de commande"
                             " pour finaliser l'expédition."
-                            " Vous aurez alors la possibilité de régler l'intégralité"
+                            " Vous aurez alors la possibilité de régler l'intégralité "
                             "avant l'envoi ou d'opter pour un paiement en deux temps : "
                             "la moitié avant expédition et le solde après validation "
-                            "de la réception.",
+                            " de la réception.",
                         15,
                         FontWeight.normal,
                         Colors.black),
@@ -299,7 +302,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             '${nom_ctrl.text}',
                             '${adresse_ctrl.text}',
                             '${commentair_ctrl.text}',
-                            '${nom_ctrl.text}',
+                            '${num_ctrl.text}',
                             widget.chekall,
                             context) ;
 

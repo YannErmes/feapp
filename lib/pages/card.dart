@@ -119,7 +119,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           fontSize: 15
                       ),
                     ),
-                    Text('  ${realtimeprice -(realtimeprice * 0.15)}fcfa' ,style: TextStyle(fontSize: 18),),
+                    Text('  ${realtimeprice -(realtimeprice * 0.05)}fcfa' ,style: TextStyle(fontSize: 18),),
                     Container(
                       width: 130,
                       height: 35,
@@ -188,8 +188,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       ),
       body: Monpanier.isEmpty
           ? Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(child: Text('Votre panier est vide.${card.get('utilisateurmail')}')),
+          Center(child: Text('Votre panier est vide.')),
           CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',height: 200,).animate().scale(curve:Curves.easeInOutExpo, duration: Duration(seconds: 2))
               .slide().shader(duration: Duration(seconds: 100)),
         ],

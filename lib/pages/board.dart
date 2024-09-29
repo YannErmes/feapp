@@ -80,7 +80,7 @@ class _CompteState extends State<Compte> {
     return Scaffold(
       appBar:AppBar(
 
-        title: Text('Votre sotre est activer en mode basic' , style: TextStyle(fontSize: 12),),
+        title: Text('Vous utilisé fé Sneakers en mode basic' , style: TextStyle(fontSize: 12),),
         leading: Icon(Icons.offline_pin_outlined, color:Colors.blue,
         ),
       ) ,

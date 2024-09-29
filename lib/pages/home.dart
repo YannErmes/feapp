@@ -5,7 +5,6 @@ import 'package:animations/animations.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fesneakers/api_ctrl/annexapis.dart';
-import 'package:fesneakers/api_ctrl/get_ctrl/card.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/produit.dart';
 import 'package:fesneakers/oussama/data.dart';
 import 'package:fesneakers/pages/Garantie.dart';
@@ -18,12 +17,12 @@ import 'package:fesneakers/pages/login.dart';
 import 'package:fesneakers/pages/politic_page.dart';
 import 'package:fesneakers/pages/splash.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as https;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -57,7 +56,9 @@ class _homepageState extends State<homepage> {
     // TODO: implement initState
     // _fetchcategorie();
     super.initState();
-    timerequest();
+    
+    _fetchproduit("Get.php", "produit");
+    _fetchcategorie();
 
     taille_panier( "${userinformation.get('utilisateurmail')}");
     // _fetchproduit("Get.php", "produit");
@@ -78,14 +79,12 @@ class _homepageState extends State<homepage> {
     });
   }
 
-  timerequest() {
-    i = widget.t;
-    if (i == 1) {
 
-      _fetchproduit("Get.php", "produit");
-      _fetchcategorie();
-    } else {
-      return;
+
+  final Uri _url = Uri.parse('https://web.facebook.com/profile.php?id=61557796385945');
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
     }
   }
 
@@ -217,7 +216,7 @@ class _homepageState extends State<homepage> {
                           InkWell(
                             onTap: () {
                               _fetchproduit(
-                                  "marque.php", 'addidas');
+                                  "marque.php", 'adidas');
                             },
                             child: brand(
                                 'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2Fadidas.jfif?alt=media&token=89f99b82-b1df-418e-bbb0-304efe1a02c0'),
@@ -233,7 +232,7 @@ class _homepageState extends State<homepage> {
                           InkWell(
                             onTap: () {
                               _fetchproduit(
-                                  "marque.php", 'balanciaga');
+                                  "marque.php", 'fashion');
                             },
                             child: brand(
                                 'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/categorie%2Fmarque%2FBalenciaga%20SVG%20%26%20PNG%20Download.jfif?alt=media&token=128a5069-4fa7-40f6-9069-6c53b03b3ffa'),
@@ -339,8 +338,6 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 15,
                   ),
-
-
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -374,8 +371,6 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 15,
                   ),
-
-
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -406,7 +401,6 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 15,
                   ),
-
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -438,7 +432,6 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 10,
                   ),
-
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -470,8 +463,6 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 10,
                   ),
-
-
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -503,15 +494,13 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 10,
                   ),
-
-
-
+                  
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PolitiqueConfidentialitePage(),
+                            builder: (context) => PrivacyPolicyPage(),
                           ));
                     },
                     child: const Text('Politique de Confidentialité (Interne)'),
@@ -520,11 +509,11 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 10,
                   ),
-                 /* TextButton(
-                    onPressed: _launchURL,
-                    child: const Text('Politique de Confidentialité (Externe)'),
+                  TextButton(
+                    onPressed: _launchUrl,
+                    child: CachedNetworkImage(imageUrl: 'https://freepnglogo.com/images/all_img/1713419247Facebook-Logo-Black.png', height: 50,),
 
-                  ),*/
+                  ),
                 ],
               ),
             ),
@@ -904,7 +893,7 @@ expandedHeight: 425,
           //                                              Titer produit
 
           SizedBox(
-            height: 30,
+            height: 60,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -928,11 +917,10 @@ expandedHeight: 425,
     ),
   ),
   //                                             Liste de produit
-  SliverGrid(
+ _produit.isNotEmpty ? SliverGrid(
 
     gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-      mainAxisExtent: 300,
-
+      mainAxisExtent: 287,
       crossAxisCount:  2, // Deux éléments par ligne
       crossAxisSpacing: 8,
       mainAxisSpacing: 16,
@@ -966,12 +954,94 @@ expandedHeight: 425,
               },
             ),
           ),
-        );
+        ) ;
+
       },
       childCount: _produit.length, // Nombre d'éléments
     ),
 
-  )
+  ):
+ SliverToBoxAdapter(
+
+   child: Container(
+     
+     child: SingleChildScrollView(
+       child: Column(
+         children: [
+       
+           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+             children: [
+               Shimmer.fromColors(
+                 baseColor: Colors.white60,
+                 highlightColor: Colors.black12,
+                 child: Expanded(child: Container(
+       
+                   decoration: BoxDecoration(
+                       color: Colors.white70,
+                     borderRadius: BorderRadius.circular(15)
+                   ),
+                   height: 150,width: 150,
+                  )),
+               ),
+               Shimmer.fromColors(
+                 baseColor: Colors.white60,
+                 highlightColor: Colors.black12,
+                 child: Expanded(child: Container(
+       
+                   decoration: BoxDecoration(
+                       color: Colors.white70,
+                     borderRadius: BorderRadius.circular(15)
+                   ),
+                   height: 150,width: 150,
+                  )),
+               ),
+       
+       
+             ],
+           ),
+           SizedBox(height: 15,width:  1),
+           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+             children: [
+               Shimmer.fromColors(
+                 baseColor: Colors.white60,
+                 highlightColor: Colors.black12,
+                 child: Expanded(child: Container(
+       
+                   decoration: BoxDecoration(
+                       color: Colors.white70,
+                     borderRadius: BorderRadius.circular(15)
+                   ),
+                   height: 150,width: 150,
+                  )),
+               ),
+               Shimmer.fromColors(
+                 baseColor: Colors.white60,
+                 highlightColor: Colors.black12,
+                 child: Expanded(child: Container(
+       
+                   decoration: BoxDecoration(
+                       color: Colors.white70,
+                     borderRadius: BorderRadius.circular(15)
+                   ),
+                   height: 150,width: 150,
+                  )),
+               ),
+       
+       
+             ],
+           ),
+           LoadingAnimationWidget.flickr(
+             leftDotColor: Colors.brown.shade200,
+             rightDotColor: Colors.black,
+             size: 50,
+           ),
+         ],
+       ),
+     ),
+   ),
+ )
 ],
 
 

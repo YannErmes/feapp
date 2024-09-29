@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 
 class singupPage extends StatefulWidget {
@@ -112,7 +113,11 @@ class _singupPageState extends State<singupPage> {
                 imageUrl:
                     'https://i.postimg.cc/3N7Qx5vk/pexels-photo-1972115.jpg',
                 fit: BoxFit.cover,
-                placeholder: (context, url) => const LinearProgressIndicator(),
+                placeholder: (context, url) =>  LoadingAnimationWidget.flickr(
+                  leftDotColor: Colors.brown.shade200,
+                  rightDotColor: Colors.black,
+                  size: 50,
+                ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               )),
           Center(
@@ -225,7 +230,7 @@ class _singupPageState extends State<singupPage> {
                       const SizedBox(height: 11.0),
                       ElevatedButton.icon(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate() && _emailController.text.contains('@') && _emailController.text.contains('.com') && _passwordController.text.length>4) {
+                          if (_formKey.currentState!.validate() && _emailController.text.contains('@') && _emailController.text.contains('.com') && _passwordController.text.length<4) {
 
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Vérfiez si le format de votre email est correcte , remplissez tous les champs et insérez un mots de passe avec au moins 4 charactéres'), duration: Duration(seconds: 9),));
 

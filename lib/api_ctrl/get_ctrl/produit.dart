@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 
 
 
+// ancienc produit card
 class Produit extends StatelessWidget {
   final String image;
   final String nom;
@@ -22,98 +23,98 @@ class Produit extends StatelessWidget {
     return Container(
 
 
-        decoration: BoxDecoration(
+      decoration: BoxDecoration(
 
-            boxShadow:const [BoxShadow(
-                color: Colors.black38,
-                blurRadius: 40,
+          boxShadow:const [BoxShadow(
+            color: Colors.black38,
+            blurRadius: 40,
 
-            )
+          )
 
-            ],
+          ],
 
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15)
-        ),
-
-
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15)
+      ),
 
 
 
-     child: Column(
-          children: [
-            CachedNetworkImage(
+
+
+      child: Column(
+        children: [
+          CachedNetworkImage(
             imageUrl: image,
             fit: BoxFit.cover,
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
-                              ),
+          ),
 
-            //prix et nom ......
-            Expanded(
+          //prix et nom ......
+          Expanded(
 
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15)),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15))
-                    ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15))
+                  ),
 
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-
-
-
-                    child:  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FittedBox(
-                          child: Text( nom ,
-                            style:
-                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black),),
-                        ),
-                        Row(
-
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Code:$Code'),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
 
 
 
-                                // le prix
-                                Container(
-                                  width: 52,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Center(
-                                    child: Text('$prix f', style: const TextStyle(
-                                        color: Colors.green
-                                    ),),
-                                  ),
+                  child:  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        child: Text( nom ,
+                          style:
+                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black),),
+                      ),
+                      Row(
+
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Code:$Code'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+
+
+
+                              // le prix
+                              Container(
+                                width: 52,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5)
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                                child: Center(
+                                  child: Text('$prix f', style: const TextStyle(
+                                      color: Colors.green
+                                  ),),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )
-          ],
-        ),
-      );
+            ),
+          )
+        ],
+      ),
+    );
 
 
 
@@ -172,10 +173,10 @@ class _ProductsState extends State<Products> {
                 ),
                 child: CachedNetworkImage(
                   imageUrl: widget.product['image1'],
-                  height: 150,
+                  height: 155,
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  placeholder: (context, url) =>  Image.network("https://i.postimg.cc/sDGVRgq2/Untitled_image_(2).png", height: 11,).animate().shake(duration: Duration(seconds: 100)),
+                  placeholder: (context, url) =>  Image.network("https://i.postimg.cc/sDGVRgq2/Untitled_image_(2).png", height: 11,).animate().shake(duration: Duration(seconds: 100), curve: ElasticInCurve()),
                   errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_rounded),
                 ),
               ),
@@ -202,11 +203,9 @@ class _ProductsState extends State<Products> {
                       child:  Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FittedBox(
-                            child: Text( widget.product['nom'] ,
-                              style:
-                              const TextStyle(fontWeight: FontWeight.bold, fontSize: 19,color: Colors.black,),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                          ),
+                          Text( widget.product['nom'] ,
+                            style:
+                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.black,overflow: TextOverflow.ellipsis),maxLines: 1,overflow: TextOverflow.ellipsis,),
                           Row(
 
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,14 +216,14 @@ class _ProductsState extends State<Products> {
                                 children: [
                                   // le prix
                                   Container(
-                                    width: 52,
+                                    width: 60,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5)
                                     ),
                                     child: Center(
                                       child: Text('${widget.product['prix']}f', style: const TextStyle(
-                                          color: Colors.green
+                                          color: Colors.black , fontWeight: FontWeight.bold ,fontSize: 18
                                       ),),
                                     ),
                                   ),
@@ -233,13 +232,8 @@ class _ProductsState extends State<Products> {
                             ],
                           ),
 
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            margin: EdgeInsets.all(5),
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-                            color: Colors.redAccent.shade100),
-                            child: Text("jusqu'a 10%"),
-                          )
+                          int.tryParse(widget.product['eid']) != null && int.parse(widget.product['eid']) > 100
+                              ? Text("Livaison gratuite", style: TextStyle(color: Colors.green),) :Text('Livraison: ${widget.product['eid']}0f',style: TextStyle(color: Colors.green))
 ,
                           Padding(
                             padding: const EdgeInsets.all(1),

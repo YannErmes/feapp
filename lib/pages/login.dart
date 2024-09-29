@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
@@ -119,7 +120,11 @@ class _LoginPageState extends State<LoginPage> {
             child:
             CachedNetworkImage(
                 imageUrl: 'https://i.postimg.cc/PxdtgJSp/download.jpg', fit: BoxFit.cover,
-                placeholder: (context, url) => const LinearProgressIndicator(),
+                placeholder: (context, url) =>  LoadingAnimationWidget.flickr(
+                  leftDotColor: Colors.brown.shade200,
+                  rightDotColor: Colors.black,
+                  size: 50,
+                ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               )
 
