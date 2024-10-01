@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 
 class Rcommentaire extends StatefulWidget {
   const Rcommentaire({super.key});
@@ -58,7 +59,7 @@ class _RcommentaireState extends State<Rcommentaire> {
 
       Container(
         padding: EdgeInsets.only(bottom: 100),
-        child: ListView.builder(
+        child: _commemtaires.isNotEmpty ? ListView.builder(
 
           itemCount: _commemtaires.length,
           itemBuilder: (context, index) {
@@ -101,8 +102,8 @@ class _RcommentaireState extends State<Rcommentaire> {
               GestureDetector(
                 onLongPress: (){
 
-                  repondue.put('Rmessage', "Reponse à:[ ${cmt['commentaire']}] [ ${cmt['nom']} ]=>");
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('repondre à :${cmt['commentaire']}')));
+                  repondue.put('Rmessage', "Reponse à:(${cmt['nom']} )\n ${cmt['commentaire']}");
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('repondre à :${cmt['commentaire']}'),duration: Duration(seconds: 5),));
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +143,82 @@ class _RcommentaireState extends State<Rcommentaire> {
               ),
             );
           },
-        ),
+        ) :
+
+
+        Shimmer.fromColors(
+            child: Column(
+              children: [
+                Container(
+
+                  height: 80,
+            padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(left: 10 , top: 20),
+
+          width: MediaQuery.of(context).size.width/1.5,
+          decoration: BoxDecoration(
+              color: Colors.green.shade400,
+
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15)))
+
+
+
+
+
+
+
+                ),
+                Container(
+
+                  height: 100,
+            padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(left: 10 , top: 20),
+
+          width: MediaQuery.of(context).size.width/1.5,
+          decoration: BoxDecoration(
+              color: Colors.green.shade400,
+
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15)))
+
+
+
+
+
+
+
+                ),
+                Container(
+
+                  height: 40,
+            padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(right: 60 , top: 20),
+
+          width: MediaQuery.of(context).size.width/1.5,
+          decoration: BoxDecoration(
+              color: Colors.green.shade400,
+
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15)))
+
+
+
+
+
+
+
+                )
+              ],
+            ),
+            baseColor: Colors.white12,
+            highlightColor: Colors.black12),
       );
 
   }}

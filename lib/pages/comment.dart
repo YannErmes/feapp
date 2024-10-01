@@ -3,6 +3,7 @@ import 'package:fesneakers/api_ctrl/add_ctrl/comment.dart';
 import 'package:fesneakers/api_ctrl/get_ctrl/comment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class Commentaire extends StatefulWidget {
   final String nom;
@@ -16,6 +17,7 @@ class Commentaire extends StatefulWidget {
 class _CommentaireState extends State<Commentaire> {
   final TextEditingController _commentctrl = TextEditingController();
   bool send = false;
+  var utilisateurnom = Hive.box('userauth');
 
   @override
   void dispose() {
@@ -42,6 +44,9 @@ class _CommentaireState extends State<Commentaire> {
 
             child: Center(
               child: TextField(
+                onTap: (){
+
+                },
                 controller: _commentctrl,
                 style: TextStyle(color: Colors.white),
                 maxLines: 1,
@@ -60,16 +65,22 @@ class _CommentaireState extends State<Commentaire> {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        Add_comment(widget.nom,
-                            _commentctrl.text);
-                        _commentctrl.clear();
-                        setState(() {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => super.widget));
-                        });
+                        if(utilisateurnom.get('utilisateurnom') != null) {
+                          Add_comment(widget.nom, _commentctrl.text);
+                          _commentctrl.clear();
+                          setState(() {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        super.widget));
+                          });
+                        }
 
+                        else(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
+                        Text('Merci de vous connectez votre  compte '), backgroundColor: Colors.pink.shade200,))
+                        );
                       },
                     ),
                     border: OutlineInputBorder(

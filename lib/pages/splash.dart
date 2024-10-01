@@ -188,11 +188,7 @@ class _SecondClassState extends State<SecondClass>
                       builder: (c, child) => Transform.scale(
                         scale: scaleAnimation.value,
                         child: Container(
-                        child: LoadingAnimationWidget.flickr(
-                          leftDotColor: Colors.brown.shade200,
-                          rightDotColor: Colors.black,
-                          size: 50,
-                        )
+                        child: LoadingAnimationWidget.beat(color: Colors.brown, size: 10)
                         ),
                       ),
                     ),

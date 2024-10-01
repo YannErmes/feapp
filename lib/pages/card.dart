@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as https;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'Credit.dart';
 
@@ -191,6 +192,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(child: Text('Votre panier est vide.')),
+          LoadingAnimationWidget.bouncingBall(color: Colors.yellow, size: 100),
           CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',height: 200,).animate().scale(curve:Curves.easeInOutExpo, duration: Duration(seconds: 2))
               .slide().shader(duration: Duration(seconds: 100)),
         ],
@@ -219,7 +221,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   children: [
                     Text(' ${calculoff().toStringAsFixed(2)} fcfa', style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold , fontSize: 17,
                         decoration: TextDecoration.lineThrough)),
-                    Text(' ${calcul().toStringAsFixed(2)} fcfa', style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold , fontSize: 20),),
+                    Text(' ${calcul().toStringAsFixed(2)} fcfa', style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold , fontSize: 20),),
 
                   ],
                 ),

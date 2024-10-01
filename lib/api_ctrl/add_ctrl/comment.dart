@@ -17,7 +17,7 @@ Add_comment(String nom, String commentaire) async {
         Uri.parse('https://www.fe-store.pro/add_comment.php'),
         body: {
           "nom": nom,
-          "commentaire": '${repplyer.get('Rmessage') ?? ''}\n $commentaire',
+          "commentaire": '$commentaire \n  ${repplyer.get('Rmessage') ?? ''} ',
           "date": '${date.day}-${date.month}-${date.year}/${date.hour}:${date.minute}',
         });
 

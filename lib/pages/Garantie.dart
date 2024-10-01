@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Garantie extends StatefulWidget {
   const Garantie({super.key});
@@ -57,7 +58,11 @@ class _GarantieState extends State<Garantie> {
                                     imageUrl:
                                     'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/t.png?alt=media&token=44b9e999-db2a-46a6-b8bf-47205c4540db',
                                     placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
+                                    LoadingAnimationWidget.flickr(
+                                      leftDotColor: Colors.brown.shade200,
+                                      rightDotColor: Colors.black,
+                                      size: 50,
+                                    ),
                                     height: 200,
                                   ),
                                 ),

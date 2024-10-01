@@ -223,23 +223,24 @@ class _singupPageState extends State<singupPage> {
                               },
                               child: const Text(
                                 'connecter vous!',
-                                style: TextStyle(fontSize: 15),
+                                style: TextStyle(fontSize: 15, color: Colors.brown),
                               ))
                         ],
                       ),
                       const SizedBox(height: 11.0),
                       ElevatedButton.icon(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate() && _emailController.text.contains('@') && _emailController.text.contains('.com') && _passwordController.text.length<4) {
+                          if (_formKey.currentState!.validate() && _emailController.text.contains('@') && _emailController.text.contains('.com') ) {
 
+                            registerAndSaveUserRecord();
+                          } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Vérfiez si le format de votre email est correcte , remplissez tous les champs et insérez un mots de passe avec au moins 4 charactéres'), duration: Duration(seconds: 9),));
 
-                          } else {
-                            registerAndSaveUserRecord();
+
                           }
                         },
-                        label: const Text('SignUp'),
-                        icon: const Icon(CupertinoIcons.person_add_solid),
+                        label: const Text('Creé' ,style: TextStyle( color: Colors.black),),
+                        icon: const Icon(CupertinoIcons.person_add_solid, color: Colors.black),
                       ),
                     ],
                   ),

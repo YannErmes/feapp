@@ -286,7 +286,8 @@ class _homepageState extends State<homepage> {
                                 SizedBox(
                                   height:10,
                                     width: 30,
-                                    child: const LinearProgressIndicator()),
+                                    child:
+                                    LoadingAnimationWidget.fallingDot(color: Colors.brown, size: 50)),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.image_not_supported_rounded),
                           )),
@@ -300,51 +301,28 @@ class _homepageState extends State<homepage> {
                   const SizedBox(
                     height: 15,
                   ),
+
+
+
                   ElevatedButton.icon(
                       onPressed: () {
-                        Navigator.push(
-                          context,PageRouteBuilder(pageBuilder:
-                            (context, animation, anotheranimation) => const homepage(
-                              usernom: 'fé',
-                              useremail: '',
-                              t: 1,
-                            ),
-                            transitionDuration: Duration(seconds: 1),
-                            reverseTransitionDuration: Duration(seconds:1),
-                            transitionsBuilder: (context, animation , anotheranimation , child){
-                              animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
-                                  reverseCurve: Curves.fastOutSlowIn);
-                              return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axisAlignment: 0,
-                                  child:  const homepage(
-                                    usernom: 'fé',
-                                    useremail: '',
-                                    t: 1,
-                                  ),
-                                ),
-
-                              );
-                            }
-
-                        ) ,
-                        );
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => super.widget,));
 
                       },
-                      label: const Text('Acueille'),
-                      icon: const Icon(CupertinoIcons.home)),
+                      label: const Text('Acueille' ,style: TextStyle(color: Colors.black)),
+                      icon: const Icon(CupertinoIcons.home, color: Colors.black,)),
                   const SizedBox(
                     height: 15,
                   ),
+
+
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
                         context,PageRouteBuilder(pageBuilder:
                           (context, animation, anotheranimation) =>  ShoppingCartPage(
 
-                          ),
+                      ),
                           transitionDuration: Duration(seconds: 1),
                           reverseTransitionDuration: Duration(seconds:1),
                           transitionsBuilder: (context, animation , anotheranimation , child){
@@ -365,42 +343,14 @@ class _homepageState extends State<homepage> {
                       );
 
                     },
-                    label: const Text('Panier'),
-                    icon: const Icon(Icons.shopping_cart_checkout),
+                    label: const Text('Panier', style: TextStyle(color: Colors.black),),
+                    icon: const Icon(Icons.shopping_cart_checkout, color: Colors.black),
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,PageRouteBuilder(pageBuilder:
-                          (context, animation, anotheranimation) =>   Commentaire(nom: '${userinformation.get('utilisateurnom')}'),
-                          transitionDuration: Duration(seconds: 1),
-                          reverseTransitionDuration: Duration(seconds:1),
-                          transitionsBuilder: (context, animation , anotheranimation , child){
-                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
-                                reverseCurve: Curves.fastOutSlowIn);
-                            return Align(
-                              alignment: Alignment.bottomCenter,
-                              child: SizeTransition(
-                                sizeFactor: animation,
-                                axisAlignment: 0,
-                                child:  Commentaire(nom: '${userinformation.get('utilisateurnom')}'),
-                              ),
 
-                            );
-                          }
 
-                      ) ,
-                      );
-                    },
-                    label: const Text('Fait comme chez toi et laisse ton Avis'),
-                    icon: const Icon(CupertinoIcons.bubble_left_bubble_right),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -426,12 +376,13 @@ class _homepageState extends State<homepage> {
                       );
 
                     },
-                    label: const Text('Information'),
-                    icon: const Icon(Icons.info_outline_rounded),
+                    label: const Text('Status', style: TextStyle(color: Colors.black)),
+                    icon: const Icon(Icons.info_outline_rounded, color: Colors.black),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
+
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -457,12 +408,13 @@ class _homepageState extends State<homepage> {
                       );
 
                     },
-                    label: const Text('Se connecté'),
-                    icon: const Icon(Icons.login),
+                    label: const Text('Se connecté', style: TextStyle(color: Colors.black)),
+                    icon: const Icon(CupertinoIcons.person_crop_circle , color: Colors.black ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
+
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -488,11 +440,42 @@ class _homepageState extends State<homepage> {
                       );
 
                     },
-                    label: const Text('Garantie sur les articles'),
-                    icon: const Icon(Icons.offline_pin_outlined),
+                    label: const Text('Garantie sur les articles',style: TextStyle(color: Colors.black)),
+                    icon: const Icon(Icons.offline_pin_outlined, color: Colors.black),
                   ),
                   const SizedBox(
                     height: 10,
+                  ),
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,PageRouteBuilder(pageBuilder:
+                          (context, animation, anotheranimation) =>   Commentaire(nom: '${userinformation.get('utilisateurnom')}'),
+                          transitionDuration: Duration(seconds: 1),
+                          reverseTransitionDuration: Duration(seconds:1),
+                          transitionsBuilder: (context, animation , anotheranimation , child){
+                            animation = CurvedAnimation(parent:animation, curve:Curves.fastOutSlowIn,
+                                reverseCurve: Curves.fastOutSlowIn);
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0,
+                                child:  Commentaire(nom: '${userinformation.get('utilisateurnom')}'),
+                              ),
+
+                            );
+                          }
+
+                      ) ,
+                      );
+                    },
+                    label: const Text('chat avec des gens comme toi !',style: TextStyle(color: Colors.black)),
+                    icon: const Icon(CupertinoIcons.bubble_left_bubble_right, color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
                   
                   TextButton(
@@ -503,9 +486,11 @@ class _homepageState extends State<homepage> {
                             builder: (context) => PrivacyPolicyPage(),
                           ));
                     },
-                    child: const Text('Politique de Confidentialité (Interne)'),
+                    child: const Text('Politique de Confidentialité (Interne)',style: TextStyle(color: Colors.black)),
 
                   ),
+
+
                   const SizedBox(
                     height: 10,
                   ),
@@ -975,14 +960,14 @@ expandedHeight: 425,
                Shimmer.fromColors(
                  baseColor: Colors.white60,
                  highlightColor: Colors.black12,
-                 child: Expanded(child: Container(
-       
+                 child: Container(
+
                    decoration: BoxDecoration(
                        color: Colors.white70,
                      borderRadius: BorderRadius.circular(15)
                    ),
                    height: 150,width: 150,
-                  )),
+                  ),
                ),
                Shimmer.fromColors(
                  baseColor: Colors.white60,

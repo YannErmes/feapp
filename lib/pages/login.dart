@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                   rightDotColor: Colors.black,
                   size: 50,
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.image_not_supported),
               )
 
 
@@ -220,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: const Text(
                                 'ici!',
-                                style: TextStyle(fontSize: 15),
+                                style: TextStyle(fontSize: 15 , color: Colors.brown),
                               ))
                         ],
                       ),
@@ -238,8 +238,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
                         },
-                        label: const Text('Login'),
-                        icon: const Icon(CupertinoIcons.lock),
+                        label: const Text('Login', style: TextStyle(color: Colors.black),),
+                        icon: const Icon(CupertinoIcons.lock , color: Colors.black,),
                       ),
                     ],
                   ),
