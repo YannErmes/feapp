@@ -73,6 +73,7 @@ bool repeat = true ;
     }
   }
   Future<void> getImage() async {
+
     try {
       // Sélectionner une image depuis la galerie
       final pickedFile =
@@ -105,7 +106,7 @@ bool repeat = true ;
     await Future.delayed(const Duration(seconds: 1), () {
       print('ok');
       setState(() {
-        anime = true ;
+        anime =! anime ;
       });
     });
   }
@@ -116,7 +117,7 @@ bool repeat = true ;
   void initState() {
     // TODO: implement initState
     super.initState();
-    animateforme() ;
+
 
   }
 
@@ -124,11 +125,11 @@ bool repeat = true ;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
+    return anime ?AnimatedContainer(
       duration: Duration(seconds: 3),
       margin: const EdgeInsets.only(bottom: 5),
       height: 40,
-      width: anime ? 380 :100,
+      width: 250,
       decoration: BoxDecoration(
 
         color: anime ? Colors.black54: Colors.blueGrey,
@@ -138,6 +139,7 @@ bool repeat = true ;
 
       child: Center(
         child: TextFormField(
+          onTap: animateforme,
           style: const TextStyle(color: Colors.white, fontFamily:AutofillHints.addressCity , fontSize: 15),
 
           controller: captionController,
@@ -165,25 +167,14 @@ bool repeat = true ;
                 onPressed: getImage, icon: const Icon(Icons.image_search_outlined , color: Colors.white,)),
 
 
-            suffixIcon: AvatarGlow(
-              repeat: rep.get(15) ?? true ,
-              curve: Easing.legacy,
-              glowCount: 4,
-              glowColor: Colors.white,
+            suffixIcon: IconButton(
+              icon:  Icon(CupertinoIcons.clear_circled, color: Colors.white,),
+              onPressed: () {
+                setState(() {
+                  animateforme();
+                });
 
-              child: IconButton(
-                icon:  Icon(CupertinoIcons.question_circle , color: Colors.white,),
-                onPressed: () {
-                  setState(() {
-                    rep.put(15, false);
-                  });
-
-
-                  Get.snackbar('Cc', "Retrouvez n'importe lequel des modèle de vos désir "
-                      "en envoyant simplement une photo de votre galerie et en ajoutant un numero ou une indication dans la barre. Notre équipe "
-                      "d'experts se charge de le retrouver avec tous les détails possibles et de vous contactez directement pour vous faire gagné du temps."  , duration: const Duration(seconds: 16),colorText: Colors.white, backgroundColor: Colors.black12  );
-                },
-              ),
+              },
             ),
 
 
@@ -197,6 +188,12 @@ bool repeat = true ;
           ),
         ),
       ),
-    );
+    ):
+   IconButton(onPressed: (){
+     Get.snackbar('Cc', "Retrouvez n'importe lequel des modèle de vos désir "
+         "en envoyant simplement une photo de votre galerie et en ajoutant un numero ou une indication dans la barre. Notre équipe "
+         "d'experts se charge de le retrouver avec tous les détails possibles et de vous contactez directement pour vous faire gagné du temps."  , duration: const Duration(seconds: 16),colorText: Colors.white, backgroundColor: Colors.black12  );
+     animateforme();
+   }, icon: Icon(Icons.image_search , color: Colors.white,));
   }
 }

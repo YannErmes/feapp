@@ -4,6 +4,8 @@ import 'package:fesneakers/api_ctrl/add_ctrl/card.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import 'card.dart';
+
 
 class Description extends StatefulWidget {
 
@@ -77,8 +79,31 @@ class _DescriptionState extends State<Description> {
                 ),
                 onPressed: () {
                   Add_card(widget.image1, widget.nom, widget.eid, widget.useremail ?? 'fé', widget.prix );
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        pageBuilder:
+                            (context, animation, anotheranimation) =>
+                            ShoppingCartPage(),
+                        transitionDuration: Duration(seconds: 1),
+                        reverseTransitionDuration: Duration(seconds: 1),
+                        transitionsBuilder:
+                            (context, animation, anotheranimation, child) {
+                          animation = CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.fastOutSlowIn,
+                              reverseCurve: Curves.fastOutSlowIn);
+                          return Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SizeTransition(
+                              sizeFactor: animation,
+                              axisAlignment: 0,
+                              child: ShoppingCartPage(),
+                            ),
+                          );
+                        }),
+                  );
 
-                  print('ici');
 
                 },
                 icon: const Icon(
