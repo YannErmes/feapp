@@ -189,7 +189,7 @@ class _DescriptionState extends State<Description> {
                                     Text(
                                       'Nombre en stock [${widget.quantite}]',
                                       style: const TextStyle(
-                                          color: Colors.redAccent),
+                                          color: Colors.redAccent, fontSize: 12),
                                     ),
                                     Spacer(),
                                     // container de prix
@@ -197,18 +197,18 @@ class _DescriptionState extends State<Description> {
                                       children: [
                                         Container(
                                             height: 30,
-                                            width: 60,
+                                            width: 110,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius.circular(5),
                                                 color: Colors.black),
                                             child: Center(
                                                 child: Text(
-                                                  '${(widget.prix) -((widget.prix)*0.05)}f',
+                                                  'CFA ${(widget.prix) -((widget.prix)*0.05)}',
                                                   style: const TextStyle(
                                                       color: Colors.white , fontWeight: FontWeight.bold),
                                                 ))),
-                                        Text('${widget.prix} fcfa' , style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey, fontWeight: FontWeight.bold),)
+                                        Text('CFA${widget.prix}' , style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey, fontWeight: FontWeight.bold),)
                                       ],
                                     )
                                   ],

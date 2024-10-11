@@ -139,8 +139,8 @@ bool repeat = true ;
 
       child: Center(
         child: TextFormField(
-          onTap: animateforme,
-          style: const TextStyle(color: Colors.white, fontFamily:AutofillHints.addressCity , fontSize: 15),
+
+          style: const TextStyle(color: Colors.white , fontSize: 15),
 
           controller: captionController,
           decoration: InputDecoration(

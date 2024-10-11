@@ -23,12 +23,56 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   final card = Hive.box('userauth');
   card_ctrl deletcard = Get.put(card_ctrl());
+  int reduction = 0 ;
+  String messagedereduction = "Oups !ce code n'est plus valide";
+  TextEditingController _codepro = TextEditingController();
+  bool loadpromot = false ;
 
 
   @override
   void initState() {
     super.initState();
     showpanier(card.get('utilisateurmail') ?? '');
+
+  }
+
+ Future<void> checkcodepromot(String code) async{
+
+    var Url = 'https://www.fe-store.pro/check_codepromot.php';
+    final response = await https.post(Uri.parse(Url),
+    body: {
+      'code_valeur':'$code'
+    });
+
+    if ( response.statusCode == 200){
+      var    resultat = json.decode(response.body);
+      List<dynamic> verif = resultat['reponse'];
+
+      if (verif.isEmpty) {
+        setState(() {
+          loadpromot = false ;
+        });
+        Get.snackbar('Oops', 'Ce code est surement expiré ou surgagé veillez réessayer plus tard', backgroundColor: Colors.red.withOpacity(0.3) );
+
+
+      }else{
+
+        reduction = resultat['reponse'][0]['pourcentage'];
+        messagedereduction = resultat['reponse'][0]['offre'];
+        //print(reduction);
+        print(resultat['reponse'][0]);
+        Get.snackbar('WOW', '$messagedereduction' , backgroundColor: Colors.green.withOpacity(0.2));
+
+        setState(() {
+          loadpromot = false ;
+        });
+
+       }
+    }else {
+      Get.snackbar('Oups!', 'Veillez jettez un coup d\'oeil a votre connection');
+    }
+
+
 
   }
 
@@ -61,7 +105,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     for( var item in Monpanier){
       double prix = double.tryParse(item['prix']) ?? 0;
       int quantite = int.tryParse(item['quantite']) ?? 1;
-      TT =  ((prix -(prix *0.05)) * quantite) + TT;
+      TT =  ((prix -(prix *(reduction/100))) * quantite) + TT;
 
     }
 
@@ -74,7 +118,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     for( var item in Monpanier){
       double prix = double.tryParse(item['prix']) ?? 0;
       int quantite = int.tryParse(item['quantite']) ?? 1;
-      TT =  ((prix -(prix *0.05)) * quantite) + TT;
+      TT =  ((prix -(prix *reduction/100)) * quantite) + TT;
       nonTT = prix *quantite +nonTT;
     }
 
@@ -113,14 +157,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '${realtimeprice} fcfa',
+                      'CFA ${realtimeprice}',
                       style: TextStyle(
                           decoration: TextDecoration.lineThrough,
                           color: Colors.redAccent.shade100,
                           fontSize: 15
                       ),
                     ),
-                    Text('  ${realtimeprice -(realtimeprice * 0.05)}fcfa' ,style: TextStyle(fontSize: 18),),
+                    Text('CFA${realtimeprice -(realtimeprice * (reduction/100))}fcfa' ,style: TextStyle(fontSize: 18),),
                     Container(
                       width: 130,
                       height: 35,
@@ -165,7 +209,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 onPressed: () {
                   // Handle deletion
                   setState(() {
-
                     deletcard.delete_panier(card.get('utilisateurmail'),element['eid'], context);
                     Monpanier.removeAt(index);
                     print(card.get('utilisateurmail'));
@@ -188,15 +231,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         title: Text('Panier d\'achat'),
       ),
       body: Monpanier.isEmpty
-          ? Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Text('Votre panier est vide.')),
-          LoadingAnimationWidget.bouncingBall(color: Colors.yellow, size: 100),
-          CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',height: 200,).animate().scale(curve:Curves.easeInOutExpo, duration: Duration(seconds: 2))
-              .slide().shader(duration: Duration(seconds: 100)),
-        ],
-      )
+          ? Center(
+            child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+            LoadingAnimationWidget.bouncingBall(color: Colors.yellow, size: 100),
+            CachedNetworkImage(imageUrl: 'https://i.postimg.cc/Y0pZW9hn/logo-4.png',height: 200,).animate().scale(curve:Curves.easeInOutExpo, duration: Duration(seconds: 2))
+                .slide().shader(duration: Duration(seconds: 100)),
+                    ],
+                  ),
+          )
           : Column(
         children: [
           Expanded(
@@ -219,16 +264,41 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 ),
                 Column(
                   children: [
-                    Text(' ${calculoff().toStringAsFixed(2)} fcfa', style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold , fontSize: 17,
+                    Text('CFA ${calculoff().toStringAsFixed(2)}', style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold , fontSize: 17,
                         decoration: TextDecoration.lineThrough)),
-                    Text(' ${calcul().toStringAsFixed(2)} fcfa', style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold , fontSize: 20),),
+                    Text('CFA ${calcul().toStringAsFixed(2)} fcfa', style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold , fontSize: 20),),
 
                   ],
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          //code promote
+          Container(
+            height: 60,
+            color: Colors.brown.shade50,
+            child: TextField(
+              controller: _codepro,
+              decoration: InputDecoration(
+                  labelText: 'code promot',
+
+              ),
+
+            ),
+          ),
+          SizedBox(height: 10),
+          MaterialButton(onPressed:(){
+
+            if(_codepro.text.isNotEmpty)
+            setState(() {
+              checkcodepromot('${_codepro.text}');
+              loadpromot = true ;
+            });
+
+          },child: loadpromot ? LoadingAnimationWidget.dotsTriangle(color: Colors.redAccent, size: 20):Text('Valider mon code') ,),
+
+
+          // passage a la caise
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(Colors.black87),
@@ -240,6 +310,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               // Handle checkout
 
 
+
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return CheckoutPage(chekall: Monpanier, ttprix: calcul().toStringAsFixed(2), offprix: calculoff().toStringAsFixed(2),);
               },));
@@ -247,7 +318,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             child: Text('VALIDER MON PANIER 👉', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
 
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
         ],
       ),
     );

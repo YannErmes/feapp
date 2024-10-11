@@ -216,14 +216,14 @@ class _ProductsState extends State<Products> {
                                 children: [
                                   // le prix
                                   Container(
-                                    width: 60,
+                                    width: 110,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5)
                                     ),
                                     child: Center(
-                                      child: Text('${widget.product['prix']}f', style: const TextStyle(
-                                          color: Colors.black , fontWeight: FontWeight.bold ,fontSize: 18
+                                      child: Text('CFA ${widget.product['prix']}', style: const TextStyle(
+                                          color: Colors.black ,fontSize: 18
                                       ),),
                                     ),
                                   ),
