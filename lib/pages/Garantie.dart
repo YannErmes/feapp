@@ -71,7 +71,7 @@ class _GarantieState extends State<Garantie> {
                                     'Pour tout article avec frais de livraison, la livraison devient gratuite en cas de non-respect du délai de livraison convenu.'),
                                 const SizedBox(height: 10),
                                 garantieText(
-                                    'Pour tout article avec livraison gratuite, bénéficiez d\'une remise de 5% en cas de non-respect du délai de livraison convenu.'),
+                                    'Pour tout article avec livraison gratuite, bénéficiez d\'une remise de 3% en cas de non-respect du délai de livraison convenu.'),
                                 const SizedBox(height: 10),
                                 garantieText(
                                     'Vous pouvez retourner le produit en cas de non-conformité de l\'article.Le lieu de retoure vous seras communiqué'),

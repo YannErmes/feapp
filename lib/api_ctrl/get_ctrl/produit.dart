@@ -235,28 +235,33 @@ class _ProductsState extends State<Products> {
                           int.tryParse(widget.product['eid']) != null && int.parse(widget.product['eid']) > 100
                               ? Text("Livaison gratuite", style: TextStyle(color: Colors.green),) :Text('Livraison: ${widget.product['eid']}0f',style: TextStyle(color: Colors.green))
 ,
-                          Padding(
-                            padding: const EdgeInsets.all(1),
-                            child: IconButton(icon :
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(1),
+                                child: IconButton(icon :
 
-                            liked.get("${widget.product['nom']}") == 'liked' ? Icon(Icons.favorite, color: Colors.red,):
-                            Icon(Icons.favorite_border),
+                                liked.get("${widget.product['nom']}") == 'liked' ? Icon(Icons.favorite, color: Colors.red,):
+                                Icon(Icons.favorite_border),
 
-                              onPressed: (){
+                                  onPressed: (){
 
-                                setState(() {
-                                  if( liked.get("${widget.product['nom']}") == 'liked')
-                                  {
-                                    liked.put('${widget.product['nom']}', 'unliked');
-                                  }else{
-                                    liked.put('${widget.product['nom']}', 'liked');
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Liker'),backgroundColor: Colors.red.shade200,));
+                                    setState(() {
+                                      if( liked.get("${widget.product['nom']}") == 'liked')
+                                      {
+                                        liked.put('${widget.product['nom']}', 'unliked');
+                                      }else{
+                                        liked.put('${widget.product['nom']}', 'liked');
+                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Liker'),backgroundColor: Colors.red.shade200,));
 
-                                  }
+                                      }
 
-                                });
+                                    });
 
-                              },),)
+                                  },),),
+                              Text('${double.tryParse(widget.product['eid'])!*0.5}k')
+                            ],
+                          )
                         ],
                       ),
                     ),

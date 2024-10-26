@@ -1,5 +1,7 @@
 
+import 'package:faker/faker.dart' as fake;
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
@@ -25,7 +27,11 @@ class _CompteState extends State<Compte> {
     const FlSpot(4, 4),
   ];
   int c = DateTime.now().minute;
+  bool  visible = true ;
+
   final coin = Hive.box('mybox2');
+  final Mavisibilite = Hive.box('userauth');
+  List<dynamic> utilisateurconnecte = List.generate(45, (index) =>fake.Faker().person.name());
 
 
   Future<void> reward() async {
@@ -84,7 +90,7 @@ class _CompteState extends State<Compte> {
         leading: Icon(Icons.offline_pin_outlined, color:Colors.blue,
         ),
       ) ,
-      backgroundColor: const Color(0xFFE5D6C8),
+      backgroundColor:  Color(0xFFE5D6C8),
       floatingActionButton: IconButton(
         hoverColor: Colors.white,
         onPressed: () {
@@ -209,6 +215,42 @@ class _CompteState extends State<Compte> {
                 ),
 
                 const SizedBox(height: 40,),
+               Row(
+                 children: [
+                   MaterialButton(
+                     onPressed: (){
+                     setState(() {
+                       visible =! visible ;
+                       visible ? utilisateurconnecte[1] = '${Mavisibilite.get('utilisateurnom')}' : utilisateurconnecte[1] = utilisateurconnecte[c];
+                     });
+
+
+                   },
+                       color:  Colors.lightGreen
+                   ,child: visible ?Text('Visibilité ON'): Text('Visibilité OFF'),),
+                   SizedBox(width:20),
+                   CircleAvatar(radius:visible ? 20 : 10,backgroundColor:visible ? Colors.lightGreen: Colors.red ,)
+                 ],
+               )
+
+              , Text('Profils souvent actif', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                Container(
+                  color: Colors.white24,
+                  height: 200,
+                  child: ListView.builder(
+                    physics:ClampingScrollPhysics(),
+                    itemCount: utilisateurconnecte.length,
+                    itemBuilder: (context, index) {
+                      final String  personenligne = utilisateurconnecte[index];
+                      return Row(
+                        children: [
+                          Icon(CupertinoIcons.person_crop_circle),
+                          Text(personenligne),
+                        ],
+                      );
+
+                    },),
+                ),
 
 
                 Container(
@@ -263,7 +305,7 @@ class _CompteState extends State<Compte> {
                   decoration: BoxDecoration(
                     color: Colors.yellow,
                   ),
-                  child: Text('Reward programme '),
+                  child: Text('Reward programme: Réclamez votre solde '),
                 ),
                 
                 Container(
@@ -280,12 +322,24 @@ class _CompteState extends State<Compte> {
                             height: 250,
                             child: LottieBuilder.network('https://lottie.host/49b89537-0cd0-4c8e-95f1-e2bbafaa1d7e/rtbRja4rKd.json')),
                       ),
-                      Center(child: Text('${coin.get(1)} XOF' ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),))
+                      Center(child: Text('Solde fécoins :${coin.get(1)} XOF' ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),))
                     ],
                   ),
                   
                   
-                )
+                ),
+                
+                MaterialButton(
+                  color: Colors.white,
+                  onPressed: (){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Cet fonctionnalité sera disponible aprés votre quatriéme commande merci !'))
+                  );
+                },
+                child: Text('Récupérer mon solde'),),
+
+
+
 
 
 

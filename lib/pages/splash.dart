@@ -34,6 +34,7 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black54,
 
       body: Center(
         child: Column(
@@ -43,7 +44,7 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
               width: 250.0,
               child: DefaultTextStyle(
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 20.0,
                   fontFamily: 'Nike',
                 ),
@@ -162,7 +163,7 @@ class _SecondClassState extends State<SecondClass>
               duration: const Duration(seconds: 6),
               opacity: _opacity,
               child: AnimatedContainer(
-                curve: Curves.fastLinearToSlowEaseIn,
+                curve: Curves.ease,
                 duration: const Duration(seconds: 2),
                 height: _value ? 50 : 200,
                 width: _value ? 50 : 200,
@@ -177,23 +178,7 @@ class _SecondClassState extends State<SecondClass>
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Center(
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                        color: Colors.black54, shape: BoxShape.circle),
-                    child: AnimatedBuilder(
-                      animation: scaleAnimation,
-                      builder: (c, child) => Transform.scale(
-                        scale: scaleAnimation.value,
-                        child: Container(
-                        child: LoadingAnimationWidget.beat(color: Colors.brown, size: 10)
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                child: homepage(t: 1),
               ),
             ),
           ),

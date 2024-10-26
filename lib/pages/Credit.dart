@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../api_ctrl/annexapis.dart';
 
@@ -311,7 +312,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     },
                     child: Txt('Finaliser ma commande', 18, FontWeight.bold,
                         Colors.white),
-                  )
+                  ),
+                    SizedBox(height: 30,),
+                    Text('Equipe fé Sneakers '),
+                    CachedNetworkImage(imageUrl: 'https://i.postimg.cc/xTx7hVpv/Netral-Minimalist-Happy-Working-Your-Story.png',placeholder: (context, url) =>LoadingAnimationWidget.inkDrop(color: Colors.black54, size: 30),)
                 ],
               ),
             ),

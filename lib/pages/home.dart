@@ -114,11 +114,19 @@ class _homepageState extends State<homepage> {
 
 
   final Uri _url = Uri.parse('https://web.facebook.com/profile.php?id=61557796385945');
-  final Uri _url2 = Uri.parse('https://www.tiktok.com/@fesneakers?lang=en');
+  final Uri _url2 = Uri.parse('https://www.tiktok.com/@fesneakersauthentique');
+  final Uri _url3 = Uri.parse('https://www.fesneakers.store/fesneakers-Mise-a-jours');
 
   Future<void> _launchUrl2() async {
     if (!await launchUrl(_url2)) {
       throw Exception('Could not launch $_url2');
+    }
+  }
+  Future<void> _launchUrl3() async {
+    print('update');
+    if (!await launchUrl(_url3)) {
+
+      throw Exception('Could not launch $_url3');
     }
   }
   Future<void> _launchUrl() async {
@@ -297,272 +305,286 @@ class _homepageState extends State<homepage> {
             backgroundColor: Colors.white70,
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.all(50),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(200),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
-                            height: 100,
-                            placeholder: (context, url) => SizedBox(
-                                height: 10,
-                                width: 30,
-                                child: LoadingAnimationWidget.fallingDot(
-                                    color: Colors.brown, size: 50)),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.image_not_supported_rounded),
-                          )),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        margin: const EdgeInsets.all(50),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(200),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/febase-a80cd.appspot.com/o/produit%2FScreenshot%202024-04-27%20193422.png?alt=media&token=1c3b3a4f-4b45-42bd-8be6-114851040025',
+                              height: 100,
+                              placeholder: (context, url) => SizedBox(
+                                  height: 10,
+                                  width: 30,
+                                  child: LoadingAnimationWidget.fallingDot(
+                                      color: Colors.brown, size: 50)),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.image_not_supported_rounded),
+                            )),
+                      ),
                     ),
-                  ),
-                  Container(
-                    color: Colors.black87,
-                    height: 1,
-                    width: 300,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ElevatedButton.icon(
+                    Container(
+                      color: Colors.black87,
+                      height: 1,
+                      width: 300,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => super.widget,
+                              ));
+                        },
+                        label: const Text('Acueille',
+                            style: TextStyle(color: Colors.black)),
+                        icon: const Icon(
+                          CupertinoIcons.home,
+                          color: Colors.black,
+                        )),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ElevatedButton.icon(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => super.widget,
-                            ));
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, anotheranimation) =>
+                                      ShoppingCartPage(),
+                              transitionDuration: Duration(seconds: 1),
+                              reverseTransitionDuration: Duration(seconds: 1),
+                              transitionsBuilder:
+                                  (context, animation, anotheranimation, child) {
+                                animation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.fastOutSlowIn,
+                                    reverseCurve: Curves.fastOutSlowIn);
+                                return Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizeTransition(
+                                    sizeFactor: animation,
+                                    axisAlignment: 0,
+                                    child: ShoppingCartPage(),
+                                  ),
+                                );
+                              }),
+                        );
                       },
-                      label: const Text('Acueille',
-                          style: TextStyle(color: Colors.black)),
-                      icon: const Icon(
-                        CupertinoIcons.home,
-                        color: Colors.black,
-                      )),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, anotheranimation) =>
-                                    ShoppingCartPage(),
-                            transitionDuration: Duration(seconds: 1),
-                            reverseTransitionDuration: Duration(seconds: 1),
-                            transitionsBuilder:
-                                (context, animation, anotheranimation, child) {
-                              animation = CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.fastOutSlowIn,
-                                  reverseCurve: Curves.fastOutSlowIn);
-                              return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axisAlignment: 0,
-                                  child: ShoppingCartPage(),
-                                ),
-                              );
-                            }),
-                      );
-                    },
-                    label: const Text(
-                      'Panier',
-                      style: TextStyle(color: Colors.black),
+                      label: const Text(
+                        'Panier',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      icon: const Icon(Icons.shopping_cart_checkout,
+                          color: Colors.black),
                     ),
-                    icon: const Icon(Icons.shopping_cart_checkout,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, anotheranimation) =>
-                                    Compte(nomuser: '${widget.usernom}'),
-                            transitionDuration: Duration(seconds: 1),
-                            reverseTransitionDuration: Duration(seconds: 1),
-                            transitionsBuilder:
-                                (context, animation, anotheranimation, child) {
-                              animation = CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.fastOutSlowIn,
-                                  reverseCurve: Curves.fastOutSlowIn);
-                              return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axisAlignment: 0,
-                                  child: Compte(nomuser: '${widget.usernom}'),
-                                ),
-                              );
-                            }),
-                      );
-                    },
-                    label: const Text('Status',
-                        style: TextStyle(color: Colors.black)),
-                    icon: const Icon(Icons.info_outline_rounded,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, anotheranimation) =>
-                                    LoginPage(),
-                            transitionDuration: Duration(seconds: 1),
-                            reverseTransitionDuration: Duration(seconds: 1),
-                            transitionsBuilder:
-                                (context, animation, anotheranimation, child) {
-                              animation = CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.fastOutSlowIn,
-                                  reverseCurve: Curves.fastOutSlowIn);
-                              return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axisAlignment: 0,
-                                  child: LoginPage(),
-                                ),
-                              );
-                            }),
-                      );
-                    },
-                    label: const Text('Se connecté',
-                        style: TextStyle(color: Colors.black)),
-                    icon: const Icon(CupertinoIcons.person_crop_circle,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, anotheranimation) =>
-                                    Garantie(),
-                            transitionDuration: Duration(seconds: 1),
-                            reverseTransitionDuration: Duration(seconds: 1),
-                            transitionsBuilder:
-                                (context, animation, anotheranimation, child) {
-                              animation = CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.fastOutSlowIn,
-                                  reverseCurve: Curves.fastOutSlowIn);
-                              return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axisAlignment: 0,
-                                  child: Garantie(),
-                                ),
-                              );
-                            }),
-                      );
-                    },
-                    label: const Text('Garantie sur les articles',
-                        style: TextStyle(color: Colors.black)),
-                    icon: const Icon(Icons.offline_pin_outlined,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder: (context, animation,
-                                    anotheranimation) =>
-                                Commentaire(
-                                    nom:
-                                        '${userinformation.get('utilisateurnom')}'),
-                            transitionDuration: Duration(seconds: 1),
-                            reverseTransitionDuration: Duration(seconds: 1),
-                            transitionsBuilder:
-                                (context, animation, anotheranimation, child) {
-                              animation = CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.fastOutSlowIn,
-                                  reverseCurve: Curves.fastOutSlowIn);
-                              return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SizeTransition(
-                                  sizeFactor: animation,
-                                  axisAlignment: 0,
-                                  child: Commentaire(
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, anotheranimation) =>
+                                      Compte(nomuser: '${widget.usernom}'),
+                              transitionDuration: Duration(seconds: 1),
+                              reverseTransitionDuration: Duration(seconds: 1),
+                              transitionsBuilder:
+                                  (context, animation, anotheranimation, child) {
+                                animation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.fastOutSlowIn,
+                                    reverseCurve: Curves.fastOutSlowIn);
+                                return Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizeTransition(
+                                    sizeFactor: animation,
+                                    axisAlignment: 0,
+                                    child: Compte(nomuser: '${widget.usernom}'),
+                                  ),
+                                );
+                              }),
+                        );
+                      },
+                      label: const Text('Status',
+                          style: TextStyle(color: Colors.black)),
+                      icon: const Icon(Icons.info_outline_rounded,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, anotheranimation) =>
+                                      LoginPage(),
+                              transitionDuration: Duration(seconds: 1),
+                              reverseTransitionDuration: Duration(seconds: 1),
+                              transitionsBuilder:
+                                  (context, animation, anotheranimation, child) {
+                                animation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.fastOutSlowIn,
+                                    reverseCurve: Curves.fastOutSlowIn);
+                                return Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizeTransition(
+                                    sizeFactor: animation,
+                                    axisAlignment: 0,
+                                    child: LoginPage(),
+                                  ),
+                                );
+                              }),
+                        );
+                      },
+                      label: const Text('Se connecté',
+                          style: TextStyle(color: Colors.black)),
+                      icon: const Icon(CupertinoIcons.person_crop_circle,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, anotheranimation) =>
+                                      Garantie(),
+                              transitionDuration: Duration(seconds: 1),
+                              reverseTransitionDuration: Duration(seconds: 1),
+                              transitionsBuilder:
+                                  (context, animation, anotheranimation, child) {
+                                animation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.fastOutSlowIn,
+                                    reverseCurve: Curves.fastOutSlowIn);
+                                return Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizeTransition(
+                                    sizeFactor: animation,
+                                    axisAlignment: 0,
+                                    child: Garantie(),
+                                  ),
+                                );
+                              }),
+                        );
+                      },
+                      label: const Text('Garantie sur les articles',
+                          style: TextStyle(color: Colors.black)),
+                      icon: const Icon(Icons.offline_pin_outlined,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder: (context, animation,
+                                      anotheranimation) =>
+                                  Commentaire(
                                       nom:
                                           '${userinformation.get('utilisateurnom')}'),
-                                ),
-                              );
-                            }),
-                      );
-                    },
-                    label: const Text('chat avec des gens comme toi !',
-                        style: TextStyle(color: Colors.black)),
-                    icon: const Icon(CupertinoIcons.bubble_left_bubble_right,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PrivacyPolicyPage(),
-                          ));
-                    },
-                    child: const Text('Politique de Confidentialité (Interne)',
-                        style: TextStyle(color: Colors.black)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        onPressed: _launchUrl,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://freepnglogo.com/images/all_img/1713419247Facebook-Logo-Black.png',
-                          height: 50,
+                              transitionDuration: Duration(seconds: 1),
+                              reverseTransitionDuration: Duration(seconds: 1),
+                              transitionsBuilder:
+                                  (context, animation, anotheranimation, child) {
+                                animation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.fastOutSlowIn,
+                                    reverseCurve: Curves.fastOutSlowIn);
+                                return Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizeTransition(
+                                    sizeFactor: animation,
+                                    axisAlignment: 0,
+                                    child: Commentaire(
+                                        nom:
+                                            '${userinformation.get('utilisateurnom')}'),
+                                  ),
+                                );
+                              }),
+                        );
+                      },
+                      label: const Text('chatons',
+                          style: TextStyle(color: Colors.black)),
+                      icon: const Icon(CupertinoIcons.bubble_left_bubble_right,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyPage(),
+                            ));
+                      },
+                      child: const Text('Politique de Confidentialité (Interne)',
+                          style: TextStyle(color: Colors.black)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: _launchUrl,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://freepnglogo.com/images/all_img/1713419247Facebook-Logo-Black.png',
+                            height: 50,
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: _launchUrl2,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://i.postimg.cc/hjP4PFJk/t-l-chargement.png',
-                          height: 40,
+                        TextButton(
+                          onPressed: _launchUrl2,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://i.postimg.cc/hjP4PFJk/t-l-chargement.png',
+                            height: 40,
 
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        GestureDetector(
+                          onTap: (){
+                            Get.snackbar('Equipe fé Seneakers (Mis à jours)', 'Double clique  sur ce boutton vous redirige vers le site Officiel de fé Sneakers pour l\'installation de la derniére version, A plus! ',backgroundColor: Colors.white, duration: Duration(seconds: 9));
+                          // Get.snackbar('Félicitation 🎉✨','Vous venez d\' obtenire une paire gratuitement offerte par fé sneakers ',backgroundColor: Colors.white, duration: Duration(seconds: 9));
+                          },
+                          onDoubleTap: _launchUrl3,
+                          child: Icon(Icons.get_app_rounded),
+                        )
+                      ],
+                    ),
+
+
+                    Text("NB :🎉 Après votre 4e commande, un cadeau vous attend ! 🎉\n Faites une demande sur notre compte Facebook pour recevoir votre code promo exclusif. Vous serez alors ajouté au groupe VIP, où vous bénéficierez d'offres réservées et d'avantages inédits.Ne manquez pas cette chance de profiter de l'expérience VIP ! 🔥")
+                  ],
+                ),
               ),
             ),
           ),
@@ -769,7 +791,7 @@ class _homepageState extends State<homepage> {
                             width: anime ? 380 : 300,
                             margin: const EdgeInsets.symmetric(horizontal: 5),
                             decoration: BoxDecoration(
-                                color: Colors.grey.shade50,
+                                color: Colors.brown.shade50,
                                 boxShadow: const [
                                   BoxShadow(
                                       offset: Offset(-7, -7),
@@ -895,11 +917,7 @@ class _homepageState extends State<homepage> {
                             },
                           ),
                         )
-                      : LoadingAnimationWidget.flickr(
-                          leftDotColor: Colors.brown.shade200,
-                          rightDotColor: Colors.black,
-                          size: 50,
-                        ),
+                      : shimmerelementcat(),
                 ],
               ),
             ),
@@ -939,7 +957,7 @@ class _homepageState extends State<homepage> {
                               IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      _fetchproduit("prixh.php", '11000');
+                                      _fetchproduit("prixh.php", '14000');
                                     });
                                   },
                                   icon: const Icon(
@@ -949,7 +967,7 @@ class _homepageState extends State<homepage> {
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    _fetchproduit("prixb.php", '11000');
+                                    _fetchproduit("prixb.php", '14000');
                                   },
                                   icon: const Icon(
                                     CupertinoIcons.arrow_down_square_fill,
@@ -1045,58 +1063,16 @@ class _homepageState extends State<homepage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Shimmer.fromColors(
-                                baseColor: Colors.white60,
-                                highlightColor: Colors.black12,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ),
-                              Shimmer.fromColors(
-                                baseColor: Colors.white60,
-                                highlightColor: Colors.black12,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ),
+                              shimmerelement(),
+                              shimmerelement(),
                             ],
                           ),
                           SizedBox(height: 15, width: 1),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Shimmer.fromColors(
-                                baseColor: Colors.white60,
-                                highlightColor: Colors.black12,
-                                child: Expanded(
-                                    child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  height: 150,
-                                  width: 150,
-                                )),
-                              ),
-                              Shimmer.fromColors(
-                                baseColor: Colors.white60,
-                                highlightColor: Colors.black12,
-                                child: Expanded(
-                                    child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  height: 150,
-                                  width: 150,
-                                )),
-                              ),
+                              shimmerelement(),
+                              shimmerelement(),
                             ],
                           ),
                           LoadingAnimationWidget.flickr(
@@ -1301,4 +1277,69 @@ class _homepageState extends State<homepage> {
       return "0";
     }
   }
+}
+
+
+shimmerelement (){
+  return Shimmer.fromColors(
+    baseColor: Colors.white60,
+    highlightColor: Colors.black12,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(15)),
+          height: 150,
+          width: 150,
+        ),
+        SizedBox(height: 5,),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(15)),
+          height: 20,
+          width: 50,
+        ),
+        SizedBox(height: 5,),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(15)),
+          height: 20,
+          width: 100,
+        ),
+      ],
+    ),
+  );
+}
+shimmerelementcat (){
+  return Shimmer.fromColors(
+    baseColor: Colors.white60,
+    highlightColor: Colors.black12,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CircleAvatar(
+          radius: 30,
+        ),
+        SizedBox(width: 5,),
+        CircleAvatar(
+          radius: 30,
+        ),
+        SizedBox(width: 5,),
+        CircleAvatar(
+          radius: 30,
+        ),
+        SizedBox(width: 5,),
+        CircleAvatar(
+          radius: 30,
+        ),
+        SizedBox(width: 5,),
+
+      ],
+    ),
+  );
 }

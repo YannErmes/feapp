@@ -23,7 +23,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   final card = Hive.box('userauth');
   card_ctrl deletcard = Get.put(card_ctrl());
-  int reduction = 0 ;
+  int reduction = 3 ;
   String messagedereduction = "Oups !ce code n'est plus valide";
   TextEditingController _codepro = TextEditingController();
   bool loadpromot = false ;
